@@ -25,12 +25,13 @@ public class Post implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Category category;
+    private String category;
     private String title;
     @Temporal(TemporalType.DATE)
     private Date dateCreated;
     private String description;
     private int likes;
+    
 
     public Long getId() {
         return id;
@@ -65,11 +66,11 @@ public class Post implements Serializable {
         return "entity.Post[ id=" + id + " ]";
     }
 
-    public Category getCategory() {
+    public String getCategory() {
         return category;
     }
 
-    public void setCategory(Category category) {
+    public void setCategory(String category) {
         this.category = category;
     }
 
@@ -105,10 +106,5 @@ public class Post implements Serializable {
         this.likes = likes;
     }
 
-    public enum Category {
-        NEWS,
-        STORY,
-        INTERESTGROUP
-    }
 
 }

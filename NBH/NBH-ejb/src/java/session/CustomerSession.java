@@ -5,9 +5,13 @@
 package session;
 
 import entity.Customer;
+import java.util.ArrayList;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -22,6 +26,57 @@ public class CustomerSession implements CustomerSessionLocal {
     @Override
     public void persist(Customer c) {
         em.persist(c);
+    }
+    
+    @Override
+    public List<String> getAllEmails() {
+        List<String> customerEmailList = new ArrayList<>();
+        try {
+            Query query = em.createQuery("SELECT c.email FROM Customer c");
+            List<String> customersEmail = query.getResultList();
+            for (String email : customersEmail) {
+                customerEmailList.add(email);
+            }
+        } catch (Exception e) {
+            // Handle exception (e.g., log error, throw custom exception)
+            e.printStackTrace();
+        }
+        return customerEmailList;
+    }
+    
+    @Override
+    public List<String> getAllUsername() {
+        List<String> customerUsernameList = new ArrayList<>();
+        try {
+            Query query = em.createQuery("SELECT c.username FROM Customer c");
+            List<String> customersUsername = query.getResultList();
+            for (String username : customersUsername) {
+                customerUsernameList.add(username);
+            }
+        } catch (Exception e) {
+            // Handle exception (e.g., log error, throw custom exception)
+            e.printStackTrace();
+        }
+        return customerUsernameList;
+    }
+    
+    @Override
+    public Customer getCustByUsername(String username) {
+        
+        Query query = em.createQuery("SELECT c FROM Customer c WHERE c.username = :username");
+        query.setParameter("username", username);
+        return (Customer) query.getSingleResult();
+        
+    }
+    
+    @Override
+    public Customer getCustomer(Long cId) throws NoResultException {
+        Customer cust = em.find(Customer.class, cId);
+        if (cust != null) {
+            return cust;
+        } else {
+            throw new NoResultException("Customer not found");
+        }
     }
 
     // Add business logic below. (Right-click in editor and choose

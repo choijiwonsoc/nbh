@@ -5,7 +5,9 @@
 package session;
 
 import entity.Customer;
+import java.util.List;
 import javax.ejb.Local;
+import javax.persistence.NoResultException;
 
 /**
  *
@@ -15,5 +17,13 @@ import javax.ejb.Local;
 public interface CustomerSessionLocal {
 
     public void persist(Customer c);
+
+    public List<String> getAllEmails();
+
+    public Customer getCustByUsername(String username);
+
+    public Customer getCustomer(Long cId) throws NoResultException;
+
+    public List<String> getAllUsername();
     
 }
