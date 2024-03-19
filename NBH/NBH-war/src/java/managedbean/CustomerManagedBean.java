@@ -58,8 +58,6 @@ public class CustomerManagedBean implements Serializable {
 
     private Customer selectedCustomer;
     
-    private String title;
-    private String description;
 
     /**
      * Creates a new instance of CustomerManagedBean
@@ -157,43 +155,7 @@ public class CustomerManagedBean implements Serializable {
         }
     }
     
-    public String addNews() throws NoResultException, ParseException {
-        LocalDate currentDate = LocalDate.now();
-
-        // Convert LocalDate to Date
-        Date nowdate = java.sql.Date.valueOf(currentDate);
-        Post p = new Post();
-        p.setCategory("news");
-        p.setTitle(title);
-        p.setDateCreated(nowdate);
-        p.setDescription(description);
-        p.setLikes(0);
-        postSessionLocal.createPost(p, selectedCustomer.getId());
-
-        return "/secret/forum.xhtml?faces-redirect=true";
-
-    }
-
-    public String addPost(String category) throws NoResultException, ParseException {
-        LocalDate currentDate = LocalDate.now();
-
-        // Convert LocalDate to Date
-        Date nowdate = java.sql.Date.valueOf(currentDate);
-        Post p = new Post();
-        p.setCategory(category);
-        p.setTitle(title);
-        p.setDateCreated(nowdate);
-        p.setDescription(description);
-        p.setLikes(0);
-        postSessionLocal.createPost(p, selectedCustomer.getId());
-
-        return "/secret/customerView.xhtml?faces-redirect=true";
-
-    }
     
-    public List<Post> getAllPosts(String category){
-        return postSessionLocal.getAllPostsOrderedByDate(category);
-    }
 
     public String getUsername() {
         return username;
@@ -273,22 +235,6 @@ public class CustomerManagedBean implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
 }

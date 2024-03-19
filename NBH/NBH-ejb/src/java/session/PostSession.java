@@ -33,7 +33,6 @@ public class PostSession implements PostSessionLocal {
     
     @Override
     public List<Post> getAllPostsOrderedByDate(String category) {
-        System.out.println("save");
         return em.createQuery("SELECT p FROM Post p WHERE p.category = :category ORDER BY p.dateCreated DESC", Post.class)
                     .setParameter("category", category)
                     .getResultList();
