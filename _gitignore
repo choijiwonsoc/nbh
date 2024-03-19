@@ -24,13 +24,13 @@ nbproject/private/
 build/
 dist/
 
-NBH-ejb/nbproject/private/
-NBH-ejb/build/
-NBH-ejb/dist/
+NBH/NBH-ejb/nbproject/private/
+NBH/NBH-ejb/build/
+NBH/NBH-ejb/dist/
 
-NBH-war/nbproject/private/
-NBH-war/build/
-NBH-war/dist/
+NBH/NBH-war/nbproject/private/
+NBH/NBH-war/build/
+NBH/NBH-war/dist/
 
 NBH/nbproject/private/
 NBH/build/
