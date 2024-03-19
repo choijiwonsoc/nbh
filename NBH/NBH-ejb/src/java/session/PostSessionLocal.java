@@ -18,5 +18,7 @@ public interface PostSessionLocal {
     public void createPost(Post p, Long cId);
 
     public List<Post> getAllPostsOrderedByDate(String category);
+
+    public void addLike(Long pId, Long cId);
     
 }

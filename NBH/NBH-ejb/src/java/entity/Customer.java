@@ -26,20 +26,23 @@ public class Customer implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
     private String name;
     private String contact;
     private String address;
     private String email;
     private String district;
     private String region;
-    
+
     private String password;
     private String username;
+
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Post> posts;
     
     @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
-    @JoinTable(name = "FORUM_POSTS")
-    private List<Post> posts;
+    @JoinTable(name = "LIKED_POSTS")
+    private List<Post> likedPosts;
 
     public Long getId() {
         return id;
@@ -144,6 +147,14 @@ public class Customer implements Serializable {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public List<Post> getLikedPosts() {
+        return likedPosts;
+    }
+
+    public void setLikedPosts(List<Post> likedPosts) {
+        this.likedPosts = likedPosts;
     }
 
 }

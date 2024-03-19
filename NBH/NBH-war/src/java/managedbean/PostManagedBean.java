@@ -70,6 +70,7 @@ public class PostManagedBean implements Serializable {
             p.setDateCreated(nowdate);
             p.setDescription(newsDescription);
             p.setLikes(0);
+            
             postSessionLocal.createPost(p, c.getId());
             FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Post successfully uploaded", null));
@@ -113,6 +114,10 @@ public class PostManagedBean implements Serializable {
 
     public List<Post> getAllPosts(String category) {
         return postSessionLocal.getAllPostsOrderedByDate(category);
+    }
+    
+    public void addLike(Long pId, Long cId){
+        postSessionLocal.addLike(pId, cId);
     }
 
     public String getCategory() {
