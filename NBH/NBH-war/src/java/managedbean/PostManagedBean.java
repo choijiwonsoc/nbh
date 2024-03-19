@@ -32,8 +32,14 @@ public class PostManagedBean implements Serializable {
     private PostSessionLocal postSessionLocal;
 
     private String category;
-    private String title;
-    private String description;
+    private String newsTitle;
+    private String newsDescription;
+
+    private String storyTitle;
+    private String storyDescription;
+
+    private String interestGrpTitle;
+    private String interestGrpDescription;
 
     /**
      * Creates a new instance of PostManagedBean
@@ -41,42 +47,72 @@ public class PostManagedBean implements Serializable {
     public PostManagedBean() {
     }
 
-    public String addPost(Customer c) throws NoResultException, ParseException {
+    public String addNews(Customer c) throws NoResultException, ParseException {
         LocalDate currentDate = LocalDate.now();
+        FacesContext context = FacesContext.getCurrentInstance();
 
+        if (newsTitle.length() == 0) {
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                    "Please enter a title.", null);
+            context.addMessage(null, message);
+            return null;
+        } else if (newsDescription.length() == 0) {
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                    "Please enter a description.", null);
+            context.addMessage(null, message);
+            return null;
+        } else {
+            // Convert LocalDate to Date
+            Date nowdate = java.sql.Date.valueOf(currentDate);
+            Post p = new Post();
+            p.setCategory("news");
+            p.setTitle(newsTitle);
+            p.setDateCreated(nowdate);
+            p.setDescription(newsDescription);
+            p.setLikes(0);
+            postSessionLocal.createPost(p, c.getId());
+            FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Post successfully uploaded", null));
+            return "/secret/forum.xhtml?faces-redirect=true";
+        }
+
+    }
+
+    public String addStory(Customer c) throws NoResultException, ParseException {
+        LocalDate currentDate = LocalDate.now();
+        FacesContext context = FacesContext.getCurrentInstance();
         // Convert LocalDate to Date
-        Date nowdate = java.sql.Date.valueOf(currentDate);
-        Post p = new Post();
-        p.setCategory(category);
-        p.setTitle(title);
-        p.setDateCreated(nowdate);
-        p.setDescription(description);
-        p.setLikes(0);
-        postSessionLocal.createPost(p, c.getId());
-        FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Post successfully uploaded", null));
-        return "/secret/forum.xhtml?faces-redirect=true";
+        if (storyTitle.length() == 0) {
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                    "Please enter a title.", null);
+            context.addMessage(null, message);
+            return null;
+        } else if (storyDescription.length() == 0) {
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                    "Please enter a description.", null);
+            context.addMessage(null, message);
+            return null;
+        } else {
+            
+            Date nowdate = java.sql.Date.valueOf(currentDate);
+            Post p = new Post();
+            p.setCategory("stories");
+            p.setTitle(storyTitle);
+            p.setDateCreated(nowdate);
+            p.setDescription(storyDescription);
+            p.setLikes(0);
 
+            postSessionLocal.createPost(p, c.getId());
+
+            FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Post successfully uploaded", null));
+            return "/secret/forum.xhtml?faces-redirect=true";
+        }
+        
     }
 
     public List<Post> getAllPosts(String category) {
         return postSessionLocal.getAllPostsOrderedByDate(category);
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public String getCategory() {
@@ -85,6 +121,54 @@ public class PostManagedBean implements Serializable {
 
     public void setCategory(String category) {
         this.category = category;
+    }
+
+    public String getNewsTitle() {
+        return newsTitle;
+    }
+
+    public void setNewsTitle(String newsTitle) {
+        this.newsTitle = newsTitle;
+    }
+
+    public String getNewsDescription() {
+        return newsDescription;
+    }
+
+    public void setNewsDescription(String newsDescription) {
+        this.newsDescription = newsDescription;
+    }
+
+    public String getStoryTitle() {
+        return storyTitle;
+    }
+
+    public void setStoryTitle(String storyTitle) {
+        this.storyTitle = storyTitle;
+    }
+
+    public String getStoryDescription() {
+        return storyDescription;
+    }
+
+    public void setStoryDescription(String storyDescription) {
+        this.storyDescription = storyDescription;
+    }
+
+    public String getInterestGrpTitle() {
+        return interestGrpTitle;
+    }
+
+    public void setInterestGrpTitle(String interestGrpTitle) {
+        this.interestGrpTitle = interestGrpTitle;
+    }
+
+    public String getInterestGrpDescription() {
+        return interestGrpDescription;
+    }
+
+    public void setInterestGrpDescription(String interestGrpDescription) {
+        this.interestGrpDescription = interestGrpDescription;
     }
 
 }
