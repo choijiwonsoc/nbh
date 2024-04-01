@@ -40,6 +40,10 @@ public class Customer implements Serializable {
     @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
     @JoinTable(name = "FORUM_POSTS")
     private List<Post> posts;
+    
+    
+    @OneToMany(mappedBy = "customer", fetch = FetchType.EAGER)
+    private List<ServiceProviderListing> serviceProviderListing;
 
     public Long getId() {
         return id;
@@ -54,6 +58,14 @@ public class Customer implements Serializable {
         int hash = 0;
         hash += (id != null ? id.hashCode() : 0);
         return hash;
+    }
+
+    public List<ServiceProviderListing> getServiceProviderListing() {
+        return serviceProviderListing;
+    }
+
+    public void setServiceProviderListing(List<ServiceProviderListing> serviceProviderListing) {
+        this.serviceProviderListing = serviceProviderListing;
     }
 
     @Override
