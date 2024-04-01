@@ -6,6 +6,7 @@ package managedbean;
 
 import entity.Customer;
 import entity.Post;
+import entity.ServiceProviderListing;
 import java.io.IOException;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
@@ -77,7 +78,7 @@ public class CustomerManagedBean implements Serializable {
                 session.setAttribute("userId", userId);
                 FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Successfully login", null));
-                return "/secret/customerView.xhtml?faces-redirect=true";
+                return "/customerView.xhtml?faces-redirect=true";
             } else {
                 //Long userId = new Long(-1);
                 //session.setAttribute("userId", userId);
@@ -150,6 +151,8 @@ public class CustomerManagedBean implements Serializable {
             email = this.selectedCustomer.getEmail();
             username = this.selectedCustomer.getUsername();
             password = this.selectedCustomer.getPassword();
+            //List<ServiceProviderListing> businessListings = this.selectedCustomer.getServiceProviderListing();
+            
         } catch (Exception e) {
             context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Unable to load customer"));
         }
