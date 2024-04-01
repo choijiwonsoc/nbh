@@ -7,10 +7,8 @@ package session;
 import entity.Customer;
 import entity.Post;
 import java.util.List;
-import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 
 /**
@@ -19,9 +17,6 @@ import javax.persistence.PersistenceContext;
  */
 @Stateless
 public class PostSession implements PostSessionLocal {
-
-    @EJB(name = "CustomerSessionLocal")
-    private CustomerSessionLocal customerSessionLocal;
 
     @PersistenceContext
     private EntityManager em;
@@ -52,29 +47,5 @@ public class PostSession implements PostSessionLocal {
             p.setLikes(p.getLikes() + 1);
             c.getLikedPosts().add(p);
         }
-    }
-    
-    @Override
-    public Post getPost(Long pId) throws NoResultException {
-        Post post = em.find(Post.class, pId);
-        if (post != null) {
-            return post;
-        } else {
-            throw new NoResultException("Customer not found");
-        }
-    }
-    
-    @Override
-    public void deletePost(Long pId){
-        Post post = getPost(pId);
-        Customer c = em.find(Customer.class, post.getCustomer().getId());
-        c.getPosts().remove(post);
-        for(Customer cust : customerSessionLocal.getAllCustomers()){
-            if(cust.getLikedPosts().contains(post)){
-                Customer customer = em.find(Customer.class, cust.getId());
-                customer.getLikedPosts().remove(post);
-            }
-        }
-        em.remove(post);
     }
 }

@@ -111,10 +111,6 @@ public class PostManagedBean implements Serializable {
         }
         
     }
-    
-    public void deletePost(Long postId){
-        postSessionLocal.deletePost(postId);
-    }
 
     public List<Post> getAllPosts(String category) {
         return postSessionLocal.getAllPostsOrderedByDate(category);

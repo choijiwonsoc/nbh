@@ -25,7 +25,5 @@ public interface CustomerSessionLocal {
     public Customer getCustomer(Long cId) throws NoResultException;
 
     public List<String> getAllUsername();
-
-    public List<Customer> getAllCustomers();
     
 }

@@ -78,12 +78,6 @@ public class CustomerSession implements CustomerSessionLocal {
             throw new NoResultException("Customer not found");
         }
     }
-    
-    @Override
-    public List<Customer> getAllCustomers(){
-        Query query = em.createQuery("SELECT c FROM Customer c");
-        return query.getResultList();
-    }
 
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
