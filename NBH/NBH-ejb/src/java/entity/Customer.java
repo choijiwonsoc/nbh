@@ -39,10 +39,13 @@ public class Customer implements Serializable {
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Post> posts;
-    
+
     @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
     @JoinTable(name = "LIKED_POSTS")
     private List<Post> likedPosts;
+
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<HiddenGemReview> hiddenGemReviews;
 
     public Long getId() {
         return id;
@@ -155,6 +158,14 @@ public class Customer implements Serializable {
 
     public void setLikedPosts(List<Post> likedPosts) {
         this.likedPosts = likedPosts;
+    }
+
+    public List<HiddenGemReview> getHiddenGemReviews() {
+        return hiddenGemReviews;
+    }
+
+    public void setHiddenGemReviews(List<HiddenGemReview> hiddenGemReviews) {
+        this.hiddenGemReviews = hiddenGemReviews;
     }
 
 }
