@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <h:outputStylesheet name="css/default.css"/>
+        <h:outputStylesheet name="css/cssLayout.css"/>
+        <title>NeighbourHood Hub</title>
+    </h:head>
+
+    <h:body>
+        <div id="top" class="top" style="display: block; text-align: left;">
+            <ui:insert name="top">
+                <span style="font-size: xx-large;">NeighbourHood Hub</span>
+                </ui:insert>
+            <br />
+            <img src="https://www.hdb.gov.sg/-/media/HDBContent/Images/CRG/cw23-sfna-sub-page-banner.ashx" alt="Image Description" width="100%" height="100px" />
+        </div>
+        <p:layout>
+            <p:layoutUnit position="center">
+                <ui:insert name="content">Content</ui:insert>
+            </p:layoutUnit>
+        </p:layout>
+
+    </h:body>
+
+</html>
