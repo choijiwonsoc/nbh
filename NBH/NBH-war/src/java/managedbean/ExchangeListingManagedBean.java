@@ -72,6 +72,7 @@ public class ExchangeListingManagedBean implements Serializable {
     @PostConstruct
     public void init() {
         allListings = exchangeListingSessionLocal.getAllListing(null); //all listings available
+
         skills = skillSessionLocal.getAllSkillsByCustomer(null); //Display all the skills
         neededSkills = new ArrayList<Skill>(); // Initialize the list
         neededSkillIds = new ArrayList<Long>();
