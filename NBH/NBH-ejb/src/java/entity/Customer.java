@@ -13,6 +13,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
 /**
@@ -39,10 +40,20 @@ public class Customer implements Serializable {
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Post> posts;
-    
+
     @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
     @JoinTable(name = "LIKED_POSTS")
     private List<Post> likedPosts;
+
+    //TimeExchange
+    @ManyToMany
+    private List<Skill> skills;
+
+    @ManyToMany
+    private List<ExchangeListing> exchangeListings;
+
+    @ManyToMany
+    private List<Offer> offers;
 
     public Long getId() {
         return id;
@@ -155,6 +166,30 @@ public class Customer implements Serializable {
 
     public void setLikedPosts(List<Post> likedPosts) {
         this.likedPosts = likedPosts;
+    }
+
+    public List<Skill> getSkills() {
+        return skills;
+    }
+
+    public void setSkills(List<Skill> skills) {
+        this.skills = skills;
+    }
+
+    public List<ExchangeListing> getExchangeListings() {
+        return exchangeListings;
+    }
+
+    public void setExchangeListings(List<ExchangeListing> exchangeListings) {
+        this.exchangeListings = exchangeListings;
+    }
+
+    public List<Offer> getOffers() {
+        return offers;
+    }
+
+    public void setOffers(List<Offer> offers) {
+        this.offers = offers;
     }
 
 }
