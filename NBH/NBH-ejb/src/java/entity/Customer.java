@@ -29,7 +29,6 @@ public class Customer implements Serializable {
 
     private String name;
     private String contact;
-    private String address;
     private String email;
     private String district;
     private String region;
@@ -106,14 +105,6 @@ public class Customer implements Serializable {
 
     public void setContact(String contact) {
         this.contact = contact;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
     }
 
     public String getEmail() {

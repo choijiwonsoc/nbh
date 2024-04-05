@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./layout/default2.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="top">
+        NeighbourHood Hub
+    </ui:define>
+
+    <ui:define name="content">
+        <f:metadata>
+            <f:event type="preRenderView" listener="#{customerManagedBean.loadSelectedCustomer}" />
+        </f:metadata>
+        <h:form id="form">
+            
+            <section class="shoping-cart spad" style="background-image: url('https://wallpapers.com/images/hd/pastel-aesthetic-background-kk9ygsa8qygoluem.jpg'); background-size: cover; background-position: center;">
+                <div class="container">
+                    <h:commandButton value="Add Post" action="/addForumPost.xhtml?faces-redirect=true"/>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="shoping__cart__table">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th class="shoping__product">Posts</th>
+                                            <th>Author</th>
+                                            <th>Date Posted</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="shoping__cart__item">
+                                                <img src="img/cart/cart-1.jpg" alt=""/>
+                                                <h5>Vegetable’s Package</h5>
+                                            </td>
+                                            <td class="shoping__cart__price">
+                                                $55.00
+                                            </td>
+                                            <td class="shoping__cart__total">
+                                                $110.00
+                                            </td>
+                                            <td class="shoping__cart__item__close">
+                                                <h:commandButton value="View More"/>
+                                            </td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

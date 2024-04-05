@@ -51,7 +51,6 @@ public class CustomerManagedBean implements Serializable {
     private Long id;
     private String name;
     private String contact;
-    private String address;
     private String email;
     private String district;
     private String region;
@@ -131,7 +130,7 @@ public class CustomerManagedBean implements Serializable {
             context.addMessage(null, message);
             return null;
         }
-        return "/secret/customerView.xhtml?faces-redirect=true";
+        return "/customerView_1.xhtml?faces-redirect=true";
 
     }
 
@@ -190,14 +189,6 @@ public class CustomerManagedBean implements Serializable {
 
     public void setContact(String contact) {
         this.contact = contact;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
     }
 
     public String getEmail() {
