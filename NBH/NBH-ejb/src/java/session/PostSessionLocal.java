@@ -23,5 +23,7 @@ public interface PostSessionLocal {
     public void addLike(Long pId, Long cId);
 
     public Post getPost(Long pId) throws NoResultException;
+
+    public void addComment(String text, Long pId, Long cId);
     
 }

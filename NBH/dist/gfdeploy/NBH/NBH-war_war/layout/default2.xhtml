@@ -35,18 +35,18 @@
         </div>
 
         <!-- Humberger Begin -->
-        
+
         <!-- Humberger End -->
 
         <!-- Header Section Begin -->
         <header class="header">
-            
+
             <div class="container">
                 <div class="row">
                     <div class="col-lg-3">
                         <div class="header__logo">
                             <a href="./index.xhtml"><img src="https://png.pngtree.com/png-vector/20190701/ourmid/pngtree-neighborhood-icon-in-trendy-style-isolated-background-png-image_1527234.jpg" alt="" height="70px" width="70px"/></a>
-            
+
                         </div>
                     </div>
                     <div class="col-lg-6">
@@ -76,11 +76,13 @@
                             </ul>
                         </nav>
                     </div>
-                    <div class="col-lg-3">
-                        <div class="header__cart">
-                            <h:commandButton value="Logout"/>
+                    <h:form>
+                        <div class="col-lg-3">
+                            <div class="header__cart">
+                                <h:commandButton value="Logout" action="#{customerManagedBean.logout()}"/>
+                            </div>
                         </div>
-                    </div>
+                    </h:form>
                 </div>
                 <div class="humberger__open">
                     <i class="fa fa-bars"></i>

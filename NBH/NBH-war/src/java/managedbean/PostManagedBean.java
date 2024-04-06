@@ -38,6 +38,8 @@ public class PostManagedBean implements Serializable {
     private String newsDescription;
     
     private Post currentPost;
+    
+    private String commentText;
 
     /**
      * Creates a new instance of PostManagedBean
@@ -102,6 +104,10 @@ public class PostManagedBean implements Serializable {
     public void addLike(Long pId, Long cId){
         postSessionLocal.addLike(pId, cId);
     }
+    
+    public void addComment(Long pId, Long cId){
+        postSessionLocal.addComment(commentText, pId, cId);
+    }
 
     public String getCategory() {
         return category;
@@ -133,6 +139,14 @@ public class PostManagedBean implements Serializable {
 
     public void setCurrentPost(Post currentPost) {
         this.currentPost = currentPost;
+    }
+
+    public String getCommentText() {
+        return commentText;
+    }
+
+    public void setCommentText(String commentText) {
+        this.commentText = commentText;
     }
 
 }
