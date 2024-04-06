@@ -65,53 +65,18 @@ public class PostManagedBean implements Serializable {
             // Convert LocalDate to Date
             Date nowdate = java.sql.Date.valueOf(currentDate);
             Post p = new Post();
-            p.setCategory("news");
+            p.setCategory(category);
             p.setTitle(newsTitle);
             p.setDateCreated(nowdate);
             p.setDescription(newsDescription);
             p.setLikes(0);
-            
             postSessionLocal.createPost(p, c.getId());
             FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Post successfully uploaded", null));
-            return "/secret/forum.xhtml?faces-redirect=true";
+            return "/forum.xhtml?faces-redirect=true";
         }
 
     }
-
-    public String addStory(Customer c) throws NoResultException, ParseException {
-        LocalDate currentDate = LocalDate.now();
-        FacesContext context = FacesContext.getCurrentInstance();
-        // Convert LocalDate to Date
-        if (storyTitle.length() == 0) {
-            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                    "Please enter a title.", null);
-            context.addMessage(null, message);
-            return null;
-        } else if (storyDescription.length() == 0) {
-            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                    "Please enter a description.", null);
-            context.addMessage(null, message);
-            return null;
-        } else {
-            
-            Date nowdate = java.sql.Date.valueOf(currentDate);
-            Post p = new Post();
-            p.setCategory("stories");
-            p.setTitle(storyTitle);
-            p.setDateCreated(nowdate);
-            p.setDescription(storyDescription);
-            p.setLikes(0);
-
-            postSessionLocal.createPost(p, c.getId());
-
-            FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Post successfully uploaded", null));
-            return "/secret/forum.xhtml?faces-redirect=true";
-        }
-        
-    }
-
     public List<Post> getAllPosts(String category) {
         return postSessionLocal.getAllPostsOrderedByDate(category);
     }
