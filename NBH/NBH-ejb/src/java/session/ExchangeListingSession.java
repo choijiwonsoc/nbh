@@ -71,8 +71,9 @@ public class ExchangeListingSession implements ExchangeListingSessionLocal {
     }
 
     @Override
-    public void updateListing(ExchangeListing el) throws NoResultException {
+    public void updateListing(ExchangeListing el, List<Long> newSkillIds) throws NoResultException {
         ExchangeListing oldEl = getListing(el.getId());
+        oldEl.setTitle(el.getTitle());
         oldEl.setDescription(el.getDescription());
         oldEl.setStartDateTime(el.getStartDateTime());
         oldEl.setEndDateTime(el.getEndDateTime());
@@ -80,6 +81,23 @@ public class ExchangeListingSession implements ExchangeListingSessionLocal {
         oldEl.setListingType(el.getListingType());
         oldEl.setStatus(el.getStatus());
         oldEl.setVisibility(el.getVisibility());
+
+        //update skills
+        // Assuming you have a set method for skills in ExchangeListing entity
+        // Remove old skill associations
+        for (Skill skill : oldEl.getSkills()) {
+            skill.getExchangeListings().remove(oldEl);
+        }
+        oldEl.getSkills().clear();
+
+        // Add new skill associations
+        for (Long skillId : newSkillIds) {
+            Skill skill = em.find(Skill.class, skillId);
+            if (skill != null) {
+                oldEl.getSkills().add(skill);
+                skill.getExchangeListings().add(oldEl);
+            }
+        }
     }
 
     @Override

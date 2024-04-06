@@ -18,7 +18,7 @@ public interface ExchangeListingSessionLocal {
 
     public void createListing(ExchangeListing el, Long cId, List<Long> skillIds);
 
-    public void updateListing(ExchangeListing el) throws NoResultException;
+    public void updateListing(ExchangeListing el, List<Long> newSkillIds) throws NoResultException;
 
     public void deleteListing(Long elId) throws NoResultException;
 
