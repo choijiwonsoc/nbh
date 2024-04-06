@@ -6,6 +6,7 @@
 package managedbean;
 
 import entity.Customer;
+import entity.Request;
 import entity.ServiceItem;
 import entity.ServiceProviderListing;
 import javax.inject.Named;
@@ -57,8 +58,9 @@ public class BusinessManagedBean implements Serializable {
     private String searchString;
     private List<ServiceProviderListing> searchServiceProviderListing;
 
-    
     private List<ServiceItem> serviceItems;
+  
+    private String requestDescription;
     
     public BusinessManagedBean() {
     }
@@ -105,6 +107,32 @@ public class BusinessManagedBean implements Serializable {
 
     }
     
+    public void makeRequest() {
+    FacesContext context = FacesContext.getCurrentInstance();
+    Request r = new Request();
+    r.setDescription(requestDescription);
+    System.out.println(this.selectedServiceProviderListing + "this checked");
+    try {
+        if (selectedServiceProviderListing != null && userId != null) {
+            businessSession.makeRequest(selectedServiceProviderListing.getId(), userId, r);
+            System.out.println("makeRequest method called successfully."); // Add this line for logging
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "Request successfully created"));
+        } else {
+            if (selectedServiceProviderListing == null) {
+                context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No service provider listing selected."));
+            }
+            if (userId == null) {
+                context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "User ID not found."));
+            }
+        }
+    } catch (Exception e) {
+        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Unable to create request: " + e.getMessage()));
+    }
+}
+
+
+    
+    
     public void deleteServiceProviderListing() {
         FacesContext context = FacesContext.getCurrentInstance();
 
@@ -128,7 +156,7 @@ public class BusinessManagedBean implements Serializable {
     
     public void retrieveServiceItems() {
         
-    FacesContext context = FacesContext.getCurrentInstance();
+        FacesContext context = FacesContext.getCurrentInstance();
 
         Map<String, String> params = context.getExternalContext()
                 .getRequestParameterMap();
@@ -143,21 +171,16 @@ public class BusinessManagedBean implements Serializable {
         }
     }
 
-    public void loadServiceProviderListing() {
-        FacesContext context = FacesContext.getCurrentInstance();
-
-        Map<String, String> params = context.getExternalContext()
-                .getRequestParameterMap();
-        String serviceProviderListingIdStr = params.get("serviceProviderListingId");
-        Long serviceProviderListingId = Long.parseLong(serviceProviderListingIdStr);
-        try {
-
-            this.selectedServiceProviderListing = businessSession.getSpecificBusinessListing(serviceProviderListingId);
-
-        } catch (Exception e) {
-            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Unable to load service provider listing"));
-        }
+    public void loadServiceProviderListing(Long serviceProviderListingId) {
+    FacesContext context = FacesContext.getCurrentInstance();
+    
+    try {
+        System.out.println(serviceProviderListingId + " this id");
+        this.selectedServiceProviderListing = businessSession.getSpecificBusinessListing(serviceProviderListingId);
+    } catch (Exception e) {
+        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Unable to load service provider listing"));
     }
+}
 
     public void loadBusinessListingsCreatedByUser() {
         FacesContext context = FacesContext.getCurrentInstance();
@@ -245,6 +268,14 @@ public class BusinessManagedBean implements Serializable {
 
     public void setBname(String bname) {
         this.bname = bname;
+    }
+
+    public String getRequestDescription() {
+        return requestDescription;
+    }
+
+    public void setRequestDescription(String requestDescription) {
+        this.requestDescription = requestDescription;
     }
 
     public String getLocation() {

@@ -6,6 +6,7 @@
 package session;
 
 import entity.Customer;
+import entity.Request;
 import entity.ServiceItem;
 import entity.ServiceProviderListing;
 import java.util.ArrayList;
@@ -26,6 +27,22 @@ public class BusinessSession implements BusinessSessionLocal {
     @PersistenceContext
     private EntityManager em;
 
+    
+    @Override
+    public void makeRequest(Long serviceProviderListingId, Long sendRequestPersonId, Request request) {
+        ServiceProviderListing s = getSpecificBusinessListing(serviceProviderListingId);
+        Customer receiver = s.getCustomer();
+        Customer sender = em.find(Customer.class, sendRequestPersonId);
+        
+        
+       
+        request.setStatus("Pending"); // Set the initial status
+        request.setRequester(sender); // Set the sender
+        request.setReceiver(receiver);
+        
+        em.persist(request);
+    }
+    
     @Override
     public void updateProgress(Long serviceProviderListingId) {
         //Query query = em.createQuery("UPDATE Attendance r SET r.status = :status WHERE r.event.id = :eventId AND r.customer.id = :customerId");

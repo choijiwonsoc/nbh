@@ -36,7 +36,7 @@
         <h:form id="form">
 
             <p:dataTable id="serviceProviderListingTable" var="serviceProviderListing" value="#{businessManagedBean.searchServiceProviderListing}" 
-                         resizableColumns="true" emptyMessage="No events found with given criteria" styleClass="custom-datatable">
+                         resizableColumns="true" emptyMessage="No business listing found with given criteria" styleClass="custom-datatable">
 
                 <f:facet name="header">
                     <p:outputPanel style="text-align: right;">
@@ -77,11 +77,21 @@
                         <f:setPropertyActionListener value="#{serviceProviderListing}" target="#{businessManagedBean.selectedServiceProviderListing}" />
                         <f:param name="serviceProviderListingId" value="#{serviceProviderListing.id}" />
                     </p:commandButton>
+
+
+                    
+                    <p:commandButton value="Make a request" update=":form:requestDetails" process ="@this"
+                                     oncomplete="PF('requestDialog').show()" 
+                                      actionListener="#{businessManagedBean.loadServiceProviderListing(serviceProviderListing.id)}">
+                        
+                    </p:commandButton>
+
+
                 </p:column>
 
             </p:dataTable>
 
-            <p:dialog header="Event Details" widgetVar="businessDialog" modal="false" showEffect="fade" hideEffect="fade" resizable="false">
+            <p:dialog header="Service Items Details" widgetVar="businessDialog" modal="false" showEffect="fade" hideEffect="fade" resizable="false">
                 <p:outputPanel id="businessDetails">
                     <p:panelGrid columns="2" rendered="#{not empty businessManagedBean.serviceItems}">
                         <c:forEach items="#{businessManagedBean.serviceItems}" var="item">
@@ -94,7 +104,7 @@
 
                                 <p:outputLabel for="itemPrice" value="Item Price:" />
                                 <h:outputText id="itemPrice" value="#{item.itemPrice}" />
-                                
+
                             </h:panelGrid>
                         </c:forEach>
                     </p:panelGrid>
@@ -102,10 +112,19 @@
             </p:dialog>
 
 
+            <p:dialog header="Request Details" widgetVar="requestDialog" 
+                      modal="false" showEffect="fade" hideEffect="fade" resizable="false"
+                      width="50%" position="center">
+                <p:outputPanel id="requestDetails">
+                    <h:form id="formm2">
 
-
-
-
+                        <h:outputLabel for="requestDescription" value="Request Description: " />
+                        <h:inputText id="requestDescription" value="#{businessManagedBean.requestDescription}" class="form-control" required="true" requiredMessage="Please enter request description!" />
+                    </h:form>
+                
+                <p:commandButton value="Submit" actionListener="#{businessManagedBean.makeRequest}" update=":form" oncomplete="PF('requestDialog').hide()" />
+                </p:outputPanel>
+            </p:dialog>
         </h:form>
     </ui:define>
 </ui:composition>

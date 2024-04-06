@@ -6,6 +6,7 @@
 package session;
 
 import entity.Customer;
+import entity.Request;
 import entity.ServiceItem;
 import entity.ServiceProviderListing;
 import java.util.List;
@@ -18,6 +19,8 @@ import javax.persistence.NoResultException;
  */
 @Local
 public interface BusinessSessionLocal {
+    
+    public void makeRequest(Long serviceProviderListingId, Long sendRequestPersonId, Request r);
     
     public void updateProgress(Long serviceProviderListingId);
     
