@@ -62,6 +62,7 @@ public class BusinessManagedBean implements Serializable {
   
     private String requestDescription;
     
+    private List<Request> receievedRequests;
     public BusinessManagedBean() {
     }
 
@@ -106,6 +107,13 @@ public class BusinessManagedBean implements Serializable {
         }
 
     }
+    
+    public void receieveRequest() {
+        receievedRequests = businessSession.receieveRequest(userId);
+        System.out.println(receievedRequests + "request");
+        
+    }
+    
     
     public void makeRequest() {
     FacesContext context = FacesContext.getCurrentInstance();
@@ -284,6 +292,14 @@ public class BusinessManagedBean implements Serializable {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    public List<Request> getReceievedRequests() {
+        return receievedRequests;
+    }
+
+    public void setReceievedRequests(List<Request> receievedRequests) {
+        this.receievedRequests = receievedRequests;
     }
 
     public String getBio() {

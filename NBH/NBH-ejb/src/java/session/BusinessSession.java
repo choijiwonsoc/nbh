@@ -29,6 +29,13 @@ public class BusinessSession implements BusinessSessionLocal {
 
     
     @Override
+    public List<Request> receieveRequest(Long id) {
+        Query query = em.createQuery("SELECT e FROM Request e  WHERE e.receiver.id = :id");
+        query.setParameter("id", id);
+        return query.getResultList();
+    }
+    
+    @Override
     public void makeRequest(Long serviceProviderListingId, Long sendRequestPersonId, Request request) {
         ServiceProviderListing s = getSpecificBusinessListing(serviceProviderListingId);
         Customer receiver = s.getCustomer();

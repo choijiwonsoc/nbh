@@ -20,6 +20,8 @@ import javax.persistence.NoResultException;
 @Local
 public interface BusinessSessionLocal {
     
+    public List<Request> receieveRequest(Long id);
+    
     public void makeRequest(Long serviceProviderListingId, Long sendRequestPersonId, Request r);
     
     public void updateProgress(Long serviceProviderListingId);
