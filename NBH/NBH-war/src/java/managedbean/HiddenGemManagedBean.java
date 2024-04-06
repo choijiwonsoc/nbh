@@ -109,7 +109,7 @@ public class HiddenGemManagedBean implements Serializable {
         hiddenGemSessionLocal.addHiddenGem(hg, hgr, c.getId());
         FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Hidden Gem successfully added", null));
-        return "/secret/hiddenGems.xhtml?faces-redirect=true";
+        return "/hiddenGems.xhtml?faces-redirect=true";
     }
 
     public void onItemUnselect(UnselectEvent event) {
