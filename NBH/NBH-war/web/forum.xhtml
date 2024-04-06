@@ -26,28 +26,32 @@
                                     <thead>
                                         <tr>
                                             <th class="shoping__product">Posts</th>
-                                            <th>Author</th>
+                                            <th>Category</th>
                                             <th>Date Posted</th>
                                             <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td class="shoping__cart__item">
-                                                <img src="img/cart/cart-1.jpg" alt=""/>
-                                                <h5>Vegetable’s Package</h5>
-                                            </td>
-                                            <td class="shoping__cart__price">
-                                                $55.00
-                                            </td>
-                                            <td class="shoping__cart__total">
-                                                $110.00
-                                            </td>
-                                            <td class="shoping__cart__item__close">
-                                                <h:commandButton value="View More" action="viewForumPost.xhtml?faces-redirect=true"/>
-                                            </td>
-                                        </tr>
-                                        
+                                        <ui:repeat value="#{customerManagedBean.selectedCustomer.posts}" var="post">
+                                            <tr>
+                                                <td class="shoping__cart__item">
+                                                    <img src="img/cart/cart-1.jpg" alt=""/>
+                                                    
+                                                    #{post.title}
+                                                    #{post.description}
+                                                </td>
+                                                <td class="shoping__cart__price">
+                                                    #{post.category}
+                                                </td>
+                                                <td class="shoping__cart__total">
+                                                    #{post.dateCreated}
+                                                </td>
+                                                <td class="shoping__cart__item__close">
+                                                    <h:commandButton value="View More" actionListener="#{postManagedBean.viewPostDetails(post.id)}" action="viewForumPost.xhtml?faces-redirect=true"/>
+                                                </td>
+                                            </tr>
+                                        </ui:repeat>
+
                                     </tbody>
                                 </table>
                             </div>

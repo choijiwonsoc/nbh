@@ -7,6 +7,7 @@ package session;
 import entity.Post;
 import java.util.List;
 import javax.ejb.Local;
+import javax.persistence.NoResultException;
 
 /**
  *
@@ -20,5 +21,7 @@ public interface PostSessionLocal {
     public List<Post> getAllPostsOrderedByDate(String category);
 
     public void addLike(Long pId, Long cId);
+
+    public Post getPost(Long pId) throws NoResultException;
     
 }

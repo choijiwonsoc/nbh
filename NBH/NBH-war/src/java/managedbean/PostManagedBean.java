@@ -18,6 +18,8 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.persistence.NoResultException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import session.PostSessionLocal;
 
 /**
@@ -34,12 +36,8 @@ public class PostManagedBean implements Serializable {
     private String category;
     private String newsTitle;
     private String newsDescription;
-
-    private String storyTitle;
-    private String storyDescription;
-
-    private String interestGrpTitle;
-    private String interestGrpDescription;
+    
+    private Post currentPost;
 
     /**
      * Creates a new instance of PostManagedBean
@@ -77,6 +75,26 @@ public class PostManagedBean implements Serializable {
         }
 
     }
+    
+    public void loadSelectedPost() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        HttpSession session = request.getSession();
+        try {
+            long postId = (Long) session.getAttribute("postId");
+            this.currentPost
+                    = postSessionLocal.getPost(postId);
+        } catch (Exception e) {
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Unable to load post"));
+        }
+    }
+
+    public void viewPostDetails(Long postId) throws NoResultException {
+        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        HttpSession session = request.getSession();
+
+        session.setAttribute("postId", postId);
+    }
     public List<Post> getAllPosts(String category) {
         return postSessionLocal.getAllPostsOrderedByDate(category);
     }
@@ -109,36 +127,12 @@ public class PostManagedBean implements Serializable {
         this.newsDescription = newsDescription;
     }
 
-    public String getStoryTitle() {
-        return storyTitle;
+    public Post getCurrentPost() {
+        return currentPost;
     }
 
-    public void setStoryTitle(String storyTitle) {
-        this.storyTitle = storyTitle;
-    }
-
-    public String getStoryDescription() {
-        return storyDescription;
-    }
-
-    public void setStoryDescription(String storyDescription) {
-        this.storyDescription = storyDescription;
-    }
-
-    public String getInterestGrpTitle() {
-        return interestGrpTitle;
-    }
-
-    public void setInterestGrpTitle(String interestGrpTitle) {
-        this.interestGrpTitle = interestGrpTitle;
-    }
-
-    public String getInterestGrpDescription() {
-        return interestGrpDescription;
-    }
-
-    public void setInterestGrpDescription(String interestGrpDescription) {
-        this.interestGrpDescription = interestGrpDescription;
+    public void setCurrentPost(Post currentPost) {
+        this.currentPost = currentPost;
     }
 
 }
