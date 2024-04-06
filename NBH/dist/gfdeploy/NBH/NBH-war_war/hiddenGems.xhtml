@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./layout/default2.xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <ui:define name="content">
+        <div class="row">
+            <div class="col-lg-3">
+            </div>
+            <div class="col-lg-9">
+                <div class="hero__search">
+                    <div class="hero__search__form">
+                        <form action="#">
+                            <div class="hero__search__categories">
+                                Search By
+                                <span class ="arrow_carrot-down"></span>
+                            </div>
+                            <input type="text" placeholder="Where do you want to explore?" value="#{hiddenGemManagedBean.searchString}"/>
+                            <button type="submit" class="site-btn">SEARCH</button>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <section class="from-blog spad">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-3 col-md-4">
+                        <div class="blog__sidebar">
+                            <div class="blog__sidebar__item">
+                                <h4>Regions</h4>
+                                <ul>
+                                    <li><a href="#">All</a></li>
+                                    <li><a href="#">North</a></li>
+                                    <li><a href="#">South</a></li>
+                                    <li><a href="#">East</a></li>
+                                    <li><a href="#">West</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-8 col-md-7">
+                        <div class="row">
+                            <ui:repeat value="#{hiddenGemManagedBean.hiddenGems}" var="hiddenGem">
+                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                    <div class="blog__item" style="background: #80ac3c; border-radius: 10px; padding: 20px">
+                                        <div class="blog__item__text" style="text-align: center">
+                                            <ul>
+                                                <li>
+                                                    <i class="fa fa-calendar-o" style="padding: 5px; color: black"></i>
+                                                    <h:outputText style="color: black" value="First Added on " />
+                                                    <h:outputText style="color: black" value="#{hiddenGem.created}">
+                                                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                                                    </h:outputText>
+                                                </li>
+                                                <li style="color: black"><i class="fa fa-comment-o" style="color: black"></i>review counts</li>
+                                            </ul>
+                                            <h5 style="color: black">#{hiddenGem.placeName}</h5>
+                                            <p style="color: black">#{hiddenGem.postalCode}</p>
+                                            <p style="color: black">#{hiddenGem.district}</p>
+                                            <a href="#" class="blog__btn">READ MORE <span class="arrow_right"></span></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ui:repeat>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </ui:define>
+
+</ui:composition>
