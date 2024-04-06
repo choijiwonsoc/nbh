@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./layout/default2.xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="content">
+        <f:metadata>
+            <f:event type="preRenderView" listener="#{customerManagedBean.loadSelectedCustomer}" />
+        </f:metadata>
+        <section class="product-details spad" style="background-image: url('https://wallpapers.com/images/hd/pastel-aesthetic-background-kk9ygsa8qygoluem.jpg'); background-size: cover; background-position: center;">
+            <div class="container">
+                <h2 >My Profile</h2>
+                <div class="row">
+                    <div class="col-lg-6 col-md-6">
+                        <div class="product__details__pic">
+                            <div class="product__details__pic__item">
+                                <img class="product__details__pic__item--large"
+                                     src="img/product/details/product-details-1.jpg" alt="" height="300px" width="300px"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6">
+                        <div class="product__details__text">
+                            <h3>#{customerManagedBean.selectedCustomer.username}</h3>
+                            <h3>#{customerManagedBean.selectedCustomer.email}</h3>
+                            <ul>
+                                <li><b>Name</b> <span>#{customerManagedBean.selectedCustomer.name}</span></li>
+                                <li><b>Contact</b> <span>#{customerManagedBean.selectedCustomer.contact}</span></li>
+                                <li><b>District</b> <span>#{customerManagedBean.selectedCustomer.district}</span></li>
+                                
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </ui:define>
+
+</ui:composition>

@@ -18,6 +18,8 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.persistence.NoResultException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import session.PostSessionLocal;
 
 /**
@@ -34,12 +36,10 @@ public class PostManagedBean implements Serializable {
     private String category;
     private String newsTitle;
     private String newsDescription;
-
-    private String storyTitle;
-    private String storyDescription;
-
-    private String interestGrpTitle;
-    private String interestGrpDescription;
+    
+    private Post currentPost;
+    
+    private String commentText;
 
     /**
      * Creates a new instance of PostManagedBean
@@ -65,59 +65,48 @@ public class PostManagedBean implements Serializable {
             // Convert LocalDate to Date
             Date nowdate = java.sql.Date.valueOf(currentDate);
             Post p = new Post();
-            p.setCategory("news");
+            p.setCategory(category);
             p.setTitle(newsTitle);
             p.setDateCreated(nowdate);
             p.setDescription(newsDescription);
             p.setLikes(0);
-            
             postSessionLocal.createPost(p, c.getId());
             FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Post successfully uploaded", null));
-            return "/secret/forum.xhtml?faces-redirect=true";
+            return "/forum.xhtml?faces-redirect=true";
         }
 
     }
-
-    public String addStory(Customer c) throws NoResultException, ParseException {
-        LocalDate currentDate = LocalDate.now();
+    
+    public void loadSelectedPost() {
         FacesContext context = FacesContext.getCurrentInstance();
-        // Convert LocalDate to Date
-        if (storyTitle.length() == 0) {
-            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                    "Please enter a title.", null);
-            context.addMessage(null, message);
-            return null;
-        } else if (storyDescription.length() == 0) {
-            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                    "Please enter a description.", null);
-            context.addMessage(null, message);
-            return null;
-        } else {
-            
-            Date nowdate = java.sql.Date.valueOf(currentDate);
-            Post p = new Post();
-            p.setCategory("stories");
-            p.setTitle(storyTitle);
-            p.setDateCreated(nowdate);
-            p.setDescription(storyDescription);
-            p.setLikes(0);
-
-            postSessionLocal.createPost(p, c.getId());
-
-            FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Post successfully uploaded", null));
-            return "/secret/forum.xhtml?faces-redirect=true";
+        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        HttpSession session = request.getSession();
+        try {
+            long postId = (Long) session.getAttribute("postId");
+            this.currentPost
+                    = postSessionLocal.getPost(postId);
+        } catch (Exception e) {
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Unable to load post"));
         }
-        
     }
 
+    public void viewPostDetails(Long postId) throws NoResultException {
+        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        HttpSession session = request.getSession();
+
+        session.setAttribute("postId", postId);
+    }
     public List<Post> getAllPosts(String category) {
         return postSessionLocal.getAllPostsOrderedByDate(category);
     }
     
     public void addLike(Long pId, Long cId){
         postSessionLocal.addLike(pId, cId);
+    }
+    
+    public void addComment(Long pId, Long cId){
+        postSessionLocal.addComment(commentText, pId, cId);
     }
 
     public String getCategory() {
@@ -144,36 +133,20 @@ public class PostManagedBean implements Serializable {
         this.newsDescription = newsDescription;
     }
 
-    public String getStoryTitle() {
-        return storyTitle;
+    public Post getCurrentPost() {
+        return currentPost;
     }
 
-    public void setStoryTitle(String storyTitle) {
-        this.storyTitle = storyTitle;
+    public void setCurrentPost(Post currentPost) {
+        this.currentPost = currentPost;
     }
 
-    public String getStoryDescription() {
-        return storyDescription;
+    public String getCommentText() {
+        return commentText;
     }
 
-    public void setStoryDescription(String storyDescription) {
-        this.storyDescription = storyDescription;
-    }
-
-    public String getInterestGrpTitle() {
-        return interestGrpTitle;
-    }
-
-    public void setInterestGrpTitle(String interestGrpTitle) {
-        this.interestGrpTitle = interestGrpTitle;
-    }
-
-    public String getInterestGrpDescription() {
-        return interestGrpDescription;
-    }
-
-    public void setInterestGrpDescription(String interestGrpDescription) {
-        this.interestGrpDescription = interestGrpDescription;
+    public void setCommentText(String commentText) {
+        this.commentText = commentText;
     }
 
 }

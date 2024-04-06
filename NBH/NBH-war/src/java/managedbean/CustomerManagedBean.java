@@ -54,10 +54,9 @@ public class CustomerManagedBean implements Serializable {
     private String email;
     private String district;
     private String region;
-    private Map<String, List<SelectItem>> regionOptionsMap;
 
     private Customer selectedCustomer;
-    
+       
 
     /**
      * Creates a new instance of CustomerManagedBean
@@ -77,7 +76,7 @@ public class CustomerManagedBean implements Serializable {
                 session.setAttribute("userId", userId);
                 FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Successfully login", null));
-                return "/customerView.xhtml?faces-redirect=true";
+                return "/customerView_1.xhtml?faces-redirect=true";
             } else {
                 //Long userId = new Long(-1);
                 //session.setAttribute("userId", userId);

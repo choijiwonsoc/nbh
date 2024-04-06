@@ -4,11 +4,16 @@
  */
 package session;
 
+import entity.Comment;
 import entity.Customer;
 import entity.Post;
+import java.awt.Event;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 
 /**
@@ -48,4 +53,30 @@ public class PostSession implements PostSessionLocal {
             c.getLikedPosts().add(p);
         }
     }
+    
+    @Override
+    public Post getPost(Long pId) throws NoResultException {
+        Post post = em.find(Post.class, pId);
+        if (post != null) {
+            return post;
+        } else {
+            throw new NoResultException("Customer not found");
+        } //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    @Override
+    public void addComment(String text, Long pId, Long cId){
+        Post post = em.find(Post.class, pId);
+        Customer cust = em.find(Customer.class, cId);
+        
+        LocalDate currentDate = LocalDate.now();
+        Date nowdate = java.sql.Date.valueOf(currentDate);
+        Comment comment = new Comment();
+        comment.setCommentDate(nowdate);
+        comment.setCustomer(cust);
+        comment.setText(text);
+        em.persist(comment);
+        post.getComments().add(comment);
+    }
+    
 }
