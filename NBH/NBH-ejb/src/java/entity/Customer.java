@@ -50,8 +50,30 @@ public class Customer implements Serializable {
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<HiddenGemReview> hiddenGemReviews;
 
+     @OneToMany(mappedBy = "requester")
+    private List<Request> sentRequests;
+
+    @OneToMany(mappedBy = "receiver")
+    private List<Request> receivedRequests;
+    
     public Long getId() {
         return id;
+    }
+
+    public List<Request> getSentRequests() {
+        return sentRequests;
+    }
+
+    public void setSentRequests(List<Request> sentRequests) {
+        this.sentRequests = sentRequests;
+    }
+
+    public List<Request> getReceivedRequests() {
+        return receivedRequests;
+    }
+
+    public void setReceivedRequests(List<Request> receivedRequests) {
+        this.receivedRequests = receivedRequests;
     }
 
     public void setId(Long id) {

@@ -70,5 +70,70 @@
                 </p:confirmDialog>
             </h:form>
         </div>
+        
+         <p:dialog header="Event Details" widgetVar="eventDialog" 
+                  modal="false" showEffect="fade" hideEffect="fade" resizable="false"
+                  width="50%" position="center">
+            <h:form>
+                <p:outputPanel id="eventDetails">
+
+
+                    <div class="container">
+                        <div class="card">
+                            <h5 class="card-header">Create Business Items</h5>
+                            <div class="card-body">
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <h:outputLabel for="itemName" value="Item's Name: " />
+                                            <h:inputText id="itemName" value="#{businessManagedBean.itemName}" class="form-control" required="true" requiredMessage="Item Name is required" />
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <h:outputLabel for="price" value="Item's Price: " />
+                                            <h:inputText id="price" value="#{businessManagedBean.price}" class="form-control" required="true" requiredMessage="Item Price is required" />
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <h:outputLabel for="location" value="Location: " />
+                                            <h:inputText id="location" value="#{businessManagedBean.location}" class="form-control" required="true" requiredMessage="Location is required" />
+                                            <h:message for="location" styleClass="text-danger" />
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <h:outputLabel for="description" value="Description"/>
+                                            <h:inputTextarea id="description" rows="4" class="form-control" value="#{businessManagedBean.description}"/>
+                                            <h:message for="description" styleClass="text-danger" />
+                                        </div>
+                                    </div>
+
+                                    <div class="text-center">
+                                        <p:commandButton value="Submit" action="#{businessManagedBean.addItems}" class="btn btn-primary" update=":form" />
+                                    </div>
+
+                                </div>
+
+
+
+                            </div>
+                        </div>
+                    </div> 
+
+
+                </p:outputPanel>
+            </h:form>
+        </p:dialog>
+        
     </ui:define>
 </ui:composition>
