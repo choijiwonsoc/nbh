@@ -5,8 +5,8 @@
         <group>
             <file>file:/C:/Users/ninja/Documents/NUS/Y2S2IS3106%20Enterprise%20System%20Interface/Project/nbh/NBH/NBH-war/web/secret/timeExchange.xhtml</file>
             <file>file:/C:/Users/ninja/Documents/NUS/Y2S2IS3106%20Enterprise%20System%20Interface/Project/nbh/NBH/NBH-war/src/java/managedbean/ExchangeListingManagedBean.java</file>
-            <file>file:/C:/Users/ninja/Documents/NUS/Y2S2IS3106%20Enterprise%20System%20Interface/Project/nbh/NBH/NBH-war/web/secret/myExchangeListing.xhtml</file>
             <file>file:/C:/Users/ninja/Documents/NUS/Y2S2IS3106%20Enterprise%20System%20Interface/Project/nbh/NBH/NBH-war/web/layout/customerTemplate.xhtml</file>
+            <file>file:/C:/Users/ninja/Documents/NUS/Y2S2IS3106%20Enterprise%20System%20Interface/Project/nbh/NBH/NBH-war/web/secret/viewExchangeListing.xhtml</file>
             <file>file:/C:/Users/ninja/Documents/NUS/Y2S2IS3106%20Enterprise%20System%20Interface/Project/nbh/NBH/NBH-war/web/secret/addExchangeListing.xhtml</file>
         </group>
     </open-files>

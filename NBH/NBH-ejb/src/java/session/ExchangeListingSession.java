@@ -164,4 +164,11 @@ public class ExchangeListingSession implements ExchangeListingSessionLocal {
         }
     }
 
+    @Override
+    public ExchangeListing getListingFromOffer(Long oId) throws NoResultException {
+        Offer o = em.find(Offer.class, oId);
+        ExchangeListing listing = o.getExchangeListing();
+        return listing;
+    }
+
 }

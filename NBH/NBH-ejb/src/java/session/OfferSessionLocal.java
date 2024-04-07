@@ -5,6 +5,7 @@
 package session;
 
 import entity.Offer;
+import entity.Skill;
 import java.util.List;
 import javax.ejb.Local;
 import javax.persistence.NoResultException;

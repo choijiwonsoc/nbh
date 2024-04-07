@@ -8,6 +8,7 @@ import entity.Customer;
 import entity.ExchangeListing;
 import entity.Offer;
 import entity.Skill;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -40,13 +41,22 @@ public class OfferSession implements OfferSessionLocal {
         // associate with Customer
         customer.getOffers().add(o);
         o.setCustomer(customer);
+
         //associate with ExchangeListing
         ExchangeListing el = exchangeListingSessionLocal.getListing(elId);
         el.getOffers().add(o);
+        o.setExchangeListing(el);
+
         // associate with skills
+        if (o.getSkills() == null) {
+            o.setSkills(new ArrayList<>());
+        }
         Skill skill;
         for (Long skillId : skillIds) {
             skill = em.find(Skill.class, skillId);
+            if (skill.getOffers() == null) {
+                skill.setOffers(new ArrayList<>());
+            }
             o.getSkills().add(skill);
             skill.getOffers().add(o);
         }
@@ -82,7 +92,7 @@ public class OfferSession implements OfferSessionLocal {
                 query.setParameter("cId", id);
 
             } else if (type.equals("EL")) {
-                query = em.createQuery("SELECT o FROM Offer o WHERE o.exchangeListing.id = :elId");
+                query = em.createQuery("SELECT o FROM Offer o WHERE o.exchangeListing.id = :elId AND o.status <> 'CANCELLED'"); //status not equal cancelled
                 query.setParameter("elId", id);
 
             } else {

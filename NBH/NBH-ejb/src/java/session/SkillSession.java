@@ -95,7 +95,19 @@ public class SkillSession implements SkillSessionLocal {
 
     @Override
     public List<Skill> getAllSkillsByOffer(Long oId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Query query;
+        if (oId != null) {
+            /*
+            // for a to 1 relationship
+            query = em.createQuery("SELECT s FROM Skill s WHERE s.customer.id = :cId");
+             */
+            query = em.createQuery("SELECT s FROM Skill s JOIN s.offers o WHERE o.id = :oId");
+            query.setParameter("oId", oId);
+            return query.getResultList();
+        } else {
+            query = em.createQuery("SELECT s FROM Skill s");
+            return query.getResultList();
+        }
     }
 
 }

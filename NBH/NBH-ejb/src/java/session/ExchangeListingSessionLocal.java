@@ -28,4 +28,6 @@ public interface ExchangeListingSessionLocal {
     public List<ExchangeListing> searchListing(String title) throws NoResultException;
 
     public ExchangeListing getListing(Long elId) throws NoResultException;
+
+    public ExchangeListing getListingFromOffer(Long oId) throws NoResultException;
 }

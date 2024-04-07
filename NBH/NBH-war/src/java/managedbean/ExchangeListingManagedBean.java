@@ -118,7 +118,7 @@ public class ExchangeListingManagedBean implements Serializable {
                     System.out.println("Skills added" + skill.getSkillName());
                 }
             } else {
-                System.out.println("Listing ID is null viewExchangeListing");
+                System.out.println("Listing ID is null in viewExchangeListing");
             }
         }
 
@@ -177,6 +177,16 @@ public class ExchangeListingManagedBean implements Serializable {
 
         }
 
+    }
+
+    public String navigateToAddOffer(ExchangeListing listing) {
+        FacesContext.getCurrentInstance().getExternalContext().getFlash().put("listingId", listing.getId());
+        return "addOffer.xhtml?faces-redirect=true";
+    }
+
+    public String navigateToAvailableOffers(ExchangeListing listing) {
+        FacesContext.getCurrentInstance().getExternalContext().getFlash().put("listingId", listing.getId());
+        return "availableOffers.xhtml?faces-redirect=true";
     }
 
     /*
