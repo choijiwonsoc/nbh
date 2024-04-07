@@ -63,6 +63,9 @@ public class BusinessManagedBean implements Serializable {
     private String requestDescription;
     
     private List<Request> receievedRequests;
+    
+    private Request selectedRequest;
+    
     public BusinessManagedBean() {
     }
 
@@ -108,6 +111,24 @@ public class BusinessManagedBean implements Serializable {
 
     }
     
+    public void acknowledgeRequest() {
+    FacesContext context = FacesContext.getCurrentInstance();
+
+        Map<String, String> params = context.getExternalContext()
+                .getRequestParameterMap();
+        String requestIdStr = params.get("requestId");
+        Long requestId = Long.parseLong(requestIdStr);
+        Request request = businessSession.getRequest(requestId);
+        System.out.println(request + "acknowledged");
+        try {
+
+            businessSession.acknowledgeRequest(request.getId());
+
+        } catch (Exception e) {
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Unable to acknowledge this request"));
+        }
+    }
+    
     public void receieveRequest() {
         receievedRequests = businessSession.receieveRequest(userId);
         System.out.println(receievedRequests + "request");
@@ -118,6 +139,7 @@ public class BusinessManagedBean implements Serializable {
     public void makeRequest() {
     FacesContext context = FacesContext.getCurrentInstance();
     Request r = new Request();
+    System.out.println(requestDescription + " this is the description");
     r.setDescription(requestDescription);
     System.out.println(this.selectedServiceProviderListing + "this checked");
     try {

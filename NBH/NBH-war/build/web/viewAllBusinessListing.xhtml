@@ -116,13 +116,13 @@
                       modal="false" showEffect="fade" hideEffect="fade" resizable="false"
                       width="50%" position="center">
                 <p:outputPanel id="requestDetails">
-                    <h:form id="formm2">
+                    
 
                         <h:outputLabel for="requestDescription" value="Request Description: " />
                         <h:inputText id="requestDescription" value="#{businessManagedBean.requestDescription}" class="form-control" required="true" requiredMessage="Please enter request description!" />
-                    </h:form>
+                    
                 
-                <p:commandButton value="Submit" actionListener="#{businessManagedBean.makeRequest}" update=":form" oncomplete="PF('requestDialog').hide()" />
+                <p:commandButton value="Submit" actionListener="#{businessManagedBean.makeRequest}" oncomplete="PF('requestDialog').hide()" />
                 </p:outputPanel>
             </p:dialog>
         </h:form>

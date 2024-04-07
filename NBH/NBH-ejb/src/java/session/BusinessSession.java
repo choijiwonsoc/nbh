@@ -36,6 +36,22 @@ public class BusinessSession implements BusinessSessionLocal {
     }
     
     @Override
+    public Request getRequest(Long requestId) {
+        Request r = em.find(Request.class, requestId);
+        return r;
+    }
+    
+    @Override
+    public void acknowledgeRequest(Long rId) {
+        Query query = em.createQuery("UPDATE Request r SET r.status = :progress WHERE r.id = :rId");
+        query.setParameter("progress", "Acknowledged");
+        query.setParameter("rId", rId);
+        
+        int updatedCount = query.executeUpdate();
+
+    }
+    
+    @Override
     public void makeRequest(Long serviceProviderListingId, Long sendRequestPersonId, Request request) {
         ServiceProviderListing s = getSpecificBusinessListing(serviceProviderListingId);
         Customer receiver = s.getCustomer();

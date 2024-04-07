@@ -19,7 +19,7 @@
                 <p:dataView var="requests" value="#{businessManagedBean.receievedRequests}" rows="12" paginator="true"
 
                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                            gridIcon="pi pi-th-large" >
+                            gridIcon="pi pi-th-large" layout="grid">
 
                     <p:dataViewGridItem>
                         <div class="product-grid-item card border-1">
@@ -28,34 +28,31 @@
                                     <i class="pi pi-tag product-category-icon"/>
                                     <span class="product-category">#{requests.description}</span>
                                 </div>
+                                 <div>
+                                    <i class="pi pi-tag product-category-icon"/>
+                                    <span class="product-category">This is sent from: #{requests.requester.name}</span>
+                                </div>
+                                
 
                             </div>
 
 
-                            <p:commandButton type="button"
+                            <p:commandButton 
                                              value="Acknowledged"
+                                             icon="pi pi-shopping-cart"
+                                             action="#{businessManagedBean.acknowledgeRequest}"
+                                             >
+                                <f:param name="requestId" value="#{requests.id}" />
+                            </p:commandButton>
+                            
+                            <p:commandButton type="button"
+                                             value="Reply back to sender"
                                              icon="pi pi-shopping-cart"
                                              >
                             </p:commandButton>
                         </div>
 
                     </p:dataViewGridItem>
-
-                    <p:dataViewListItem>
-                        <div class="product-list-item">
-                            
-                            <div class="product-list-detail">
-                                <div class="product-name">#{requests.description}</div>
-                               
-                            
-                                <p:commandButton type="button"
-                                                 value="Acknowledged"
-                                                 icon="pi pi-shopping-cart"
-                                                 disabled="#{product.inventoryStatus == 'OUTOFSTOCK'}">
-                                </p:commandButton>
-                            </div>
-                        </div>
-                    </p:dataViewListItem>
                 </p:dataView>
             </h:form>
         </div>
