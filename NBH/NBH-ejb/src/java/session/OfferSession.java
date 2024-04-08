@@ -92,7 +92,7 @@ public class OfferSession implements OfferSessionLocal {
                 query.setParameter("cId", id);
 
             } else if (type.equals("EL")) {
-                query = em.createQuery("SELECT o FROM Offer o WHERE o.exchangeListing.id = :elId AND o.status <> 'CANCELLED'"); //status not equal cancelled
+                query = em.createQuery("SELECT o FROM Offer o WHERE o.exchangeListing.id = :elId AND o.status <> 'CANCELLED' AND o.status <> 'DECLINED' "); //status not equal cancelled
                 query.setParameter("elId", id);
 
             } else {

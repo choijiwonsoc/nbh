@@ -151,7 +151,19 @@ public class OfferManagedBean implements Serializable {
                 offerSessionLocal.updateOffer(o);
             }
         }
+        // set Listing to taken
+        ExchangeListing listing = exchangeListingSessionLocal.getListingFromOffer(oId);
+        listing.setStatus("TAKEN");
+        List<Skill> currentSkills = listing.getSkills();
+        List<Long> currentSId = new ArrayList<>();
+        for (Skill s : currentSkills) {
+            currentSId.add(s.getId());
+        }
+        exchangeListingSessionLocal.updateListing(listing, currentSId);
+
         //notify the user whos offer is accepted?
+        //reflect the changes, update the availOffers list
+        availOffers = offerSessionLocal.getAllOffers(listing.getId(), "EL");
     }
 
     public void rejectOffer(Long oId) {
@@ -159,33 +171,55 @@ public class OfferManagedBean implements Serializable {
         Offer offer = offerSessionLocal.getOffer(oId);
         if (offer.getStatus().equalsIgnoreCase("ACCEPTED")) {
             // set rest of the offers back to pending
-
             for (Offer o : availOffers) {
                 if (o.getId() != oId) {
                     o.setStatus("PENDING");
                     offerSessionLocal.updateOffer(o);
                 }
             }
-        } else {
-            offer.setStatus("DECLINED");
         }
+
+        offer.setStatus("DECLINED");
+        offerSessionLocal.updateOffer(offer);
+
+        //reflect the changes, update the availOffers list
+        ExchangeListing listing = exchangeListingSessionLocal.getListingFromOffer(oId);
+        availOffers = offerSessionLocal.getAllOffers(listing.getId(), "EL");
     }
 
     public void cancelOffer(Long oId) {
         // Person that made the offer deletes it on his own
         Offer offer = offerSessionLocal.getOffer(oId);
         if (offer.getStatus().equalsIgnoreCase("ACCEPTED")) {
-            // set the rest of the offers back to on-hold
-            for (Offer o : availOffers) {
-                if (o.getId() != oId) {
-                    o.setStatus("ON-HOLD");
-                    offerSessionLocal.updateOffer(o);
+            if (availOffers != null) {
+                // set the rest of the offers back to on-hold
+                for (Offer o : availOffers) {
+                    if (o.getId() != oId) {
+                        o.setStatus("ON-HOLD");
+                        offerSessionLocal.updateOffer(o);
+                    }
                 }
             }
+
+            // set exchangeListing status back to active
+            ExchangeListing listing = exchangeListingSessionLocal.getListingFromOffer(oId);
+            listing.setStatus("ACTIVE");
+            // retrive currentskills to continue for updateListing.
+            List<Skill> currentSkills = listing.getSkills();
+            List<Long> currentSId = new ArrayList<>();
+            for (Skill s : currentSkills) {
+                currentSId.add(s.getId());
+            }
+            exchangeListingSessionLocal.updateListing(listing, currentSId);
         }
         offer.setStatus("CANCELLED");
         offerSessionLocal.updateOffer(offer);
 
+        //reflect the changes, update the offersMade list
+        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        HttpSession session = request.getSession();
+        long userId = (Long) session.getAttribute("userId");
+        offersMade = offerSessionLocal.getAllOffers(userId, "C");
     }
 
     public String submit() {

@@ -108,16 +108,46 @@ public class ExchangeListingSession implements ExchangeListingSessionLocal {
         creator.getExchangeListings().remove(elToDelete);
 
         // dissociate from skill
-        List<Skill> skills = elToDelete.getSkills();
-        for (Skill s : skills) {
+        List<Skill> toRemoveSkills = new ArrayList<>();
+        toRemoveSkills.addAll(elToDelete.getSkills());
+
+        for (Skill s : toRemoveSkills) {
             s.getExchangeListings().remove(elToDelete);
             elToDelete.getSkills().remove(s);
         }
 
+        // trying to delete all offers so
         // dissociate from offer
-        List<Offer> offers = elToDelete.getOffers();
-        for (Offer o : offers) {
-            em.remove(o);
+        List<Offer> toRemove = new ArrayList<>();
+        toRemove.addAll(elToDelete.getOffers());
+
+        for (Offer o : toRemove) {
+            //disassociate offer from customer
+            Offer offer = em.find(Offer.class, o.getId());
+            Customer customer = offer.getCustomer();
+
+            if (customer != null) {
+                List<Offer> toRemoveOfferCust = new ArrayList<>(customer.getOffers());
+                for (Offer x : toRemoveOfferCust) {
+                    if (x.equals(offer)) { // Use equals method to ensure we're removing the correct offer
+                        customer.getOffers().remove(x);
+                        em.merge(customer); // Save the customer state after removing the offer
+                    }
+                }
+                offer.setCustomer(null);
+            }
+            // still need remove offer from skills
+            // dissociate from skill
+            List<Skill> removeOfferSkills = new ArrayList<>();
+            removeOfferSkills.addAll(o.getSkills());
+
+            for (Skill s : removeOfferSkills) {
+                s.getOffers().remove(o);
+                o.getSkills().remove(s);
+            }
+
+            elToDelete.getOffers().remove(offer);
+            em.remove(offer); // Now we can safely remove the offer
         }
 
         em.remove(elToDelete);
@@ -130,8 +160,8 @@ public class ExchangeListingSession implements ExchangeListingSessionLocal {
             query.setParameter("cId", cId);
             return query.getResultList();
         } else {
-            Query query = em.createQuery("SELECT el FROM ExchangeListing el WHERE el.status LIKE :status");
-            query.setParameter("status", "ACTIVE");
+            Query query = em.createQuery("SELECT el FROM ExchangeListing el WHERE el.status NOT LIKE :status");
+            query.setParameter("status", "CANCELLED");
             return query.getResultList();
         }
     }

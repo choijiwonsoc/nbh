@@ -132,10 +132,16 @@ public class ExchangeListingManagedBean implements Serializable {
     }
 
     // delete - either set to inactive or delete method in sessionbean
-    public void cancelListing(ExchangeListing listing) {
+    public void deleteListing(ExchangeListing listing) {
+        exchangeListingSessionLocal.deleteListing(listing.getId());
+        // refresh listing to show changes
+        allListings = exchangeListingSessionLocal.getAllListing(null); //all listings available
+        /*
         listing.setStatus("CANCELLED");
         listing.setVisibility(false);
         exchangeListingSessionLocal.updateListing(listing, neededSkillIds);
+         */
+
     }
 
     public void convertStringsToDate(String dateString, String startTimeString, String endTimeString) {
