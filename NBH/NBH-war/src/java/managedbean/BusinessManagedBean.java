@@ -185,13 +185,14 @@ public class BusinessManagedBean implements Serializable {
     
     
     public void retrieveServiceItems() {
-        
+        System.out.println("retrieveServiceItems method called successfully."); // Add this line for logging
         FacesContext context = FacesContext.getCurrentInstance();
 
         Map<String, String> params = context.getExternalContext()
                 .getRequestParameterMap();
         String serviceProviderListingIdStr = params.get("serviceProviderListingId");
         Long serviceProviderListingId = Long.parseLong(serviceProviderListingIdStr);
+        System.out.println(serviceProviderListingId + "retrieveServiceItems ");
         try {
 
             this.serviceItems = businessSession.getServiceItemsByServiceProviderListingId(serviceProviderListingId);

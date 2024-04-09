@@ -71,7 +71,7 @@
                 </p:column>
 
                 <p:column style="width: 15%">
-                    <p:commandButton icon="fa fa-search" styleClass="view-button" 
+                    <p:commandButton icon="fa fa-search" styleClass="view-button" process ="@this"
                                      update=":form:businessDetails" oncomplete="PF('businessDialog').show()" 
                                      title="View" action="#{businessManagedBean.retrieveServiceItems}">
                         <f:setPropertyActionListener value="#{serviceProviderListing}" target="#{businessManagedBean.selectedServiceProviderListing}" />
