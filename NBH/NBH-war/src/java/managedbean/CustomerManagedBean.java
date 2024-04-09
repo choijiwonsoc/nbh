@@ -55,7 +55,7 @@ public class CustomerManagedBean implements Serializable {
     private String district;
     private String region;
 
-    private Customer selectedCustomer;
+    Customer selectedCustomer;
        
 
     /**
@@ -114,6 +114,17 @@ public class CustomerManagedBean implements Serializable {
             c.setName(name);
             c.setContact(contact);
             c.setDistrict(district);
+            if("Ang Mo Kio".equals(district) || "Yishun".equals(district) || "Sembawang".equals(district)){
+                c.setRegion("North");
+            }else if("Bedok".equals(district) || "Pasir Ris".equals(district) || "Tampines".equals(district)){
+                c.setRegion("East");
+            }else if ("Bukit Batok".equals(district) || "Choa Chu Kang".equals(district) || "Jurong East".equals(district)){
+                c.setRegion("West");
+            }else if("Bishan".equals(district) || "Bukit Timah".equals(district) || "Toa Payoh".equals(district)){
+                c.setRegion("Central");
+            }else{
+                c.setRegion("South");
+            }
             c.setEmail(email);
             c.setPassword(password);
             c.setUsername(username);

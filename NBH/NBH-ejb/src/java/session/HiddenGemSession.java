@@ -36,9 +36,11 @@ public class HiddenGemSession implements HiddenGemSessionLocal {
         if (resultList.isEmpty()) {
             em.persist(hg);
             hgr.setHiddenGem(hg);
+            hg.getReviews().add(hgr);
         } else {
             HiddenGem exisitingHg = resultList.get(0);
             hgr.setHiddenGem(exisitingHg);
+            exisitingHg.getReviews().add(hgr);
         }
 
         Customer c = em.find(Customer.class, cId);
@@ -113,20 +115,21 @@ public class HiddenGemSession implements HiddenGemSessionLocal {
     }
 }
 
-//    @Override
-//    public List<HiddenGem> getAllHiddenGemsOrderedByPopularity() {
-//        List<String> postalCodes = em.createQuery(
-//                "SELECT hg.postalCode, COUNT(hg.postalCode) "
-//                + "FROM HiddenGem hg "
-//                + "GROUP BY hg.postalCode "
-//                + "ORDER BY COUNT(hg.postalCode) DESC").getResultList();
+// @Override
+// public List<HiddenGem> getAllHiddenGemsOrderedByPopularity() {
+// List<String> postalCodes = em.createQuery(
+// "SELECT hg.postalCode, COUNT(hg.postalCode) "
+// + "FROM HiddenGem hg "
+// + "GROUP BY hg.postalCode "
+// + "ORDER BY COUNT(hg.postalCode) DESC").getResultList();
 //
-//        List<HiddenGem> hiddenGemsOrderedByPopularity = new ArrayList<>();
-//        for (String postalCode : postalCodes) {
-//            Query q;
-//            q = em.createQuery("SELECT hg FROM HiddenGem hg WHERE hg.postalCode =:postalCode");
-//            q.getSingleResult()
-//            hiddenGemsGroupedByPostalCode.addAll(gemsForPostalCode);
-//        }
+// List<HiddenGem> hiddenGemsOrderedByPopularity = new ArrayList<>();
+// for (String postalCode : postalCodes) {
+// Query q;
+// q = em.createQuery("SELECT hg FROM HiddenGem hg WHERE hg.postalCode
+// =:postalCode");
+// q.getSingleResult()
+// hiddenGemsGroupedByPostalCode.addAll(gemsForPostalCode);
+// }
 //
-//    }
+// }

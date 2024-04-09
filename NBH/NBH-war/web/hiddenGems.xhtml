@@ -4,23 +4,57 @@
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 template="./layout/default2.xhtml"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
-                xmlns:h="http://xmlns.jcp.org/jsf/html">
+                xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:jsf="http://xmlns.jcp.org/jsf">
 
     <ui:define name="content" >
+        <style>
+            .searchType-container {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                background-color: #fff; /* Background color */
+                border: 1px solid #ccc; /* Border */
+                z-index: 9999; /* Ensure it appears above other elements */
+                width: 100%; /* Adjust width as needed */
+                padding: 10px; /* Add padding */
+                box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* Add shadow */
+            }
+        </style>
+
         <section >
             <div class="row" >
                 <div class="col-lg-3">
                 </div>
                 <div class="col-lg-9">
                     <div class="hero__search">
-                        <div class="hero__search__form">
+                        <div class="hero__search__form" style="position: absolute; z-index: 2;">
                             <form action="#">
                                 <div class="hero__search__categories">
-                                    Search By
-                                    <span class ="arrow_carrot-down"></span>
+                                    <a id="selectedSearchOption">Search By</a>
+                                    <span href="#" class="toggle-searchType arrow_carrot-down"></span>
+                                    <div class="searchType-container" style="border:none">
+                                        <ul style="list-style-type:none; align-content: center">
+                                            <li style="margin-left: 10px"><a>Select...</a></li>
+                                            <li style="margin-left: 10px"><a href="#" onclick="selectSearchOption('Place')">Place</a></li>
+                                            <li style="margin-left: 10px"><a href="#" onclick="selectSearchOption('Postal Code')">Postal Code</a></li>
+                                        </ul>
+                                    </div>
                                 </div>
-                                <input type="text" placeholder="Where do you want to explore?" value="#{hiddenGemManagedBean.searchString}"/>
-                                <button type="submit" class="site-btn">SEARCH</button>
+<!--                                <h:selectOneMenu class="searchType-container" value="#{hiddenGemManagedBean.searchType}" onchange="selectSearchOption(this)">
+                                    <f:selectItem itemValue="PLACE" itemLabel="Place" />
+                                    <f:selectItem itemValue="POSTALCODE" itemLabel="Postal Code" />
+                                </h:selectOneMenu>-->
+
+                                <input type="text" jsf:id="searchString" value="#{hiddenGemManagedBean.searchString}" a:placeholder="Where do you want to explore?"/>
+                                <button type="submit" jsf:id="search" class="site-btn"
+                                        action="#{hiddenGemManagedBean.handleSearch()}">
+                                    Search
+                                    <f:ajax execute="@form" render="form1" />
+                                </button>
                             </form>
                         </div>
                         <div class="hero__search__phone">
@@ -64,12 +98,27 @@
                                                             <f:convertDateTime pattern="dd/MM/yyyy" />
                                                         </h:outputText>
                                                     </li>
-                                                    <li style="color: black"><i class="fa fa-comment-o" style="color: black"></i>review counts</li>
+                                                    <li style="color: black"><i class="fa fa-comment-o" style="color: black"></i>#{hiddenGem.reviews.size()} review counts</li>
                                                 </ul>
                                                 <h5 style="color: black">#{hiddenGem.placeName}</h5>
                                                 <h5 style="color: black">#{hiddenGem.postalCode}</h5>
                                                 <h5 style="color: black">#{hiddenGem.district}</h5>
-                                                <a href="#" class="blog__btn">More Reviews <span class="arrow_right"></span></a>
+                                                <a href="#" class="toggle-reviews blog__btn">Reviews</a>
+                                                <div class="reviews-container" style="display: none;">
+                                                    <ui:repeat value="#{hiddenGem.reviews}" var="hiddenGemReview">
+                                                        <div class="featured__item__text" style="border: 2px solid lightgrey; border-radius: 10px; padding: 5px; margin-top: 10px; display: flex; flex-direction: column;">
+                                                            <div style="text-align: left;">
+                                                                <h:outputText style="color: black;" value="#{hiddenGemReview.review}" />
+                                                            </div>
+                                                            <div class="reviews-container" style="text-align: right; font-size: 13px;">
+                                                                <h:outputLabel style="font-size: 13px;">Posted On: </h:outputLabel>
+                                                                <h:outputText value="#{hiddenGemReview.created}">
+                                                                    <f:convertDateTime type="date" pattern="dd/MM/yyyy" />
+                                                                </h:outputText>
+                                                            </div>
+                                                        </div>
+                                                    </ui:repeat>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -81,6 +130,32 @@
             </section>
         </section>
 
+    </ui:define>
+
+    <ui:define name="script">
+        <script>
+            $(function () {
+                // Toggle visibility of reviews container when toggle button/link is clicked
+                $('.toggle-reviews').click(function (event) {
+                    event.preventDefault();
+                    $(this).next('.reviews-container').slideToggle();
+                });
+            });
+        </script>
+        <script>
+            $(function () {
+                $('.toggle-searchType').click(function (event) {
+                    event.preventDefault();
+                    $(this).next('.searchType-container').slideToggle();
+                });
+            });
+        </script>
+        <script>
+            function selectSearchOption(option) {
+                document.getElementById('selectedSearchOption').innerText = option;
+                $('.toggle-searchType').click(); // Close the dropdown
+            }
+        </script>
     </ui:define>
 
 </ui:composition>

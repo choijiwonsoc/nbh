@@ -18,33 +18,60 @@
         <h:form id="form">
             <section class="shoping-cart spad" style="background-image: url('https://wallpapers.com/images/hd/pastel-aesthetic-background-kk9ygsa8qygoluem.jpg'); background-size: cover; background-position: center;">
                 <div class="container">
-                    <h:commandButton value="Add Post" action="/addForumPost.xhtml?faces-redirect=true"/>
+                    
+                    <div class="row">
+                        <h6><b>Region: #{customerManagedBean.selectedCustomer.region}</b></h6>
+                        <br></br>
+                    </div>
+                    <div class="row">
+                        <h:commandButton value="Add Post" action="/addForumPost.xhtml?faces-redirect=true" styleClass="btn btn-primary mr-2"/>
+                    </div>
+                    <br></br>
+                    <div class="row">
+                        <span class="fa fa-filter"></span>
+                        <h:selectOneMenu id="field" value="#{postManagedBean.filterCategory}">
+                            <f:ajax listener="#{postManagedBean.searchPosts()}" render="form" />
+                            <f:selectItem itemLabel="Select Category" itemValue="" />
+                            <f:selectItem itemLabel="Urgent" itemValue="Urgent" />
+                            <f:selectItem itemLabel="Sports" itemValue="Sports" />
+                            <f:selectItem itemLabel="Arts" itemValue="Arts" />
+                            <f:selectItem itemLabel="Education" itemValue="Education" />
+                            <f:selectItem itemLabel="Leisure" itemValue="Leisure" />
+                        </h:selectOneMenu>
+                        
+                    </div>
+
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="shoping__cart__table">
+                                <br></br><br></br>
                                 <table>
                                     <thead>
                                         <tr>
-                                            <th class="shoping__product">Posts</th>
+
+                                            <th>Posts</th>
+                                            <th>Desc</th>
                                             <th>Category</th>
                                             <th>Date Posted</th>
                                             <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <ui:repeat value="#{customerManagedBean.selectedCustomer.posts}" var="post">
+                                        <ui:repeat value="#{postManagedBean.searchResults}" var="post">
                                             <tr>
-                                                <td class="shoping__cart__item">
-                                                    <img src="img/cart/cart-1.jpg" alt=""/>
-                                                    
-                                                    #{post.title}
-                                                    #{post.description}
+                                                <td class="shoping__cart__price"><img src="img/cart/cart-1.jpg" alt=""/></td>
+                                                <td>
+                                                    <b>#{post.title}</b>
+                                                    <p>#{post.description}</p>
                                                 </td>
                                                 <td class="shoping__cart__price">
                                                     #{post.category}
                                                 </td>
                                                 <td class="shoping__cart__total">
-                                                    #{post.dateCreated}
+                                                    <h:outputText value="#{post.dateCreated}">
+                                                        <f:convertDateTime type="date" pattern="dd/MM/yyyy" timeZone="GMT+08:00"/>
+                                                    </h:outputText>
+
                                                 </td>
                                                 <td class="shoping__cart__item__close">
                                                     <h:commandButton value="View More" actionListener="#{postManagedBean.viewPostDetails(post.id)}" action="viewForumPost.xhtml?faces-redirect=true"/>

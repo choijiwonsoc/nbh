@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8' ?> 
+<?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
@@ -43,43 +43,47 @@
 
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-3">
+                    <div class="col-lg-2">
                         <div class="header__logo">
-                            <a href="./index.xhtml"><img src="https://png.pngtree.com/png-vector/20190701/ourmid/pngtree-neighborhood-icon-in-trendy-style-isolated-background-png-image_1527234.jpg" alt="" height="70px" width="70px"/></a>
+                            <a href="./customerView_1.xhtml"><img src="https://png.pngtree.com/png-vector/20190701/ourmid/pngtree-neighborhood-icon-in-trendy-style-isolated-background-png-image_1527234.jpg" alt="" height="70px" width="70px"/></a>
 
                         </div>
                     </div>
-                    <div class="col-lg-6">
-                        <nav class="header__menu">
-                            <ul>
-                                <li class="active"><a href="./index.xhtml">Home</a></li>
-                                <li><a href="#">General</a>
-                                    <ul class="header__menu__dropdown">
-                                        <li><a href="./viewProfile.xhtml">My Profile</a></li>
-                                        <li><a href="./editProfile.xhtml">Edit Profile</a></li>
-                                        <li><a href="./viewRequest.xhtml">View Request</a></li>
-                                    </ul>
-                                </li>
+                    <nav class="header__menu">
+                        <ul>
+                            <li class="active"><a href="./customerView_1.xhtml">Home</a></li>
+                            <li><a href="#">General</a>
+                                <ul class="header__menu__dropdown">
+                                    <li><a href="./viewProfile.xhtml">My Profile</a></li>
+                                    <li><a href="./editProfile.xhtml">Edit Profile</a></li>
+                                    <li><a href="./viewRequest.xhtml">View Request</a></li>
+                                </ul>
+                            </li>
 
-                                <li><a href="#">Community</a>
-                                    <ul class="header__menu__dropdown">
-                                        <li><a href="./forum.xhtml">Forum</a></li>
-                                        <li><a href="./interestGroup.xhtml">Interest Groups</a></li>
-                                        <li><a href="./hiddenGems.xhtml">Hidden Gems</a></li>
-                                    </ul>
-                                </li>
-                                <li><a href="#">MarketPlace</a>
-                                    <ul class="header__menu__dropdown">
-                                        <li><a href="createBusinessListing.xhtml">Create Business</a></li>
-                                        <li><a href="viewBusinessListing.xhtml">View Business Profile</a></li>
-                                        <li><a href="viewAllBusinessListing.xhtml">Search Business Profile</a></li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </nav>
-                    </div>
+                            <li><a href="#">Forum</a>
+                                <ul class="header__menu__dropdown">
+                                    <li><a href="./forum.xhtml">All Posts</a></li>
+                                    <li><a href="./myForumPost.xhtml">My Posts</a></li>
+                                    <li><a href="./likedForumPosts.xhtml">Liked Posts</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="#">Hidden Gems</a>
+                                <ul class="header__menu__dropdown">
+                                    <li><a href="./hiddenGems.xhtml">Hidden Gems</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="#">MarketPlace</a>
+                                <ul class="header__menu__dropdown">
+                                    <li><a href="createBusinessListing.xhtml">Create Business</a></li>
+                                    <li><a href="viewBusinessListing.xhtml">View Business Profile</a></li>
+                                    <li><a href="viewAllBusinessListing.xhtml">Search Business Profile</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </nav>
+
                     <h:form>
-                        <div class="col-lg-3">
+                        <div class="col-lg-12">
                             <div class="header__cart">
                                 <h:commandButton value="Logout" action="#{customerManagedBean.logout()}"/>
                             </div>
@@ -105,40 +109,26 @@
                     <div class="col-lg-3 col-md-6 col-sm-6">
                         <div class="footer__about">
                             <div class="footer__about__logo">
-                                <a href="./index.html"><img src="img/logo.png" alt=""/></a>
+                                <a href="./index.html"><img src="https://png.pngtree.com/png-vector/20190701/ourmid/pngtree-neighborhood-icon-in-trendy-style-isolated-background-png-image_1527234.jpg" alt="" height="70px" width="70px"/></a>
                             </div>
                             <ul>
-                                <li>Address: 60-49 Road 11378 New York</li>
+                                <h6>NeighbourHood Hub</h6>
                                 <li>Phone: +65 11.188.888</li>
-                                <li>Email: hello@colorlib.com</li>
+                                <li>Email: neighbourhoodHub@gmail.com</li>
                             </ul>
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-6 col-sm-6 offset-lg-1">
                         <div class="footer__widget">
-                            <h6>Useful Links</h6>
-                            <ul>
-                                <li><a href="#">About Us</a></li>
-                                <li><a href="#">About Our Shop</a></li>
-                                <li><a href="#">Secure Shopping</a></li>
-                                <li><a href="#">Delivery infomation</a></li>
-                                <li><a href="#">Privacy Policy</a></li>
-                                <li><a href="#">Our Sitemap</a></li>
-                            </ul>
-                            <ul>
-                                <li><a href="#">Who We Are</a></li>
-                                <li><a href="#">Our Services</a></li>
-                                <li><a href="#">Projects</a></li>
-                                <li><a href="#">Contact</a></li>
-                                <li><a href="#">Innovation</a></li>
-                                <li><a href="#">Testimonials</a></li>
-                            </ul>
+                            <h6>About Us</h6>
+                            <p>Mission: To build a community of bonded neighbours.</p>
+                            <p>Vision: For everyone within the community to step out of their comfort zone to help others.</p>
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-12">
                         <div class="footer__widget">
                             <h6>Join Our Newsletter Now</h6>
-                            <p>Get E-mail updates about our latest shop and special offers.</p>
+                            <p>Get E-mail updates about our latest happenings and improvements.</p>
                             <form action="#">
                                 <input type="text" placeholder="Enter your mail"/>
                                 <button type="submit" class="site-btn">Subscribe</button>
@@ -158,7 +148,7 @@
                             <div class="footer__copyright__text"><p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                                     Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
                                     <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p></div>
-                            <div class="footer__copyright__payment"><img src="img/payment-item.png" alt=""/></div>
+
                         </div>
                     </div>
                 </div>
@@ -176,6 +166,7 @@
         <script src="js/owl.carousel.min.js"></script>
         <script src="js/main.js"></script>
 
+        <ui:insert name="script"></ui:insert>
     </h:body>
 
 </html>

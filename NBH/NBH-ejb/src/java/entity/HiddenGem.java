@@ -5,6 +5,7 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -39,6 +40,10 @@ public class HiddenGem implements Serializable {
 
     @OneToMany(mappedBy = "hiddenGem", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<HiddenGemReview> reviews;
+
+    public HiddenGem() {
+        this.reviews = new ArrayList<>();
+    }
 
     public Long getId() {
         return id;
