@@ -78,6 +78,15 @@ public class SkillManagedBean implements Serializable {
         int addSkillCounter = 0;
         try {
             long userId = (Long) session.getAttribute("userId");
+            /*
+             // TO EDIT:
+            "clear skill list and add agn"
+             removing all skills from customer thr SessionBean method (unequipAllSkillsCustomer)
+             retrieve currentCustomerSkills agn, check if this is empty
+             then
+             for each skill in selectedSkillsId -> equipSkillCustomer
+             */
+
             if (!selectedSkillIds.isEmpty()) {
                 for (Skill skill : currentCustomerSkills) {
                     System.out.println("customer current skill: " + skill);

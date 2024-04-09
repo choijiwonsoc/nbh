@@ -20,6 +20,8 @@ public interface SkillSessionLocal {
 
     public void equipSkillCustomer(Long sId, Long cId) throws NoResultException;
 
+    public void unequipAllSkillsCustomer(Long cId) throws NoResultException;
+
     public void createSkill(Skill s);
 
     public void editSkill(Skill s) throws NoResultException;

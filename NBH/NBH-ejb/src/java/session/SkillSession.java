@@ -48,6 +48,16 @@ public class SkillSession implements SkillSessionLocal {
     }
 
     @Override
+    public void unequipAllSkillsCustomer(Long cId) throws NoResultException {
+        Customer customer = customerSessionLocal.getCustomer(cId);
+        List<Skill> skillsToUnequip = customer.getSkills();
+        for (Skill s : skillsToUnequip) {
+            customer.getSkills().remove(s);
+            s.getCustomers().remove(customer);
+        }
+    }
+
+    @Override
     public void createSkill(Skill s) {
         em.persist(s);
     }
