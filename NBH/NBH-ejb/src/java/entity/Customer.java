@@ -13,6 +13,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
 /**
@@ -38,24 +39,33 @@ public class Customer implements Serializable {
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Post> posts;
-    
-    
+
     @OneToMany(mappedBy = "customer", fetch = FetchType.EAGER)
     private List<ServiceProviderListing> serviceProviderListing;
 
-    @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
+    @OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
     @JoinTable(name = "LIKED_POSTS")
     private List<Post> likedPosts;
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<HiddenGemReview> hiddenGemReviews;
 
-     @OneToMany(mappedBy = "requester")
+    @OneToMany(mappedBy = "requester")
     private List<Request> sentRequests;
 
     @OneToMany(mappedBy = "receiver")
     private List<Request> receivedRequests;
-    
+
+    // TimeExchange
+    @ManyToMany
+    private List<Skill> skills;
+
+    @ManyToMany
+    private List<ExchangeListing> exchangeListings;
+
+    @ManyToMany
+    private List<Offer> offers;
+
     public Long getId() {
         return id;
     }
@@ -191,6 +201,29 @@ public class Customer implements Serializable {
 
     public void setHiddenGemReviews(List<HiddenGemReview> hiddenGemReviews) {
         this.hiddenGemReviews = hiddenGemReviews;
+
+    public List<Skill> getSkills() {
+        return skills;
+    }
+
+    public void setSkills(List<Skill> skills) {
+        this.skills = skills;
+    }
+
+    public List<ExchangeListing> getExchangeListings() {
+        return exchangeListings;
+    }
+
+    public void setExchangeListings(List<ExchangeListing> exchangeListings) {
+        this.exchangeListings = exchangeListings;
+    }
+
+    public List<Offer> getOffers() {
+        return offers;
+    }
+
+    public void setOffers(List<Offer> offers) {
+        this.offers = offers;
     }
 
 }

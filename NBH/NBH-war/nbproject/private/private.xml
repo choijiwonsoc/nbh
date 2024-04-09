@@ -3,8 +3,20 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< HEAD
             <file>file:/C:/Users/weiku/OneDrive/Desktop/nbh/NBH/NBH-war/src/java/managedbean/BusinessManagedBean.java</file>
             <file>file:/C:/Users/weiku/OneDrive/Desktop/nbh/NBH/NBH-war/web/viewBusinessListing.xhtml</file>
+=======
+            <file>file:/C:/Users/ninja/Documents/NUS/Y2S2IS3106%20Enterprise%20System%20Interface/Project/nbh/NBH/NBH-war/web/secret/timeExchange.xhtml</file>
+            <file>file:/C:/Users/ninja/Documents/NUS/Y2S2IS3106%20Enterprise%20System%20Interface/Project/nbh/NBH/NBH-war/src/java/managedbean/OfferManagedBean.java</file>
+            <file>file:/C:/Users/ninja/Documents/NUS/Y2S2IS3106%20Enterprise%20System%20Interface/Project/nbh/NBH/NBH-war/src/java/managedbean/ExchangeListingManagedBean.java</file>
+            <file>file:/C:/Users/ninja/Documents/NUS/Y2S2IS3106%20Enterprise%20System%20Interface/Project/nbh/NBH/NBH-war/web/secret/addOffer.xhtml</file>
+            <file>file:/C:/Users/ninja/Documents/NUS/Y2S2IS3106%20Enterprise%20System%20Interface/Project/nbh/NBH/NBH-war/web/secret/myExchangeListing.xhtml</file>
+            <file>file:/C:/Users/ninja/Documents/NUS/Y2S2IS3106%20Enterprise%20System%20Interface/Project/nbh/NBH/NBH-war/web/layout/customerTemplate.xhtml</file>
+            <file>file:/C:/Users/ninja/Documents/NUS/Y2S2IS3106%20Enterprise%20System%20Interface/Project/nbh/NBH/NBH-war/web/secret/addSkill.xhtml</file>
+            <file>file:/C:/Users/ninja/Documents/NUS/Y2S2IS3106%20Enterprise%20System%20Interface/Project/nbh/NBH/NBH-war/web/secret/myOffers.xhtml</file>
+            <file>file:/C:/Users/ninja/Documents/NUS/Y2S2IS3106%20Enterprise%20System%20Interface/Project/nbh/NBH/NBH-war/web/secret/availableOffers.xhtml</file>
+>>>>>>> timeExchange
         </group>
     </open-files>
 </project-private>
