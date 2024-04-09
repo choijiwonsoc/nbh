@@ -33,5 +33,7 @@ public interface PostSessionLocal {
     public void unlikePost(Long pId, Long cId);
 
     public void editPost(Post p);
+
+    public List<Post> getPostsByCat(String filterCategory);
     
 }

@@ -36,14 +36,18 @@
 
                                             <ul>
                                                 <li><span>Category: </span>#{postManagedBean.currentPost.category}</li>
-                                                <li><span>Date Posted: </span>#{postManagedBean.currentPost.dateCreated}</li>
+                                                <li><span>Date Posted: </span>
+                                                    <h:outputText value="#{postManagedBean.currentPost.dateCreated}">
+                                                        <f:convertDateTime type="date" pattern="dd/MM/yyyy" timeZone="GMT+08:00"/>
+                                                    </h:outputText>
+                                                </li>
                                                 <li><span>Likes: </span>#{postManagedBean.currentPost.likes}</li>
                                             </ul>
                                             <span class="fa fa-heart"></span>
                                             <h:commandButton value="Like" action="#{postManagedBean.addLike(postManagedBean.currentPost.id, customerManagedBean.selectedCustomer.id)}"
                                                              disabled="#{postManagedBean.isLiked(postManagedBean.currentPost.id, customerManagedBean.selectedCustomer.id)}"
                                                              styleClass="btn btn-danger"> 
-                                                   <f:ajax event="click" render="form" />
+                                                <f:ajax event="click" render="form" />
                                             </h:commandButton>
 
                                         </div>
@@ -64,18 +68,22 @@
                                                 <thead>
                                                     <tr>
                                                         <th class="shoping__product">Comments</th>
-                                                        <th>Writer</th>
                                                         <th>Date Posted</th>
+                                                        <th>Writer</th>
+                                                        
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <ui:repeat value="#{postManagedBean.currentPost.comments}" var="comment">
+                                                    <ui:repeat value="#{postManagedBean.getReversedComments(postManagedBean.currentPost)}" var="comment">
                                                         <tr>
                                                             <td class="shoping__cart__item">
                                                                 #{comment.text}
                                                             </td>
                                                             <td class="shoping__cart__price">
-                                                                #{comment.commentDate}
+                                                                <h:outputText value="#{comment.commentDate}">
+                                                                    <f:convertDateTime type="date" pattern="dd/MM/yyyy" timeZone="GMT+08:00"/>
+                                                                </h:outputText>
+                                                                
                                                             </td>
                                                             <td class="shoping__cart__total">
                                                                 #{comment.customer.username}

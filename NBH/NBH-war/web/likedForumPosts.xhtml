@@ -39,7 +39,9 @@
                                                     #{post.category}
                                                 </td>
                                                 <td class="shoping__cart__total">
-                                                    #{post.dateCreated}
+                                                     <h:outputText value="#{post.dateCreated}">
+                                                        <f:convertDateTime type="date" pattern="dd/MM/yyyy" timeZone="GMT+08:00"/>
+                                                    </h:outputText>
                                                 </td>
                                                 <td class="shoping__cart__item__close">
                                                     <h:commandButton value="View More" actionListener="#{postManagedBean.viewPostDetails(post.id)}" action="viewForumPost.xhtml?faces-redirect=true"/>

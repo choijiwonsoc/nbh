@@ -34,7 +34,7 @@
                                         <td>#{serviceProviderListing.businessUEN}</td>
                                         <td>
                                             <h:outputText value="#{serviceProviderListing.datePosted}">
-                                                <f:convertDateTime type="date" pattern="dd/MM/yyyy" />
+                                                <f:convertDateTime type="date" pattern="dd/MM/yyyy" timeZone="GMT+08:00"/>
                                             </h:outputText>
                                         </td>
                                         <td>#{serviceProviderListing.bio}</td>

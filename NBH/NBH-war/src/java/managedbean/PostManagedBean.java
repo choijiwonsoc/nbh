@@ -4,6 +4,7 @@
  */
 package managedbean;
 
+import entity.Comment;
 import entity.Customer;
 import entity.Post;
 import javax.inject.Named;
@@ -11,12 +12,17 @@ import javax.faces.view.ViewScoped;
 import java.io.Serializable;
 import java.text.ParseException;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.inject.Inject;
 import javax.persistence.NoResultException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -32,6 +38,7 @@ public class PostManagedBean implements Serializable {
 
     @EJB(name = "PostSessionLocal")
     private PostSessionLocal postSessionLocal;
+    
 
     private String category;
     private String newsTitle;
@@ -40,6 +47,9 @@ public class PostManagedBean implements Serializable {
     private Post currentPost;
     
     private String commentText;
+    
+    private String filterCategory;
+    private List<Post> searchResults;
 
     /**
      * Creates a new instance of PostManagedBean
@@ -91,6 +101,23 @@ public class PostManagedBean implements Serializable {
         }
     }
     
+    public void searchPosts() throws ParseException {
+        init();
+    }
+
+    @PostConstruct
+    public void init() {
+        List<Post> results = new ArrayList<>();
+        if(filterCategory!=null){
+            results = postSessionLocal.getPostsByCat(filterCategory);
+        }else{
+            results = getAllPosts();
+        }
+       
+        searchResults = results;
+    }
+    
+    
     public boolean isLiked(Long pId, Long cId){
         return postSessionLocal.isLiked(pId, cId);
     }
@@ -107,10 +134,18 @@ public class PostManagedBean implements Serializable {
     
     public void addLike(Long pId, Long cId){
         postSessionLocal.addLike(pId, cId);
+        loadSelectedPost();
     }
     
     public void addComment(Long pId, Long cId){
         postSessionLocal.addComment(commentText, pId, cId);
+        loadSelectedPost();
+    }
+    
+    public List<Comment> getReversedComments(Post p) {
+        List<Comment> reversedComments = p.getComments(); // Make a copy of the original list
+        Collections.reverse(reversedComments); // Reverse the order of comments
+        return reversedComments;
     }
     
     public void deletePost(Long pId){
@@ -129,6 +164,9 @@ public class PostManagedBean implements Serializable {
         postSessionLocal.unlikePost(pId, cId);
     }
     
+    public void filter(String searchValue){
+        
+    }
 
     public String getCategory() {
         return category;
@@ -168,6 +206,22 @@ public class PostManagedBean implements Serializable {
 
     public void setCommentText(String commentText) {
         this.commentText = commentText;
+    }
+
+    public String getFilterCategory() {
+        return filterCategory;
+    }
+
+    public void setFilterCategory(String filterCategory) {
+        this.filterCategory = filterCategory;
+    }
+
+    public List<Post> getSearchResults() {
+        return searchResults;
+    }
+
+    public void setSearchResults(List<Post> searchResults) {
+        this.searchResults = searchResults;
     }
 
 }

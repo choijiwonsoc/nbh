@@ -19,7 +19,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author choijiwon
  */
-@WebFilter(filterName = "AuthenticationFilter", urlPatterns = {"/secret/*"})
+@WebFilter(filterName = "AuthenticationFilter", urlPatterns = {"/s/*"})
 public class AuthenticationFilter implements Filter {
 
     public AuthenticationFilter() {

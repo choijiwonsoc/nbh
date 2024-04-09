@@ -45,7 +45,7 @@
 
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <h:outputLabel for="location" value="Location: " />
+                                            <h:outputLabel for="location" value="Postal Code: " />
                                             <h:inputText id="location" value="#{businessManagedBean.location}" class="form-control" required="true" requiredMessage="Location is required" />
                                             <h:message for="location" styleClass="text-danger" />
                                         </div>
@@ -54,7 +54,15 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <h:outputLabel for="category" value="Category: " />
-                                            <h:inputText id="category" value="#{businessManagedBean.category}" class="form-control" required="true" requiredMessage="Category is required" />
+                                            <br></br>
+                                            <h:selectOneMenu id="category" value="#{businessManagedBean.category}">
+                                                <f:selectItem itemLabel="Select Category" itemValue="" />
+                                                <f:selectItem itemLabel="FnB" itemValue="FnB" />
+                                                <f:selectItem itemLabel="Retail" itemValue="Retail" />
+                                                <f:selectItem itemLabel="Technology" itemValue="Technology" />
+                                                <f:selectItem itemLabel="Education" itemValue="Education" />
+                                                <f:selectItem itemLabel="Other" itemValue="Other" />
+                                            </h:selectOneMenu>
                                             <h:message for="category" styleClass="text-danger" />
                                         </div>
                                     </div>

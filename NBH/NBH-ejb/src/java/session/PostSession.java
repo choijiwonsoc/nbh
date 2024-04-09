@@ -42,8 +42,7 @@ public class PostSession implements PostSessionLocal {
     // "Insert Code > Add Business Method")
     @Override
     public List<Post> getAllPostsOrderedByDate() {
-        return em.createQuery("SELECT p FROM Post p ORDER BY p.dateCreated DESC", Post.class)
-             
+        return em.createQuery("SELECT p FROM Post p ORDER BY p.dateCreated DESC ", Post.class)
                 .getResultList();
 
     }
@@ -57,19 +56,19 @@ public class PostSession implements PostSessionLocal {
             c.getLikedPosts().add(p);
         }
     }
-    
+
     @Override
-    public boolean isLiked(Long pId, Long cId){
+    public boolean isLiked(Long pId, Long cId) {
         Customer c = em.find(Customer.class, cId);
         Post p = em.find(Post.class, pId);
         if (!c.getLikedPosts().contains(p)) {
             return false;
-        }else{
+        } else {
             return true;
         }
-        
+
     }
-    
+
     @Override
     public Post getPost(Long pId) throws NoResultException {
         Post post = em.find(Post.class, pId);
@@ -79,12 +78,12 @@ public class PostSession implements PostSessionLocal {
             throw new NoResultException("Customer not found");
         } //To change body of generated methods, choose Tools | Templates.
     }
-    
+
     @Override
-    public void addComment(String text, Long pId, Long cId){
+    public void addComment(String text, Long pId, Long cId) {
         Post post = em.find(Post.class, pId);
         Customer cust = em.find(Customer.class, cId);
-        
+
         LocalDate currentDate = LocalDate.now();
         Date nowdate = java.sql.Date.valueOf(currentDate);
         Comment comment = new Comment();
@@ -94,50 +93,58 @@ public class PostSession implements PostSessionLocal {
         em.persist(comment);
         post.getComments().add(comment);
     }
-    
+
     @Override
-    public void deletePost(Long pId){
+    public void deletePost(Long pId) {
         Post post = em.find(Post.class, pId);
         Customer c = post.getCustomer();
         Customer realCust = em.find(Customer.class, c.getId());
-   
-        
+
         realCust.getPosts().remove(post);
         List<Customer> allCustomers = customerSessionLocal.getAllCustomers();
-        for(Customer likedCust : allCustomers){
-            if(likedCust.getLikedPosts().contains(post)){
+        for (Customer likedCust : allCustomers) {
+            if (likedCust.getLikedPosts().contains(post)) {
                 Customer realLikedCust = em.find(Customer.class, likedCust.getId());
                 realLikedCust.getLikedPosts().remove(post);
             }
         }
-        
-        for(Comment comment : post.getComments()){
+
+        for (Comment comment : post.getComments()) {
             Comment realComment = em.find(Comment.class, comment.getId());
             em.remove(realComment);
         }
         post.getComments().clear();
-        
+
         em.remove(post);
-        
+
     }
-    
+
     @Override
-    public void editPost(Post p){
+    public void editPost(Post p) {
         Post oldPost = em.find(Post.class, p.getId());
-        
+
         oldPost.setTitle(p.getTitle());
         oldPost.setDescription(p.getDescription());
-       
+
     }
-    
+
     @Override
-    public void unlikePost(Long pId, Long cId){
+    public void unlikePost(Long pId, Long cId) {
         Post post = em.find(Post.class, pId);
         Customer cust = em.find(Customer.class, cId);
-        
+
         cust.getLikedPosts().remove(post);
-        post.setLikes(post.getLikes()-1);
-        
+        post.setLikes(post.getLikes() - 1);
+
     }
-    
+
+    @Override
+    public List<Post> getPostsByCat(String filterCategory) {
+        String jpql = "SELECT p FROM Post p WHERE p.category = :filterCategory ORDER BY p.dateCreated DESC";
+        return em.createQuery(jpql, Post.class)
+                .setParameter("filterCategory", filterCategory)
+                .getResultList();
+
+    }
+
 }
