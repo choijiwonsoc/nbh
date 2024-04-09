@@ -11,6 +11,7 @@ import java.awt.Event;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -22,6 +23,9 @@ import javax.persistence.PersistenceContext;
  */
 @Stateless
 public class PostSession implements PostSessionLocal {
+
+    @EJB(name = "CustomerSessionLocal")
+    private CustomerSessionLocal customerSessionLocal;
 
     @PersistenceContext
     private EntityManager em;
@@ -37,9 +41,9 @@ public class PostSession implements PostSessionLocal {
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
     @Override
-    public List<Post> getAllPostsOrderedByDate(String category) {
-        return em.createQuery("SELECT p FROM Post p WHERE p.category = :category ORDER BY p.dateCreated DESC", Post.class)
-                .setParameter("category", category)
+    public List<Post> getAllPostsOrderedByDate() {
+        return em.createQuery("SELECT p FROM Post p ORDER BY p.dateCreated DESC", Post.class)
+             
                 .getResultList();
 
     }
@@ -52,6 +56,18 @@ public class PostSession implements PostSessionLocal {
             p.setLikes(p.getLikes() + 1);
             c.getLikedPosts().add(p);
         }
+    }
+    
+    @Override
+    public boolean isLiked(Long pId, Long cId){
+        Customer c = em.find(Customer.class, cId);
+        Post p = em.find(Post.class, pId);
+        if (!c.getLikedPosts().contains(p)) {
+            return false;
+        }else{
+            return true;
+        }
+        
     }
     
     @Override
@@ -77,6 +93,51 @@ public class PostSession implements PostSessionLocal {
         comment.setText(text);
         em.persist(comment);
         post.getComments().add(comment);
+    }
+    
+    @Override
+    public void deletePost(Long pId){
+        Post post = em.find(Post.class, pId);
+        Customer c = post.getCustomer();
+        Customer realCust = em.find(Customer.class, c.getId());
+   
+        
+        realCust.getPosts().remove(post);
+        List<Customer> allCustomers = customerSessionLocal.getAllCustomers();
+        for(Customer likedCust : allCustomers){
+            if(likedCust.getLikedPosts().contains(post)){
+                Customer realLikedCust = em.find(Customer.class, likedCust.getId());
+                realLikedCust.getLikedPosts().remove(post);
+            }
+        }
+        
+        for(Comment comment : post.getComments()){
+            Comment realComment = em.find(Comment.class, comment.getId());
+            em.remove(realComment);
+        }
+        post.getComments().clear();
+        
+        em.remove(post);
+        
+    }
+    
+    @Override
+    public void editPost(Post p){
+        Post oldPost = em.find(Post.class, p.getId());
+        
+        oldPost.setTitle(p.getTitle());
+        oldPost.setDescription(p.getDescription());
+       
+    }
+    
+    @Override
+    public void unlikePost(Long pId, Long cId){
+        Post post = em.find(Post.class, pId);
+        Customer cust = em.find(Customer.class, cId);
+        
+        cust.getLikedPosts().remove(post);
+        post.setLikes(post.getLikes()-1);
+        
     }
     
 }

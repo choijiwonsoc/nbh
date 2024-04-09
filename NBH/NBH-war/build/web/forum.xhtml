@@ -18,7 +18,7 @@
         <h:form id="form">
             <section class="shoping-cart spad" style="background-image: url('https://wallpapers.com/images/hd/pastel-aesthetic-background-kk9ygsa8qygoluem.jpg'); background-size: cover; background-position: center;">
                 <div class="container">
-                    <h:commandButton value="Add Post" action="/addForumPost.xhtml?faces-redirect=true"/>
+                    <h:commandButton value="Add Post" action="/addForumPost.xhtml?faces-redirect=true" styleClass="btn btn-primary mr-2"/>
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="shoping__cart__table">
@@ -32,11 +32,11 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <ui:repeat value="#{customerManagedBean.selectedCustomer.posts}" var="post">
+                                        <ui:repeat value="#{postManagedBean.getAllPosts()}" var="post">
                                             <tr>
                                                 <td class="shoping__cart__item">
                                                     <img src="img/cart/cart-1.jpg" alt=""/>
-                                                    
+
                                                     #{post.title}
                                                     #{post.description}
                                                 </td>
@@ -44,7 +44,10 @@
                                                     #{post.category}
                                                 </td>
                                                 <td class="shoping__cart__total">
-                                                    #{post.dateCreated}
+                                                    <h:outputText value="#{post.dateCreated}">
+                                                        <f:convertDateTime type="date" pattern="dd/MM/yyyy" />
+                                                    </h:outputText>
+                                                    
                                                 </td>
                                                 <td class="shoping__cart__item__close">
                                                     <h:commandButton value="View More" actionListener="#{postManagedBean.viewPostDetails(post.id)}" action="viewForumPost.xhtml?faces-redirect=true"/>

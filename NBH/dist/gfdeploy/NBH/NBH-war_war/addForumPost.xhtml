@@ -47,16 +47,10 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-lg-6">
-                                <div class="checkout__input">
-                                    <h:commandButton value="Attach Photo" />
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="checkout__input">
-                                    <h:commandButton value="Submit" action="#{postManagedBean.addNews(customerManagedBean.selectedCustomer)}" />
-                                </div>
-                            </div>
+                                    <h:commandButton value="Attach Photo" styleClass="btn btn-primary mr-2" />
+                               
+                                    <h:commandButton value="Submit" action="#{postManagedBean.addNews(customerManagedBean.selectedCustomer)}" styleClass="btn btn-primary "/>
+                               
                         </div>
 
                     </h:form><!-- comment -->

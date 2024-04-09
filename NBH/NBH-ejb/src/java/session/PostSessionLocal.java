@@ -18,12 +18,20 @@ public interface PostSessionLocal {
 
     public void createPost(Post p, Long cId);
 
-    public List<Post> getAllPostsOrderedByDate(String category);
+    public List<Post> getAllPostsOrderedByDate();
 
     public void addLike(Long pId, Long cId);
 
     public Post getPost(Long pId) throws NoResultException;
 
     public void addComment(String text, Long pId, Long cId);
+
+    public boolean isLiked(Long pId, Long cId);
+
+    public void deletePost(Long pId);
+
+    public void unlikePost(Long pId, Long cId);
+
+    public void editPost(Post p);
     
 }

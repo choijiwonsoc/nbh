@@ -90,15 +90,19 @@ public class PostManagedBean implements Serializable {
             context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Unable to load post"));
         }
     }
+    
+    public boolean isLiked(Long pId, Long cId){
+        return postSessionLocal.isLiked(pId, cId);
+    }
 
     public void viewPostDetails(Long postId) throws NoResultException {
         HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         HttpSession session = request.getSession();
-
         session.setAttribute("postId", postId);
     }
-    public List<Post> getAllPosts(String category) {
-        return postSessionLocal.getAllPostsOrderedByDate(category);
+    
+    public List<Post> getAllPosts() {
+        return postSessionLocal.getAllPostsOrderedByDate();
     }
     
     public void addLike(Long pId, Long cId){
@@ -108,6 +112,23 @@ public class PostManagedBean implements Serializable {
     public void addComment(Long pId, Long cId){
         postSessionLocal.addComment(commentText, pId, cId);
     }
+    
+    public void deletePost(Long pId){
+        postSessionLocal.deletePost(pId);
+    }
+    
+    public void editPost(){
+        Post p = currentPost;
+        p.setTitle(newsTitle);
+        p.setDescription(newsDescription);
+        postSessionLocal.editPost(p);
+    }
+    
+    
+    public void unlikePost(Long pId, Long cId){
+        postSessionLocal.unlikePost(pId, cId);
+    }
+    
 
     public String getCategory() {
         return category;

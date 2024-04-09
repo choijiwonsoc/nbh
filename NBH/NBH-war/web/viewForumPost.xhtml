@@ -39,8 +39,11 @@
                                                 <li><span>Date Posted: </span>#{postManagedBean.currentPost.dateCreated}</li>
                                                 <li><span>Likes: </span>#{postManagedBean.currentPost.likes}</li>
                                             </ul>
-                                            <h:commandButton value="Like" action="#{postManagedBean.addLike(postManagedBean.currentPost.id, customerManagedBean.selectedCustomer.id)}"> 
-                                                <f:ajax execute="@form" render="form" />
+                                            <span class="fa fa-heart"></span>
+                                            <h:commandButton value="Like" action="#{postManagedBean.addLike(postManagedBean.currentPost.id, customerManagedBean.selectedCustomer.id)}"
+                                                             disabled="#{postManagedBean.isLiked(postManagedBean.currentPost.id, customerManagedBean.selectedCustomer.id)}"
+                                                             styleClass="btn btn-danger"> 
+                                                   <f:ajax event="click" render="form" />
                                             </h:commandButton>
 
                                         </div>
