@@ -93,7 +93,7 @@ public class ExchangeListingManagedBean implements Serializable {
 
         String viewId = FacesContext.getCurrentInstance().getViewRoot().getViewId();
         System.out.println("viewId is: " + viewId);
-        if ("/secret/addExchangeListing.xhtml".equals(viewId)) {
+        if (viewId.contains("add")) {
             /// Check if customer skills is empty
             currentCustomerSkills = skillSessionLocal.getAllSkillsByCustomer(userId);
             if (currentCustomerSkills.isEmpty()) {
@@ -122,7 +122,7 @@ public class ExchangeListingManagedBean implements Serializable {
                     System.out.println("Skills added" + skill.getSkillName());
                 }
             }
-        } else if ("/secret/viewExchangeListing.xhtml".equals(viewId)) {
+        } else if (viewId.contains("view")) {
             // viewExchangeListing
             context = FacesContext.getCurrentInstance();
             Map<String, Object> flash = context.getExternalContext().getFlash();
