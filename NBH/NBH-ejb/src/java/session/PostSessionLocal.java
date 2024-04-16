@@ -35,5 +35,7 @@ public interface PostSessionLocal {
     public void editPost(Post p);
 
     public List<Post> getPostsByCat(String filterCategory);
+
+    public void setProfilePicFile(Long pId, String fileName);
     
 }

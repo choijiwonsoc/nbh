@@ -8,12 +8,19 @@ import entity.Customer;
 import entity.Post;
 import entity.ServiceProviderListing;
 import java.io.IOException;
+import java.io.InputStream;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import java.io.Serializable;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -26,8 +33,10 @@ import javax.faces.model.SelectItem;
 import javax.persistence.NoResultException;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
 import session.CustomerSessionLocal;
 import session.PostSessionLocal;
 
@@ -56,6 +65,9 @@ public class CustomerManagedBean implements Serializable {
     private String region;
 
     Customer selectedCustomer;
+    
+    private Part uploadedfile;
+    private String filename = "";
        
 
     /**
@@ -140,8 +152,19 @@ public class CustomerManagedBean implements Serializable {
             context.addMessage(null, message);
             return null;
         }
-        return "/customerView_1.xhtml?faces-redirect=true";
+        return "/addCustomerPhoto.xhtml?faces-redirect=true";
 
+    }
+    
+    public void editCustomer(Long cId){
+        Customer c = new Customer();
+        c.setId(cId);
+        c.setUsername(username);
+        c.setPassword(password);
+        c.setContact(contact);
+        c.setEmail(email);
+        customerSessionLocal.editCustomer(c);
+        
     }
 
     public void loadSelectedCustomer() {
@@ -167,7 +190,38 @@ public class CustomerManagedBean implements Serializable {
         }
     }
     
+    public String upload(Long cId) throws IOException, error.NoResultException {
+        ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+        FacesContext context = FacesContext.getCurrentInstance();
+
+        //get the deployment path
+        String UPLOAD_DIRECTORY = ctx.getRealPath("/") + "upload/";
+        System.out.println("#UPLOAD_DIRECTORY : " + UPLOAD_DIRECTORY);
+
+        if (uploadedfile != null) {
+            setFilename(Paths.get(uploadedfile.getSubmittedFileName()).getFileName().toString());
+            System.out.println("filename: " + getFilename());
+            //---------------------
+            customerSessionLocal.setProfilePicFile(cId, getFilename());
+            //replace existing file
+            Path path = Paths.get(UPLOAD_DIRECTORY + getFilename());
+            InputStream bytes = uploadedfile.getInputStream();
+            Files.copy(bytes, path, StandardCopyOption.REPLACE_EXISTING);
+        } else {
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                    "Please upload a valid file", null);
+            context.addMessage(null, message);
+        }
+        return null;
+        //debug purposes
+
+    }
     
+    public List<Post> orderByDate(List<Post> postList){
+        Collections.reverse(postList);
+        return postList;
+        
+    }
 
     public String getUsername() {
         return username;
@@ -239,6 +293,22 @@ public class CustomerManagedBean implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Part getUploadedfile() {
+        return uploadedfile;
+    }
+
+    public void setUploadedfile(Part uploadedfile) {
+        this.uploadedfile = uploadedfile;
+    }
+
+    public String getFilename() {
+        return filename;
+    }
+
+    public void setFilename(String filename) {
+        this.filename = filename;
     }
 
 }

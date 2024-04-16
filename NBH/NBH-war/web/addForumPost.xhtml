@@ -47,9 +47,7 @@
                             </div>
                         </div>
                         <div class="row">
-                                    <h:commandButton value="Attach Photo" styleClass="btn btn-primary mr-2" />
-                               
-                                    <h:commandButton value="Submit" action="#{postManagedBean.addNews(customerManagedBean.selectedCustomer)}" styleClass="btn btn-primary "/>
+                            <h:commandButton value="Proceed" actionListener="#{postManagedBean.addNews(customerManagedBean.selectedCustomer)}" action="addForumPhoto.xhtml?faces-redirect=true" styleClass="btn btn-primary mr-2" />
                                
                         </div>
 

@@ -30,7 +30,7 @@
                             </div>
                         </div>
                         <div class="col-lg-10">
-                            <h:commandButton value="Attach Photo" styleClass="btn btn-primary mr-2" />
+                            <h:commandButton value="Attach Photo" actionListener="#{postManagedBean.viewPostDetails(postManagedBean.currentPost.id)}" action="/addForumPhoto.xhtml?faces-redirect=true" styleClass="btn btn-primary mr-2" />
 
                             <h:commandButton value="Submit" actionListener="#{postManagedBean.editPost()}" action="/myForumPost.xhtml?faces-redirect=true" styleClass="btn btn-primary "/>
 

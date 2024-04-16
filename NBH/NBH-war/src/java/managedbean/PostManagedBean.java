@@ -7,9 +7,15 @@ package managedbean;
 import entity.Comment;
 import entity.Customer;
 import entity.Post;
+import java.io.IOException;
+import java.io.InputStream;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import java.io.Serializable;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -24,8 +30,10 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.inject.Inject;
 import javax.persistence.NoResultException;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
 import session.PostSessionLocal;
 
 /**
@@ -50,6 +58,9 @@ public class PostManagedBean implements Serializable {
     
     private String filterCategory;
     private List<Post> searchResults;
+    
+    private Part uploadedfile;
+    private String filename = "";
 
     /**
      * Creates a new instance of PostManagedBean
@@ -80,12 +91,27 @@ public class PostManagedBean implements Serializable {
             p.setDateCreated(nowdate);
             p.setDescription(newsDescription);
             p.setLikes(0);
+            p.setRegion(c.getRegion());
             postSessionLocal.createPost(p, c.getId());
             FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Post successfully uploaded", null));
+            HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            HttpSession session = request.getSession();
+            Long postId = p.getId();
+            session.setAttribute("postId", postId);
             return "/forum.xhtml?faces-redirect=true";
         }
 
+    }
+    
+    public List<Post> filterRegion(List<Post> postList, String region){
+        List<Post> results = new ArrayList<>();
+        for(Post p : postList){
+            if(p.getRegion().equals(region)){
+                results.add(p);
+            }
+        }
+        return results;
     }
     
     public void loadSelectedPost() {
@@ -164,9 +190,33 @@ public class PostManagedBean implements Serializable {
         postSessionLocal.unlikePost(pId, cId);
     }
     
-    public void filter(String searchValue){
-        
+    public String upload(Long pId) throws IOException, error.NoResultException {
+        ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+        FacesContext context = FacesContext.getCurrentInstance();
+
+        //get the deployment path
+        String UPLOAD_DIRECTORY = ctx.getRealPath("/") + "upload/";
+        System.out.println("#UPLOAD_DIRECTORY : " + UPLOAD_DIRECTORY);
+
+        if (uploadedfile != null) {
+            setFilename(Paths.get(uploadedfile.getSubmittedFileName()).getFileName().toString());
+            System.out.println("filename: " + getFilename());
+            //---------------------
+            postSessionLocal.setProfilePicFile(pId, getFilename());
+            //replace existing file
+            Path path = Paths.get(UPLOAD_DIRECTORY + getFilename());
+            InputStream bytes = uploadedfile.getInputStream();
+            Files.copy(bytes, path, StandardCopyOption.REPLACE_EXISTING);
+        } else {
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                    "Please upload a valid file", null);
+            context.addMessage(null, message);
+        }
+        return null;
+        //debug purposes
+
     }
+
 
     public String getCategory() {
         return category;
@@ -222,6 +272,22 @@ public class PostManagedBean implements Serializable {
 
     public void setSearchResults(List<Post> searchResults) {
         this.searchResults = searchResults;
+    }
+
+    public Part getUploadedfile() {
+        return uploadedfile;
+    }
+
+    public void setUploadedfile(Part uploadedfile) {
+        this.uploadedfile = uploadedfile;
+    }
+
+    public String getFilename() {
+        return filename;
+    }
+
+    public void setFilename(String filename) {
+        this.filename = filename;
     }
 
 }
