@@ -85,6 +85,12 @@ public class CustomerSession implements CustomerSessionLocal {
         return query.getResultList();
     }
     
+    @Override
+    public void setProfilePicFile(Long cId, String fileName) {
+        Customer cust = em.find(Customer.class, cId);
+        cust.setFileName(fileName);
+    }
+    
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
 }

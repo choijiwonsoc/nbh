@@ -60,6 +60,8 @@ public class HiddenGemManagedBean implements Serializable {
     private List<HiddenGemReview> hiddenGemReviews;
 
     private List<String> postalCodes;
+    
+    private String region;
 
     public HiddenGemManagedBean() {
     }
@@ -128,6 +130,19 @@ public class HiddenGemManagedBean implements Serializable {
         return hiddenGems;
     }
 
+    public List<HiddenGem> filterByRegion(List<HiddenGem> gemList, String region){
+        List<HiddenGem> result = new ArrayList<>();
+        for(HiddenGem hg : gemList){
+            if(!region.equals("All")){
+                result = gemList;
+            }
+            else if(hg.getDistrict().equals(region)){
+                result.add(hg);
+            }
+        }
+        
+        return result;
+    }
     public void loadSelectedHiddenGem() {
         FacesContext context = FacesContext.getCurrentInstance();
 
@@ -264,6 +279,14 @@ public class HiddenGemManagedBean implements Serializable {
 
     public void setPostalCodes(List<String> postalCodes) {
         this.postalCodes = postalCodes;
+    }
+
+    public String getRegion() {
+        return region;
+    }
+
+    public void setRegion(String region) {
+        this.region = region;
     }
 
 }

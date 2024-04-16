@@ -27,5 +27,7 @@ public interface CustomerSessionLocal {
     public List<String> getAllUsername();
 
     public List<Customer> getAllCustomers();
+
+    public void setProfilePicFile(Long cId, String fileName);
     
 }

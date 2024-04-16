@@ -36,6 +36,8 @@ public class Customer implements Serializable {
 
     private String password;
     private String username;
+    
+    private String fileName;
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Post> posts;
@@ -201,6 +203,7 @@ public class Customer implements Serializable {
 
     public void setHiddenGemReviews(List<HiddenGemReview> hiddenGemReviews) {
         this.hiddenGemReviews = hiddenGemReviews;
+    }
 
     public List<Skill> getSkills() {
         return skills;
@@ -224,6 +227,14 @@ public class Customer implements Serializable {
 
     public void setOffers(List<Offer> offers) {
         this.offers = offers;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 
 }

@@ -42,7 +42,7 @@ public class PostSession implements PostSessionLocal {
     // "Insert Code > Add Business Method")
     @Override
     public List<Post> getAllPostsOrderedByDate() {
-        return em.createQuery("SELECT p FROM Post p ORDER BY p.dateCreated DESC ", Post.class)
+        return em.createQuery("SELECT p FROM Post p ORDER BY p.dateCreated DESC", Post.class)
                 .getResultList();
 
     }
@@ -145,6 +145,12 @@ public class PostSession implements PostSessionLocal {
                 .setParameter("filterCategory", filterCategory)
                 .getResultList();
 
+    }
+    
+    @Override
+    public void setProfilePicFile(Long pId, String fileName) {
+        Post post = em.find(Post.class, pId);
+        post.setFileName(fileName);
     }
 
 }

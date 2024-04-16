@@ -44,6 +44,7 @@
                                         </ul>
                                     </div>
                                 </div>
+                                <input type="hidden" id="selectedSearchOption" name="selectedSearchOption" value="#{hiddenGemManagedBean.searchType}" />
 <!--                                <h:selectOneMenu class="searchType-container" value="#{hiddenGemManagedBean.searchType}" onchange="selectSearchOption(this)">
                                     <f:selectItem itemValue="PLACE" itemLabel="Place" />
                                     <f:selectItem itemValue="POSTALCODE" itemLabel="Postal Code" />
@@ -75,19 +76,23 @@
                                 <div class="blog__sidebar__item">
                                     <h4>Regions</h4>
                                     <ul>
-                                        <li><a href="#">All</a></li>
-                                        <li><a href="#">North</a></li>
-                                        <li><a href="#">South</a></li>
-                                        <li><a href="#">East</a></li>
-                                        <li><a href="#">West</a></li>
+                                        <li><a href="#" onclick="setRegion('All')">All</a></li>
+                                        <li><a href="#" onclick="setRegion('North')">North</a></li>
+                                        <li><a href="#" onclick="setRegion('South')">South</a></li>
+                                        <li><a href="#" onclick="setRegion('East')">East</a></li>
+                                        <li><a href="#" onclick="setRegion('West')">West</a></li>
                                     </ul>
                                 </div>
                             </div>
+                            <input type="hidden" id="region" name="region" value="#{hiddenGemManagedBean.region}" />
+                            
+
                         </div>
                         <div class="col-lg-8 col-md-7">
                             <div class="row">
                                 <ui:repeat value="#{hiddenGemManagedBean.hiddenGems}" var="hiddenGem">
-                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                    <div class="col-lg-6
+                                         col-md-6 col-sm-6">
                                         <div class="blog__item" style="background-image: url('https://wallpapers.com/images/hd/pastel-aesthetic-background-kk9ygsa8qygoluem.jpg'); background-size: cover; background-position: center; border-radius: 10px; padding: 20px">
                                             <div class="blog__item__text" style="text-align: center">
                                                 <ul>
@@ -154,6 +159,11 @@
             function selectSearchOption(option) {
                 document.getElementById('selectedSearchOption').innerText = option;
                 $('.toggle-searchType').click(); // Close the dropdown
+            }
+        </script>
+        <script>
+            function setRegion(region) {
+                document.getElementById('region').value = region;
             }
         </script>
     </ui:define>

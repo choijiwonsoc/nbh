@@ -57,9 +57,9 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <ui:repeat value="#{postManagedBean.searchResults}" var="post">
+                                        <ui:repeat value="#{postManagedBean.filterRegion(postManagedBean.searchResults, customerManagedBean.selectedCustomer.region)}" var="post">
                                             <tr>
-                                                <td class="shoping__cart__price"><img src="img/cart/cart-1.jpg" alt=""/></td>
+                                                <td class="shoping__cart__price"><img src="#{request.contextPath}/upload/#{post.fileName}" alt=""/></td>
                                                 <td>
                                                     <b>#{post.title}</b>
                                                     <p>#{post.description}</p>

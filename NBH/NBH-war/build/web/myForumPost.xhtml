@@ -28,7 +28,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <ui:repeat value="#{customerManagedBean.selectedCustomer.posts}" var="post">
+                                        <ui:repeat value="#{customerManagedBean.orderByDate(customerManagedBean.selectedCustomer.posts)}" var="post">
                                             <tr>
                                                 <td class="shoping__cart__item">
                                                     <img src="img/cart/cart-1.jpg" alt=""/>
