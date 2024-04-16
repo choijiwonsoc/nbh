@@ -184,6 +184,14 @@ public class OfferManagedBean implements Serializable {
 
         //reflect the changes, update the availOffers list
         ExchangeListing listing = exchangeListingSessionLocal.getListingFromOffer(oId);
+        listing.setStatus("ACTIVE");
+        // retrive currentskills to continue for updateListing.
+        List<Skill> currentSkills = listing.getSkills();
+        List<Long> currentSId = new ArrayList<>();
+        for (Skill s : currentSkills) {
+            currentSId.add(s.getId());
+        }
+        exchangeListingSessionLocal.updateListing(listing, currentSId);
         availOffers = offerSessionLocal.getAllOffers(listing.getId(), "EL");
     }
 

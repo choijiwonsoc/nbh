@@ -17,14 +17,14 @@
 
 
         <!-- Css Styles -->
-        <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css"/>
-        <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css"/>
-        <link rel="stylesheet" href="css/elegant-icons.css" type="text/css"/>
-        <link rel="stylesheet" href="css/nice-select.css" type="text/css"/>
-        <link rel="stylesheet" href="css/jquery-ui.min.css" type="text/css"/>
-        <link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css"/>
-        <link rel="stylesheet" href="css/slicknav.min.css" type="text/css"/>
-        <link rel="stylesheet" href="css/style.css" type="text/css"/>
+        <link rel="stylesheet" href="#{request.contextPath}/css/bootstrap.min.css" type="text/css"/>
+        <link rel="stylesheet" href="#{request.contextPath}/css/font-awesome.min.css" type="text/css"/>
+        <link rel="stylesheet" href="#{request.contextPath}/css/elegant-icons.css" type="text/css"/>
+        <link rel="stylesheet" href="#{request.contextPath}/css/nice-select.css" type="text/css"/>
+        <link rel="stylesheet" href="#{request.contextPath}/css/jquery-ui.min.css" type="text/css"/>
+        <link rel="stylesheet" href="#{request.contextPath}/css/owl.carousel.min.css" type="text/css"/>
+        <link rel="stylesheet" href="#{request.contextPath}/css/slicknav.min.css" type="text/css"/>
+        <link rel="stylesheet" href="#{request.contextPath}/css/style.css" type="text/css"/>
 
     </h:head>
 
@@ -77,6 +77,16 @@
                                     <li><a href="createBusinessListing.xhtml">Create Business</a></li>
                                     <li><a href="viewBusinessListing.xhtml">View Business Profile</a></li>
                                     <li><a href="viewAllBusinessListing.xhtml">Search Business Profile</a></li>
+                                </ul>
+                            </li>
+                               <li><a href="#">Service Exchange</a>
+                                <ul class="header__menu__dropdown">
+                                    <li><a href="#{request.contextPath}/secret/timeExchange.xhtml">Explore</a></li>
+                                    <li><a href="#{request.contextPath}/secret/addSkill.xhtml">My Skills</a></li>
+                                    <li><a href="#{request.contextPath}/secret/addExchangeListing.xhtml">Create a new Exchange</a></li>
+                                    <li><a href="#{request.contextPath}/secret/myExchangeListing.xhtml">My created Exchanges</a></li>
+                                    <li><a href="#{request.contextPath}/secret/myOffers.xhtml">Offers Made</a></li>
+                                    
                                 </ul>
                             </li>
                         </ul>
@@ -156,15 +166,15 @@
         </footer>
         <!-- Footer Section End -->
 
-        <!-- Js Plugins -->
-        <script src="js/jquery-3.3.1.min.js"></script>
-        <script src="js/bootstrap.min.js"></script>
-        <script src="js/jquery.nice-select.min.js"></script>
-        <script src="js/jquery-ui.min.js"></script>
-        <script src="js/jquery.slicknav.js"></script>
-        <script src="js/mixitup.min.js"></script>
-        <script src="js/owl.carousel.min.js"></script>
-        <script src="js/main.js"></script>
+        <!-- Js Plugins  -->
+        <script src="#{request.contextPath}/js/jquery-3.3.1.min.js"></script>
+        <script src="#{request.contextPath}/js/bootstrap.min.js"></script>
+        <script src="#{request.contextPath}/js/jquery.nice-select.min.js"></script> 
+        <script src="#{request.contextPath}/js/jquery-ui.min.js"></script>
+        <script src="#{request.contextPath}/js/jquery.slicknav.js"></script>
+        <script src="#{request.contextPath}/js/mixitup.min.js"></script>
+        <script src="#{request.contextPath}/js/owl.carousel.min.js"></script>
+        <script src="#{request.contextPath}/js/main.js"></script>
 
         <ui:insert name="script"></ui:insert>
     </h:body>

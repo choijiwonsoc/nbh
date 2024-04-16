@@ -58,6 +58,8 @@ public class ExchangeListingManagedBean implements Serializable {
     private List<Skill> neededSkills; //skills customer need in listing
     private List<Long> neededSkillIds;
 
+    private List<Skill> currentCustomerSkills;
+
     private String title;
     private String description;
     private Date startDateTime;
@@ -73,8 +75,16 @@ public class ExchangeListingManagedBean implements Serializable {
 
     private ExchangeListing currentExchangeListing;
 
+    private String formattedStartDateTime;
+    private String formattedEndDateTime;
+
     @PostConstruct
     public void init() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        HttpSession session = request.getSession();
+        long userId = (Long) session.getAttribute("userId");
+
         allListings = exchangeListingSessionLocal.getAllListing(null); //all listings available
 
         skills = skillSessionLocal.getAllSkillsByCustomer(null); //Display all the skills
@@ -84,6 +94,14 @@ public class ExchangeListingManagedBean implements Serializable {
         String viewId = FacesContext.getCurrentInstance().getViewRoot().getViewId();
         System.out.println("viewId is: " + viewId);
         if ("/secret/addExchangeListing.xhtml".equals(viewId)) {
+            /// Check if customer skills is empty
+            currentCustomerSkills = skillSessionLocal.getAllSkillsByCustomer(userId);
+            if (currentCustomerSkills.isEmpty()) {
+                System.out.println("AddListing: but customer has no skills");
+
+            }
+            /// end checkcustomer skills
+
             // use substring or .contains in string url attached at back
             //Long listingId = (Long) FacesContext.getCurrentInstance().getExternalContext().getFlash().get("listingId");
             String listingId = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("listingId");
@@ -106,7 +124,7 @@ public class ExchangeListingManagedBean implements Serializable {
             }
         } else if ("/secret/viewExchangeListing.xhtml".equals(viewId)) {
             // viewExchangeListing
-            FacesContext context = FacesContext.getCurrentInstance();
+            context = FacesContext.getCurrentInstance();
             Map<String, Object> flash = context.getExternalContext().getFlash();
             Long listingId = (Long) flash.get("listingId");
             System.out.println("Listing id for view is: " + listingId);
@@ -129,6 +147,10 @@ public class ExchangeListingManagedBean implements Serializable {
         FacesContext.getCurrentInstance().getExternalContext().getFlash().put("listingId", listing.getId());
         System.out.println("changing to view Listing: " + listing.getId());
         return "viewExchangeListing.xhtml?faces-redirect=true";
+    }
+
+    public String navigateToAddSkill() {
+        return "addSkill.xhtml?faces-redirect=true";
     }
 
     // delete - either set to inactive or delete method in sessionbean
@@ -195,7 +217,7 @@ public class ExchangeListingManagedBean implements Serializable {
         return "availableOffers.xhtml?faces-redirect=true";
     }
 
-    /*
+    /* FOR 1 date 2 time
     public void addExchangeListing() {
         FacesContext context = FacesContext.getCurrentInstance();
 
@@ -251,7 +273,8 @@ public class ExchangeListingManagedBean implements Serializable {
         }
     }
      */
-    public void addExchangeListing() {
+ /* With primefaces calendar, addExchangeListing and editExchangeListing
+      public void addExchangeListing() {
         FacesContext context = FacesContext.getCurrentInstance();
 
         try {
@@ -289,7 +312,7 @@ public class ExchangeListingManagedBean implements Serializable {
         }
     }
 
-    public void editExchangeListing() {
+      public void editExchangeListing() {
         FacesContext context = FacesContext.getCurrentInstance();
 
         try {
@@ -300,6 +323,98 @@ public class ExchangeListingManagedBean implements Serializable {
             System.out.println("IN EDIT METHOD: CEL SDT is : " + currentExchangeListing.getStartDateTime());
             System.out.println("IN EDIT METHOD: CEL EDT is : " + currentExchangeListing.getEndDateTime());
             el.setEndDateTime(currentExchangeListing.getEndDateTime());
+            el.setDescription(currentExchangeListing.getDescription());
+            el.setPostedDateTime(new Date()); // Or use your business logic to set this
+            el.setListingType("SINGLE"); // Use actual values from your form if necessary
+            el.setStatus("ACTIVE"); // Use actual values from your form if necessary
+            el.setVisibility(true); // Use actual values from your form if necessary
+
+            for (Long s : neededSkillIds) {
+                System.out.print("Id of skill is " + s);
+                try {
+                    Skill skill = skillSessionLocal.getSkill(s);
+                    System.out.println("skill name is " + skill.getSkillName());
+                } catch (NoResultException ex) {
+                    Logger.getLogger(ExchangeListingManagedBean.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+
+            System.out.println("Updating listing " + el.getTitle());
+            exchangeListingSessionLocal.updateListing(el, neededSkillIds);
+
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "Listing updated."));
+            // Redirect to another page or update the view as necessary
+        } catch (Exception e) {
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Unable to update listing."));
+            e.printStackTrace(); // Log the exception for debugging
+        }
+    }
+
+     */
+    public void addExchangeListing() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        Map<String, String> params = context.getExternalContext().getRequestParameterMap();
+        String startDateTimeString = params.get("startDateTime");
+        String endDateTimeString = params.get("endDateTime");
+        try {
+            startDateTime = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm").parse(startDateTimeString);
+            endDateTime = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm").parse(endDateTimeString);
+            System.out.println("startDateTime fr context is " + startDateTime);
+            System.out.println("endDateTime fr context is: " + endDateTime);
+
+            ExchangeListing el = new ExchangeListing();
+            el.setTitle(currentExchangeListing.getTitle());
+            el.setStartDateTime(startDateTime);
+            el.setEndDateTime(endDateTime);
+            el.setDescription(currentExchangeListing.getDescription());
+            el.setPostedDateTime(new Date()); // Or use your business logic to set this
+            el.setListingType("SINGLE"); // Use actual values from your form if necessary
+            el.setStatus("ACTIVE"); // Use actual values from your form if necessary
+            el.setVisibility(true); // Use actual values from your form if necessary
+
+            for (Long s : neededSkillIds) {
+                System.out.print("Id of skill is " + s);
+                try {
+                    Skill skill = skillSessionLocal.getSkill(s);
+                    System.out.println("skill name is " + skill.getSkillName());
+                } catch (NoResultException ex) {
+                    Logger.getLogger(ExchangeListingManagedBean.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+
+            HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            HttpSession session = request.getSession();
+            long userId = (Long) session.getAttribute("userId");
+
+            exchangeListingSessionLocal.createListing(el, userId, neededSkillIds);
+
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "Listing added successfully."));
+            // Redirect to another page or update the view as necessary
+        } catch (Exception e) {
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Unable to add the listing."));
+            e.printStackTrace(); // Log the exception for debugging
+
+        }
+    }
+
+    public void editExchangeListing() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        Map<String, String> params = context.getExternalContext().getRequestParameterMap();
+        String startDateTimeString = params.get("startDateTime");
+        String endDateTimeString = params.get("endDateTime");
+        try {
+            startDateTime = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm").parse(startDateTimeString);
+            endDateTime = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm").parse(endDateTimeString);
+            System.out.println("startDateTime fr context is " + startDateTime);
+            System.out.println("endDateTime fr context is: " + endDateTime);
+
+            ExchangeListing el = currentExchangeListing;
+            el.setTitle(currentExchangeListing.getTitle());
+            System.out.println("after edit: title is " + el.getTitle());
+            el.setStartDateTime(startDateTime);
+            System.out.println("IN EDIT METHOD: SDT is : " + startDateTime);
+            System.out.println("IN EDIT METHOD: EDT is : " + endDateTime);
+            el.setEndDateTime(endDateTime);
             el.setDescription(currentExchangeListing.getDescription());
             el.setPostedDateTime(new Date()); // Or use your business logic to set this
             el.setListingType("SINGLE"); // Use actual values from your form if necessary
@@ -353,6 +468,7 @@ public class ExchangeListingManagedBean implements Serializable {
         return null; // or a default value
     }
 
+    /*
     public void setFormattedEndDateTime(String dateString) {
         if (dateString != null && !dateString.isEmpty()) {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
@@ -369,7 +485,7 @@ public class ExchangeListingManagedBean implements Serializable {
             this.startDateTime = null; // or a default value
         }
     }
-
+     */
     public String getFormattedStartDateTime() {
         if (currentExchangeListing.getStartDateTime() != null) {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
@@ -377,9 +493,10 @@ public class ExchangeListingManagedBean implements Serializable {
             System.out.println("StartDateTime is " + startDateTime);
             return startDateTime;
         }
-        return null; // or a default value
+        return ""; // or a default value
     }
 
+    /*
     public void setFormattedStartDateTime(String dateString) {
         if (dateString != null && !dateString.isEmpty()) {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
@@ -396,8 +513,8 @@ public class ExchangeListingManagedBean implements Serializable {
             this.startDateTime = null; // or a default value
         }
     }
-
-    /*
+     */
+ /*
     // NOTE: Not used
     // Ensure you have a setter that can handle the date-time string and parse it back to a Date object
     public void setEndDateTime(String dateTimeStr) {
@@ -564,6 +681,14 @@ public class ExchangeListingManagedBean implements Serializable {
 
     public void setCurrentExchangeListing(ExchangeListing currentExchangeListing) {
         this.currentExchangeListing = currentExchangeListing;
+    }
+
+    public List<Skill> getCurrentCustomerSkills() {
+        return currentCustomerSkills;
+    }
+
+    public void setCurrentCustomerSkills(List<Skill> currentCustomerSkills) {
+        this.currentCustomerSkills = currentCustomerSkills;
     }
 
 }
