@@ -15,8 +15,10 @@ import java.text.ParseException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -49,7 +51,7 @@ public class HiddenGemManagedBean implements Serializable {
     private Customer selectedCustomer;
     private List<HiddenGem> hiddenGems;
 
-    private String searchType = "PLACE";
+    private String searchType = "";
     private String searchString;
 
     private List<String> districts;
@@ -60,7 +62,6 @@ public class HiddenGemManagedBean implements Serializable {
     private List<HiddenGemReview> hiddenGemReviews;
 
     private List<String> postalCodes;
-    
     private String region;
 
     public HiddenGemManagedBean() {
@@ -83,8 +84,18 @@ public class HiddenGemManagedBean implements Serializable {
                     hiddenGems = hiddenGemSessionLocal.searchHiddenGemsByPlace(searchString);
                     break;
                 }
-                case "POSTAL CODE":
+                case "POSTALCODE":
                     hiddenGems = hiddenGemSessionLocal.searchHiddenGemsByPostalCode(searchString);
+                    break;
+                case "default":
+                    Set<HiddenGem> uniqueHiddenGems = new HashSet<>();
+                    for (HiddenGem hg : hiddenGemSessionLocal.searchHiddenGemsByPlace(searchString)) {
+                        uniqueHiddenGems.add(hg);
+                    }
+                    for (HiddenGem hg : hiddenGemSessionLocal.searchHiddenGemsByPostalCode(searchString)) {
+                        uniqueHiddenGems.add(hg);
+                    }
+                    hiddenGems = new ArrayList<>(uniqueHiddenGems);
                     break;
             }
         }
@@ -114,6 +125,19 @@ public class HiddenGemManagedBean implements Serializable {
         return "/hiddenGems.xhtml?faces-redirect=true";
     }
 
+    public String addReview(Customer c) throws NoResultException {
+        HiddenGemReview hgr = new HiddenGemReview();
+        hgr.setCreated(new Date());
+
+        hgr.setHiddenGem(selectedHiddenGem);
+        hgr.setReview(review);
+        System.out.println("hgId" + hgId);
+        System.out.println("cId" + c.getId());
+        System.out.println("hgrId" + hgr.getId());
+        hiddenGemSessionLocal.addHiddenGemReview(hgId, c.getId(), hgr);
+        return "/hiddenGems.xhtml?faces-redirect=true";
+    }
+
     public void onItemUnselect(UnselectEvent event) {
         FacesContext context = FacesContext.getCurrentInstance();
 
@@ -130,19 +154,6 @@ public class HiddenGemManagedBean implements Serializable {
         return hiddenGems;
     }
 
-    public List<HiddenGem> filterByRegion(List<HiddenGem> gemList, String region){
-        List<HiddenGem> result = new ArrayList<>();
-        for(HiddenGem hg : gemList){
-            if(!region.equals("All")){
-                result = gemList;
-            }
-            else if(hg.getDistrict().equals(region)){
-                result.add(hg);
-            }
-        }
-        
-        return result;
-    }
     public void loadSelectedHiddenGem() {
         FacesContext context = FacesContext.getCurrentInstance();
 

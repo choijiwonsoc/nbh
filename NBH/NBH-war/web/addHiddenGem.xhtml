@@ -56,7 +56,6 @@
                                                 <f:selectItem itemLabel="East" itemValue="East" />
                                                 <f:selectItem itemLabel="West" itemValue="West" />
                                                 <f:selectItem itemLabel="Central" itemValue="Central" />
-
                                             </h:selectOneMenu>
 
                                         </div>
@@ -79,11 +78,12 @@
                                         <h:message for="review" style="color: red"/>
                                     </p>
                                     <h:inputText id="review" value="#{hiddenGemManagedBean.review}"
-                                                 required="true" requiredMessage="required" />
-
+                                                 required="true" requiredMessage="required"/>
                                 </div>
                                 <h:commandButton styleClass="site-btn" action="#{hiddenGemManagedBean.addHiddenGem(customerManagedBean.selectedCustomer)}"
-                                                 value="Add" />
+                                                 value="Add"
+                                                 style="background-image: url('https://wallpapers.com/images/hd/pastel-aesthetic-background-kk9ygsa8qygoluem.jpg')"
+                                                 />
                             </div>
                         </div>
                     </h:form>
