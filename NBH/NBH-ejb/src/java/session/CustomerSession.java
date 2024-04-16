@@ -91,6 +91,15 @@ public class CustomerSession implements CustomerSessionLocal {
         cust.setFileName(fileName);
     }
     
+    @Override
+    public void editCustomer(Customer c){
+        Customer oldC = em.find(Customer.class, c.getId());
+        oldC.setContact(c.getContact());
+        oldC.setEmail(c.getEmail());
+        oldC.setUsername(c.getUsername());
+        oldC.setPassword(c.getPassword());
+    }
+    
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
 }

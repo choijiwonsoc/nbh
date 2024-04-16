@@ -27,13 +27,12 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <ui:repeat value="#{customerManagedBean.orderByDate(customerManagedBean.selectedCustomer.likedPosts)}" var="post">
+                                        <ui:repeat value="#{customerManagedBean.selectedCustomer.likedPosts}" var="post">
                                             <tr>
                                                 <td class="shoping__cart__item">
-                                                    <img src="img/cart/cart-1.jpg" alt=""/>
+                                                    <img src="#{request.contextPath}/upload/#{post.fileName}" alt="" style="width: 100px; height:100px;"/>
                                                     
-                                                    #{post.title}
-                                                    #{post.description}
+                                                    <b>#{post.title}</b>
                                                 </td>
                                                 <td class="shoping__cart__price">
                                                     #{post.category}

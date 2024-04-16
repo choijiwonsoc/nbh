@@ -9,6 +9,7 @@ import entity.Customer;
 import entity.Post;
 import java.awt.Event;
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
@@ -42,8 +43,10 @@ public class PostSession implements PostSessionLocal {
     // "Insert Code > Add Business Method")
     @Override
     public List<Post> getAllPostsOrderedByDate() {
-        return em.createQuery("SELECT p FROM Post p ORDER BY p.dateCreated DESC", Post.class)
+        List<Post> postList = em.createQuery("SELECT p FROM Post p", Post.class)
                 .getResultList();
+        Collections.reverse(postList);
+        return postList;
 
     }
 

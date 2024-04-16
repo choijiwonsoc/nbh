@@ -155,6 +155,17 @@ public class CustomerManagedBean implements Serializable {
         return "/addCustomerPhoto.xhtml?faces-redirect=true";
 
     }
+    
+    public void editCustomer(Long cId){
+        Customer c = new Customer();
+        c.setId(cId);
+        c.setUsername(username);
+        c.setPassword(password);
+        c.setContact(contact);
+        c.setEmail(email);
+        customerSessionLocal.editCustomer(c);
+        
+    }
 
     public void loadSelectedCustomer() {
         FacesContext context = FacesContext.getCurrentInstance();
@@ -207,12 +218,7 @@ public class CustomerManagedBean implements Serializable {
     }
     
     public List<Post> orderByDate(List<Post> postList){
-        Collections.sort(postList, new Comparator<Post>() {
-            @Override
-            public int compare(Post post1, Post post2) {
-                return post2.getDateCreated().compareTo(post1.getDateCreated());
-            }
-        });
+        Collections.reverse(postList);
         return postList;
         
     }

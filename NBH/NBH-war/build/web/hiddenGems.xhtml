@@ -85,14 +85,11 @@
                                 </div>
                             </div>
                             <input type="hidden" id="region" name="region" value="#{hiddenGemManagedBean.region}" />
-                            
-
                         </div>
                         <div class="col-lg-8 col-md-7">
                             <div class="row">
                                 <ui:repeat value="#{hiddenGemManagedBean.hiddenGems}" var="hiddenGem">
-                                    <div class="col-lg-6
-                                         col-md-6 col-sm-6">
+                                    <div class="col-lg-6 col-md-6 col-sm-6 hidden-gem" data-region="#{hiddenGem.district}">
                                         <div class="blog__item" style="background-image: url('https://wallpapers.com/images/hd/pastel-aesthetic-background-kk9ygsa8qygoluem.jpg'); background-size: cover; background-position: center; border-radius: 10px; padding: 20px">
                                             <div class="blog__item__text" style="text-align: center">
                                                 <ul>
@@ -163,7 +160,15 @@
         </script>
         <script>
             function setRegion(region) {
-                document.getElementById('region').value = region;
+                const hiddenGems = document.querySelectorAll('.hidden-gem');
+                hiddenGems.forEach(hiddenGem => {
+                    const gemRegion = hiddenGem.getAttribute('data-region');
+                    if (region === 'All' || gemRegion === region) {
+                        hiddenGem.style.display = 'block';
+                    } else {
+                        hiddenGem.style.display = 'none';
+                    }
+                });
             }
         </script>
     </ui:define>
