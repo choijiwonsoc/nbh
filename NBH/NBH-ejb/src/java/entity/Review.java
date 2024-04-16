@@ -27,7 +27,7 @@ public class Review implements Serializable {
     private Long id;
 
     
-    private int stars;
+    private Integer stars;
     
     private String description;
     
@@ -38,11 +38,31 @@ public class Review implements Serializable {
     private ServiceProviderListing serviceProviderListing;
 
     
-    public int getStars() {
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Customer customer;
+    
+    
+    public Integer getStars() {
         return stars;
     }
 
-    public void setStars(int stars) {
+    public ServiceProviderListing getServiceProviderListing() {
+        return serviceProviderListing;
+    }
+
+    public void setServiceProviderListing(ServiceProviderListing serviceProviderListing) {
+        this.serviceProviderListing = serviceProviderListing;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+    
+    public void setStars(Integer stars) {
         this.stars = stars;
     }
 

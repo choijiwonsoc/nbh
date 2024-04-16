@@ -70,7 +70,7 @@
                     <h:outputText value="#{serviceProviderListing.category}" />
                 </p:column>
 
-                <p:column style="width: 15%">
+                <p:column style="width: 35%">
                     <p:commandButton icon="fa fa-search" styleClass="view-button" process ="@this"
                                      update=":form:businessDetails" oncomplete="PF('businessDialog').show()" 
                                      title="View" action="#{businessManagedBean.retrieveServiceItems}">
@@ -79,17 +79,49 @@
                     </p:commandButton>
 
 
-                    
+
                     <p:commandButton value="Make a request" update=":form:requestDetails" process ="@this"
                                      oncomplete="PF('requestDialog').show()" 
-                                      actionListener="#{businessManagedBean.loadServiceProviderListing(serviceProviderListing.id)}">
-                        
-                    </p:commandButton>
+                                     actionListener="#{businessManagedBean.loadServiceProviderListing(serviceProviderListing.id)}">
 
+                    </p:commandButton>
+                    
+                    
+                    <p:commandButton  value="Make a review" update=":form:reviewDetails"  process ="@this"
+                                      oncomplete="PF('reviewDialog').show()" >
+                        <f:setPropertyActionListener value="#{serviceProviderListing}" target="#{businessManagedBean.selectedServiceProviderListing}" />
+                        <f:param name="serviceProviderListingId" value="#{serviceProviderListing.id}" />
+                    </p:commandButton>
 
                 </p:column>
 
             </p:dataTable>
+
+
+
+            <p:dialog header="Review Details" widgetVar="reviewDialog" modal="false" showEffect="fade" hideEffect="fade" resizable="false">
+                <p:outputPanel id="reviewDetails">
+                    <div class="card">
+                        <h:form>
+                            
+
+                            <h5>Leave a rating</h5>
+                            <p:rating value="#{businessManagedBean.rating2}">
+                                <p:ajax event="rate" listener="#{businessManagedBean.onrate}" >
+                                    <f:param name="serviceProviderListingId" value="#{serviceProviderListing.id}" />
+                                </p:ajax>
+                                <p:ajax event="cancel" listener="#{businessManagedBean.oncancel}" />
+                            </p:rating>
+
+
+                        </h:form>
+                    </div>
+                </p:outputPanel>
+            </p:dialog>
+
+
+
+
 
             <p:dialog header="Service Items Details" widgetVar="businessDialog" modal="false" showEffect="fade" hideEffect="fade" resizable="false">
                 <p:outputPanel id="businessDetails">
@@ -116,13 +148,13 @@
                       modal="false" showEffect="fade" hideEffect="fade" resizable="false"
                       width="50%" position="center">
                 <p:outputPanel id="requestDetails">
-                    
 
-                        <h:outputLabel for="requestDescription" value="Request Description: " />
-                        <h:inputText id="requestDescription" value="#{businessManagedBean.requestDescription}" class="form-control" required="true" requiredMessage="Please enter request description!" />
-                    
-                
-                <p:commandButton value="Submit" actionListener="#{businessManagedBean.makeRequest}" oncomplete="PF('requestDialog').hide()" />
+
+                    <h:outputLabel for="requestDescription" value="Request Description: " />
+                    <h:inputText id="requestDescription" value="#{businessManagedBean.requestDescription}" class="form-control" required="true" requiredMessage="Please enter request description!" />
+
+
+                    <p:commandButton value="Submit" actionListener="#{businessManagedBean.makeRequest}" oncomplete="PF('requestDialog').hide()" />
                 </p:outputPanel>
             </p:dialog>
         </h:form>

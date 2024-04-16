@@ -37,41 +37,50 @@
                                 <div class="row">
                                     <div class="col-lg-6">
                                         <div class="checkout__input">
-                                            <p>Name of Place<span>*</span></p>
+                                            <p>Place<span>*</span>
+                                                <h:message for="placeName" style="color: red"/>
+                                            </p>
                                             <h:inputText id="placeName" value="#{hiddenGemManagedBean.placeName}"
-                                                         required="true" requiredMessage="Name of Place is required" />
-                                            <h:message for="placeName" />
+                                                         required="true" requiredMessage="required" />
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="checkout__input">
-                                            <p>Region<span>*</span></p>
-                                            <h:selectOneMenu value="#{hiddenGemManagedBean.district}">
+                                            <p>Region<span>*</span>
+                                                <h:message for="region" style="color: red"/>
+                                            </p>
+                                            <h:selectOneMenu value="#{hiddenGemManagedBean.district}" id="region" required="true" requiredMessage="required">
                                                 <f:selectItem itemLabel="Select Region" itemValue="" />
                                                 <f:selectItem itemLabel="North" itemValue="North" />
                                                 <f:selectItem itemLabel="South" itemValue="South" />
                                                 <f:selectItem itemLabel="East" itemValue="East" />
                                                 <f:selectItem itemLabel="West" itemValue="West" />
                                                 <f:selectItem itemLabel="Central" itemValue="Central" />
+
                                             </h:selectOneMenu>
+
                                         </div>
+
                                     </div>
                                 </div>
                                 <div class="checkout__input">
-                                    <p>Postal Code<span>*</span></p>
+                                    <p>Postal Code<span>*</span>
+                                        <h:message for="postalCode" style="color: red"/>
+                                    </p>
                                     <h:inputText id="postalCode" value="#{hiddenGemManagedBean.postalCode}"
-                                                 required="true" requiredMessage="PostalCode is required"
-                                                 validatorMessage="Six digit postal code is required">
+                                                 required="true" requiredMessage="required"
+                                                 validatorMessage="required">
                                         <f:validateRegex pattern="\d{6}" />
                                     </h:inputText>
-                                    <h:message for="postalCode" />
                                 </div>
 
                                 <div class="checkout__input">
-                                    <p>Review<span>*</span></p>
+                                    <p>Review/Recommendation<span>*</span>
+                                        <h:message for="review" style="color: red"/>
+                                    </p>
                                     <h:inputText id="review" value="#{hiddenGemManagedBean.review}"
-                                                 required="true" requiredMessage="Review/Recommendation is required" />
-                                    <h:message for="review" />
+                                                 required="true" requiredMessage="required" />
+
                                 </div>
                                 <h:commandButton styleClass="site-btn" action="#{hiddenGemManagedBean.addHiddenGem(customerManagedBean.selectedCustomer)}"
                                                  value="Add" />

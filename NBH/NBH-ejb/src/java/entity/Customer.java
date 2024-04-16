@@ -56,6 +56,17 @@ public class Customer implements Serializable {
     @OneToMany(mappedBy = "receiver")
     private List<Request> receivedRequests;
     
+    @OneToMany
+    private List<Review> review;
+
+    public List<Review> getReview() {
+        return review;
+    }
+
+    public void setReview(List<Review> review) {
+        this.review = review;
+    }
+    
     public Long getId() {
         return id;
     }

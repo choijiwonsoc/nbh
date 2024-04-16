@@ -22,6 +22,7 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.servlet.http.HttpSession;
+import org.primefaces.event.RateEvent;
 import session.BusinessSessionLocal;
 import session.CustomerSessionLocal;
 
@@ -59,12 +60,15 @@ public class BusinessManagedBean implements Serializable {
     private List<ServiceProviderListing> searchServiceProviderListing;
 
     private List<ServiceItem> serviceItems;
-  
+
     private String requestDescription;
-    
+
     private List<Request> receievedRequests;
-    
+
     private Request selectedRequest;
+
+    private Integer rating2;
+    private Double rating;
     
     public BusinessManagedBean() {
     }
@@ -93,7 +97,7 @@ public class BusinessManagedBean implements Serializable {
         }
 
         if (searchString == null || searchString.equals("")) {
-            searchServiceProviderListing = businessListings; 
+            searchServiceProviderListing = businessListings;
         } else {
             switch (searchType) {
                 case "NAME":
@@ -101,7 +105,7 @@ public class BusinessManagedBean implements Serializable {
                     break;
 
                 case "LOCATION":
-                    //searchServiceProviderListing = eventSessionBean.searchEvents(searchString);
+                //searchServiceProviderListing = eventSessionBean.searchEvents(searchString);
 
                 default:
                     //searchServiceProviderListing = eventSessionBean.searchEvents(searchString);
@@ -111,8 +115,37 @@ public class BusinessManagedBean implements Serializable {
 
     }
     
+
+    public void retrieveRating() {
+
+        FacesContext context = FacesContext.getCurrentInstance();
+
+        Map<String, String> params = context.getExternalContext()
+                .getRequestParameterMap();
+        String serviceProviderListingIdStr = params.get("serviceProviderListingId");
+        Long serviceProviderListingId = Long.parseLong(serviceProviderListingIdStr);
+        
+        rating = businessSession.getRatingForServiceProviderListing(serviceProviderListingId);
+        System.out.println(rating + "this rating");
+        FacesContext.getCurrentInstance().getExternalContext().getRequestMap().put("rating", rating);
+    }
+
+    public void onrate(RateEvent<Integer> rateEvent) {
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Rate Event", "You rated:" + rateEvent.getRating());
+
+        FacesContext.getCurrentInstance().addMessage(null, message);
+        System.out.println(selectedServiceProviderListing+ "check");
+        businessSession.insertReview(selectedServiceProviderListing.getId(), rateEvent.getRating());
+        businessSession.insertRating(selectedServiceProviderListing.getId(), rateEvent.getRating(),userId);
+    }
+
+    public void oncancel() {
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Cancel Event", "Rate Reset");
+        FacesContext.getCurrentInstance().addMessage(null, message);
+    }
+
     public void acknowledgeRequest() {
-    FacesContext context = FacesContext.getCurrentInstance();
+        FacesContext context = FacesContext.getCurrentInstance();
 
         Map<String, String> params = context.getExternalContext()
                 .getRequestParameterMap();
@@ -128,41 +161,37 @@ public class BusinessManagedBean implements Serializable {
             context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Unable to acknowledge this request"));
         }
     }
-    
+
     public void receieveRequest() {
         receievedRequests = businessSession.receieveRequest(userId);
         System.out.println(receievedRequests + "request");
-        
+
     }
-    
-    
+
     public void makeRequest() {
-    FacesContext context = FacesContext.getCurrentInstance();
-    Request r = new Request();
-    System.out.println(requestDescription + " this is the description");
-    r.setDescription(requestDescription);
-    System.out.println(this.selectedServiceProviderListing + "this checked");
-    try {
-        if (selectedServiceProviderListing != null && userId != null) {
-            businessSession.makeRequest(selectedServiceProviderListing.getId(), userId, r);
-            System.out.println("makeRequest method called successfully."); // Add this line for logging
-            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "Request successfully created"));
-        } else {
-            if (selectedServiceProviderListing == null) {
-                context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No service provider listing selected."));
+        FacesContext context = FacesContext.getCurrentInstance();
+        Request r = new Request();
+        System.out.println(requestDescription + " this is the description");
+        r.setDescription(requestDescription);
+        System.out.println(this.selectedServiceProviderListing + "this checked");
+        try {
+            if (selectedServiceProviderListing != null && userId != null) {
+                businessSession.makeRequest(selectedServiceProviderListing.getId(), userId, r);
+                System.out.println("makeRequest method called successfully."); // Add this line for logging
+                context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "Request successfully created"));
+            } else {
+                if (selectedServiceProviderListing == null) {
+                    context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No service provider listing selected."));
+                }
+                if (userId == null) {
+                    context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "User ID not found."));
+                }
             }
-            if (userId == null) {
-                context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "User ID not found."));
-            }
+        } catch (Exception e) {
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Unable to create request: " + e.getMessage()));
         }
-    } catch (Exception e) {
-        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Unable to create request: " + e.getMessage()));
     }
-}
 
-
-    
-    
     public void deleteServiceProviderListing() {
         FacesContext context = FacesContext.getCurrentInstance();
 
@@ -182,8 +211,7 @@ public class BusinessManagedBean implements Serializable {
                 "Successfully deleted Event"));
         init();
     }
-    
-    
+
     public void retrieveServiceItems() {
         System.out.println("retrieveServiceItems method called successfully."); // Add this line for logging
         FacesContext context = FacesContext.getCurrentInstance();
@@ -203,15 +231,15 @@ public class BusinessManagedBean implements Serializable {
     }
 
     public void loadServiceProviderListing(Long serviceProviderListingId) {
-    FacesContext context = FacesContext.getCurrentInstance();
-    
-    try {
-        System.out.println(serviceProviderListingId + " this id");
-        this.selectedServiceProviderListing = businessSession.getSpecificBusinessListing(serviceProviderListingId);
-    } catch (Exception e) {
-        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Unable to load service provider listing"));
+        FacesContext context = FacesContext.getCurrentInstance();
+
+        try {
+            System.out.println(serviceProviderListingId + " this id");
+            this.selectedServiceProviderListing = businessSession.getSpecificBusinessListing(serviceProviderListingId);
+        } catch (Exception e) {
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Unable to load service provider listing"));
+        }
     }
-}
 
     public void loadBusinessListingsCreatedByUser() {
         FacesContext context = FacesContext.getCurrentInstance();
@@ -329,6 +357,22 @@ public class BusinessManagedBean implements Serializable {
         return bio;
     }
 
+    public Request getSelectedRequest() {
+        return selectedRequest;
+    }
+
+    public void setSelectedRequest(Request selectedRequest) {
+        this.selectedRequest = selectedRequest;
+    }
+
+    public Integer getRating2() {
+        return rating2;
+    }
+
+    public void setRating2(Integer rating2) {
+        this.rating2 = rating2;
+    }
+
     public void setBio(String bio) {
         this.bio = bio;
     }
@@ -401,6 +445,14 @@ public class BusinessManagedBean implements Serializable {
         return businessListings;
     }
 
+    public Double getRating() {
+        return rating;
+    }
+
+    public void setRating(Double rating) {
+        this.rating = rating;
+    }
+    
     public void setBusinessListings(List<ServiceProviderListing> businessListings) {
         this.businessListings = businessListings;
     }

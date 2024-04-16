@@ -7,6 +7,7 @@ package session;
 
 import entity.Customer;
 import entity.Request;
+import entity.Review;
 import entity.ServiceItem;
 import entity.ServiceProviderListing;
 import java.util.ArrayList;
@@ -27,56 +28,95 @@ public class BusinessSession implements BusinessSessionLocal {
     @PersistenceContext
     private EntityManager em;
 
-    
     @Override
     public List<Request> receieveRequest(Long id) {
         Query query = em.createQuery("SELECT e FROM Request e  WHERE e.receiver.id = :id");
         query.setParameter("id", id);
         return query.getResultList();
     }
+
+    @Override
+    public void insertRating(Long sId, Integer rating, Long userId) {
+        ServiceProviderListing s = getSpecificBusinessListing(sId);
+        //Integer currentRating = s.getRating();
+        Customer customer = em.find(Customer.class, userId);
+        Review review = new Review();
+        review.setStars(rating); // Assuming you have a setRating method in Review entity
+        review.setCustomer(customer);
+        review.setServiceProviderListing(s);
+
+        // Add the review to the collections
+        s.getReviews().add(review);
+        customer.getReview().add(review);
+        em.persist(review);
+    }
+
     
+    @Override
+    public Double getRatingForServiceProviderListing(Long sId) {
+     
+        Query query = em.createQuery("SELECT AVG(e.stars) FROM Review e WHERE e.serviceProviderListing.id = :sId");
+        query.setParameter("sId", sId);
+        
+        return (Double)query.getSingleResult();
+    }
+    
+    @Override
+    public void insertReview(Long sId, Integer rating) {
+        ServiceProviderListing s = getSpecificBusinessListing(sId);
+        Integer currentRating = s.getRating();
+        if (currentRating == 0) {
+            Integer averageRating = currentRating + rating;
+            s.setRating(averageRating);
+        } else {
+            Integer averageRating = (currentRating + rating) / 2;
+            s.setRating(averageRating);
+        }
+
+        em.persist(s);
+
+    }
+
     @Override
     public Request getRequest(Long requestId) {
         Request r = em.find(Request.class, requestId);
         return r;
     }
-    
+
     @Override
     public void acknowledgeRequest(Long rId) {
         Query query = em.createQuery("UPDATE Request r SET r.status = :progress WHERE r.id = :rId");
         query.setParameter("progress", "Acknowledged");
         query.setParameter("rId", rId);
-        
+
         int updatedCount = query.executeUpdate();
 
     }
-    
+
     @Override
     public void makeRequest(Long serviceProviderListingId, Long sendRequestPersonId, Request request) {
         ServiceProviderListing s = getSpecificBusinessListing(serviceProviderListingId);
         Customer receiver = s.getCustomer();
         Customer sender = em.find(Customer.class, sendRequestPersonId);
-        
-        
-       
+
         request.setStatus("Pending"); // Set the initial status
         request.setRequester(sender); // Set the sender
         request.setReceiver(receiver);
-        
+
         em.persist(request);
     }
-    
+
     @Override
     public void updateProgress(Long serviceProviderListingId) {
         //Query query = em.createQuery("UPDATE Attendance r SET r.status = :status WHERE r.event.id = :eventId AND r.customer.id = :customerId");
         Query query = em.createQuery("UPDATE ServiceProviderListing e SET e.progress = :progress WHERE e.id = :serviceProviderListingId");
         query.setParameter("progress", "Cancelled");
         query.setParameter("serviceProviderListingId", serviceProviderListingId);
-        
+
         int updatedCount = query.executeUpdate();
 
     }
-    
+
     @Override
     public void deleteServiceProviderListing(Long serviceProviderListingId) throws NoResultException {
         ServiceProviderListing serviceProviderListing = getSpecificBusinessListing(serviceProviderListingId);
@@ -86,7 +126,7 @@ public class BusinessSession implements BusinessSessionLocal {
             if (customer != null) {
                 customer.setServiceProviderListing(null); // Remove the association from the customer side
             }
-            
+
             em.remove(serviceProviderListing);
         } else {
             throw new NoResultException("Service Provider Listing with ID " + serviceProviderListingId + " not found");

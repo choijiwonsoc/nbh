@@ -45,11 +45,18 @@
                                                                          target="#{businessManagedBean.selectedServiceProviderListing}"/>
                                             <f:param name="serviceProviderListingId" value="#{serviceProviderListing.id}" />
                                         </p:commandButton>
-                                        
+
                                         <p:commandButton value="Delete" action="#{businessManagedBean.deleteServiceProviderListing}" 
-                                                          styleClass="ui-button-danger" icon="pi pi-times" update="form">
+                                                         styleClass="ui-button-danger" icon="pi pi-times" update="form">
                                             <f:param name="serviceProviderListingId" value="#{serviceProviderListing.id}" />
                                             <p:confirm header="Confirmation"  icon="pi pi-info-circle"/>
+                                        </p:commandButton>
+                                        
+                                        
+                                        <p:commandButton value="View Rating" action="#{businessManagedBean.retrieveRating}" 
+                                                         update="ratingDetails" oncomplete="PF('ratingDialog').show()" process ="@this">
+                                            <f:param name="serviceProviderListingId" value="#{serviceProviderListing.id}" />
+                                             
                                         </p:commandButton>
                                     </td>
                                 </tr>
@@ -63,15 +70,33 @@
         <!-- Confirmation dialog -->
         <div class="card">
             <h:form>
-                
+
                 <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" responsive="true" width="350">
                     <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-flat"/>
                     <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" />
                 </p:confirmDialog>
             </h:form>
         </div>
-        
-         <p:dialog header="Event Details" widgetVar="eventDialog" 
+
+        <p:dialog header="Rating Details" widgetVar="ratingDialog" modal="false" showEffect="fade" hideEffect="fade" resizable="false" >
+            
+            <p:outputPanel id="ratingDetails">
+                <div class="card">
+                    <h:form>
+                    <h5>This is your rating</h5>
+                    <div class="form-group">
+                        <h:outputLabel id="rating" value="Rating: #{businessManagedBean.rating}" />
+                        
+                    </div>
+                    </h:form>
+                </div>
+            </p:outputPanel>
+            
+        </p:dialog>
+
+
+
+        <p:dialog header="Event Details" widgetVar="eventDialog" 
                   modal="false" showEffect="fade" hideEffect="fade" resizable="false"
                   width="50%" position="center">
             <h:form>
@@ -134,6 +159,6 @@
                 </p:outputPanel>
             </h:form>
         </p:dialog>
-        
+
     </ui:define>
 </ui:composition>

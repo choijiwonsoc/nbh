@@ -43,6 +43,8 @@ public class ServiceProviderListing implements Serializable {
     
     private String progress;
     
+    private Integer rating;
+    
     @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
     private ArrayList<ServiceItem> serviceItems;
 
@@ -69,6 +71,7 @@ public class ServiceProviderListing implements Serializable {
         this.serviceItems = new ArrayList<>();
         this.reviews = new ArrayList<>();;
         this.progress = "Ongoing";
+        this.rating = 0;
     }
 
     public String getBusinessName() {
@@ -77,6 +80,14 @@ public class ServiceProviderListing implements Serializable {
 
     public void setBusinessName(String businessName) {
         this.businessName = businessName;
+    }
+
+    public Integer getRating() {
+        return rating;
+    }
+
+    public void setRating(Integer rating) {
+        this.rating = rating;
     }
 
     public String getBio() {
