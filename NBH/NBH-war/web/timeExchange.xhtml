@@ -80,13 +80,13 @@
         </section>
 
         <!-- Blog Section Begin -->
-        <ui:fragment rendered="#{not empty exchangeListingManagedBean.allListings}">
+        <ui:fragment rendered="#{not empty exchangeListingManagedBean.activeListings}">
             <section class="blog spad" style="padding:3em">
                 <div class="container">
                     <div class="row">
                         <div class="col-lg-12 col-md-12">
                             <div class="row">
-                                <ui:repeat value="#{exchangeListingManagedBean.allListings}" var="listing">
+                                <ui:repeat value="#{exchangeListingManagedBean.activeListings}" var="listing">
                                     <div class="col-lg-4 col-md-12 col-sm-12">
                                         <div class="blog__item" style="border: 2px solid gainsboro; padding:2em">
                                             <div class="blog__item__text text-center">
@@ -106,13 +106,6 @@
                                                         <f:convertDateTime pattern="HH:mm" timeZone="Asia/Singapore" />
                                                     </h:outputText>
                                                 </p>
-        <p:dataGrid id="event"  value="#{exchangeListingManagedBean.activeListings}" var="listing" columns="3" layout="grid"
-                    rows="3" paginator="true" 
-                    paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                    >
-            <f:facet name="header">
-                Explore All Events
-            </f:facet>
 
                                                 <p:commandLink class="blog__btn" style="border-color: #cccccc; background-color: #ffffff; color: #666666" 
                                                                action="#{exchangeListingManagedBean.navigateToViewExchangeListing(listing)}" 

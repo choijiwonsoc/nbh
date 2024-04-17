@@ -25,30 +25,7 @@
                             <h2>Offers Made to You</h2>
                             <div class="breadcrumb__option">
                                 <span>These are the offers your neighbours have sent for your service exchange requests.</span>
-            <ui:fragment rendered="#{not empty offerManagedBean.availOffers}">
-                <ui:repeat value="#{offerManagedBean.availOffers}" var="offer">
-                    <p:panel header="They will do: #{offerManagedBean.getSkillsForOffer(offer.id)}" toggleable="true" closable="true" style="margin-bottom:20px;" >
-                        <h:outputText value="Status: #{offer.status}" /><br/> 
-                        
-                        Submitted at: <h:outputText value="#{offer.postedDateTime}" >
-                            <f:convertDateTime pattern="EEEE, MMMM d, HH:mm yyyy" timeZone="Asia/Singapore" />
-                        </h:outputText><br/>
-                        <br/>
-                        <!-- Additional event details here -->
-                        
-                        Made By: <h:outputText value="#{offer.customer.name}" />
-                        <br/>
-                        Contact: <h:outputText value="#{offer.customer.contact}" />
-                        <br/>
-                        Description: <h:outputText value="#{offer.description}" />
-                        <!-- Panel footer with buttons -->
-                        <f:facet name="footer">
-                            <div class="panel-footer">
-                                
-                                <h:commandButton value="Accept" onclick="return confirmAccept();" action="#{offerManagedBean.acceptOffer(offer.id)}" type="submit" />
-
-                                <h:commandButton value="Reject" action="#{offerManagedBean.rejectOffer(offer.id)}"
-                                                 onclick="return confirmReject();" type="submit" />                                
+                                     
                             </div>
                         </div>
                     </div>
@@ -70,6 +47,8 @@
                                                 <div class="blog__item__text text-center">
                                                     <h5><a href="#">They will help with: #{offerManagedBean.getSkillsForOffer(offer.id)}</a></h5>
                                                     <p>Status: #{offer.status}</p>
+                                                    <p>Made by: #{offer.customer.name}</p>
+                                                    <p>Contact: #{offer.customer.contact}</p>
                                                     <p> 
                                                         Submitted: 
                                                         <h:outputText value="#{offer.postedDateTime}" >
