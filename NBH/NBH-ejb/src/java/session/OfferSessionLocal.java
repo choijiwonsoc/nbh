@@ -27,5 +27,5 @@ public interface OfferSessionLocal {
     // type: by Customomer or by exchangeListing
     public List<Offer> getAllOffers(Long id, String type);
 
-    //public void cancelOffer(Long oId, Long cId, Long elId) throws NoResultException;
+    public void deleteOffer(Long oId, Long cId, Long elId) throws NoResultException;
 }

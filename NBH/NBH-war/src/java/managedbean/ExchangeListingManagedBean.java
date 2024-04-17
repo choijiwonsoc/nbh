@@ -58,6 +58,8 @@ public class ExchangeListingManagedBean implements Serializable {
     private List<Skill> neededSkills; //skills customer need in listing
     private List<Long> neededSkillIds;
 
+    private List<ExchangeListing> activeListings;
+
     private List<Skill> currentCustomerSkills;
 
     private String title;
@@ -85,7 +87,8 @@ public class ExchangeListingManagedBean implements Serializable {
         HttpSession session = request.getSession();
         long userId = (Long) session.getAttribute("userId");
 
-        allListings = exchangeListingSessionLocal.getAllListing(null); //all listings available
+        allListings = exchangeListingSessionLocal.getAllListing(userId); //changed from null to userId, only listing made by userId
+        activeListings = exchangeListingSessionLocal.getAllActiveListing(null); // all active status listing, for Explore page
 
         skills = skillSessionLocal.getAllSkillsByCustomer(null); //Display all the skills
         neededSkills = new ArrayList<Skill>(); // Initialize the list
@@ -105,7 +108,7 @@ public class ExchangeListingManagedBean implements Serializable {
             // use substring or .contains in string url attached at back
             //Long listingId = (Long) FacesContext.getCurrentInstance().getExternalContext().getFlash().get("listingId");
             String listingId = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("listingId");
-            if (listingId != null) {
+            if (listingId != null && !listingId.isEmpty()) {
                 Long id = Long.parseLong(listingId);
                 currentExchangeListing = exchangeListingSessionLocal.getListing(id); // Load the listing based on ID
             }
@@ -192,19 +195,17 @@ public class ExchangeListingManagedBean implements Serializable {
         if (currentExchangeListing.getOffers().isEmpty()) {
             // pass the id as a parameter
             return "addExchangeListing.xhtml?faces-redirect=true&listingId=" + currentExchangeListing.getId();
-            /*
-            FacesContext.getCurrentInstance().getExternalContext().getFlash().put("listingId", listing.getId());
-            System.out.println("changing to add Listing: " + listing.getId());
-            return "addExchangeListing.xhtml?faces-redirect=true";
-             */
+
+            //FacesContext.getCurrentInstance().getExternalContext().getFlash().put("listingId", listing.getId());
+            //System.out.println("changing to add Listing: " + listing.getId());
+            //return "addExchangeListing.xhtml?faces-redirect=true";
         } else {
 
             //context.getExternalContext().getFlash().setKeepMessages(true);
-            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "There are offers existing!"));
-            return null;  // Redirect or navigation logic...
-
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Unable to edit, There are offers existing!"));
+            return null;
+            //show popup
         }
-
     }
 
     public String navigateToAddOffer(ExchangeListing listing) {
@@ -689,6 +690,14 @@ public class ExchangeListingManagedBean implements Serializable {
 
     public void setCurrentCustomerSkills(List<Skill> currentCustomerSkills) {
         this.currentCustomerSkills = currentCustomerSkills;
+    }
+
+    public List<ExchangeListing> getActiveListings() {
+        return activeListings;
+    }
+
+    public void setActiveListings(List<ExchangeListing> activeListings) {
+        this.activeListings = activeListings;
     }
 
 }

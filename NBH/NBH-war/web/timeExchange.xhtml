@@ -106,6 +106,13 @@
                                                         <f:convertDateTime pattern="HH:mm" timeZone="Asia/Singapore" />
                                                     </h:outputText>
                                                 </p>
+        <p:dataGrid id="event"  value="#{exchangeListingManagedBean.activeListings}" var="listing" columns="3" layout="grid"
+                    rows="3" paginator="true" 
+                    paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                    >
+            <f:facet name="header">
+                Explore All Events
+            </f:facet>
 
                                                 <p:commandLink class="blog__btn" style="border-color: #cccccc; background-color: #ffffff; color: #666666" 
                                                                action="#{exchangeListingManagedBean.navigateToViewExchangeListing(listing)}" 

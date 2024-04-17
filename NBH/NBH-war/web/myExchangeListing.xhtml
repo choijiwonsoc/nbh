@@ -31,6 +31,47 @@
             </div>
         </section>
 
+        <h:form id="form" class="content-class">
+            <p:growl id="growl" sticky="true" showDetail="true"/>
+
+            <ui:fragment rendered="#{not empty exchangeListingManagedBean.allListings}">
+                <ui:repeat value="#{exchangeListingManagedBean.allListings}" var="listing">
+                    <p:panel header="#{listing.title}" toggleable="true" closable="true" style="margin-bottom:20px;" >
+                        <h:outputText value="Status: #{listing.status}" /><br/>
+                        Start: <h:outputText value="#{listing.startDateTime}" >
+                            <f:convertDateTime pattern="EEEE, MMMM d, HH:mm yyyy" timeZone="Asia/Singapore" />
+                        </h:outputText><br/>
+                        End: <h:outputText value="#{listing.endDateTime}" >
+                            <f:convertDateTime pattern="EEEE, MMMM d, HH:mm yyyy" timeZone="Asia/Singapore" />
+                        </h:outputText><br/>
+                        <br/>
+                        <!-- Additional event details here -->
+
+                        <!-- Panel footer with buttons -->
+                        <f:facet name="footer">
+                            <div class="panel-footer">
+                                
+                                <p:commandButton action="#{exchangeListingManagedBean.navigateToEditExchangeListing(listing)}" value="Edit Listing" 
+                                                 update="@form:growl">
+                                    <f:setPropertyActionListener value="#{listing}" target="#{exchangeListingManagedBean.currentExchangeListing}" />
+                                </p:commandButton>
+                                
+                                <p:commandButton value="Offers" action="#{exchangeListingManagedBean.navigateToAvailableOffers(listing)}"/>
+
+                                <h:commandButton value="Delete" action="#{exchangeListingManagedBean.deleteListing(listing)}"
+                                                 onclick="return confirmDelete();" type="submit" />                                
+                            </div>
+                        </f:facet>
+  
+                        <p:dialog header="Edit Not Allowed" widgetVar="errorDialog" modal="true" showEffect="fade" hideEffect="fade">
+                            <h:outputText value="Editing is not allowed since there are offers made to this listing." />
+                            <p:commandButton value="OK" onclick="PF('errorDialog').hide();" type="button" />
+                        </p:dialog>
+
+                    </p:panel>
+                </ui:repeat>
+            </ui:fragment>
+
         <ui:fragment rendered="#{not empty exchangeListingManagedBean.allListings}">
 
             <h:form id="form" class="content-class">
