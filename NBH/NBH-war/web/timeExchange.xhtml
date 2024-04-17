@@ -64,39 +64,83 @@
             </div>
         </div>
         -->
+        <section class="breadcrumb-section set-bg" data-setbg="https://wallpapers.com/images/hd/pastel-aesthetic-background-kk9ygsa8qygoluem.jpg">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12 text-center">
+                        <div class="breadcrumb__text">
+                            <h2>Service Exchange</h2>
+                            <div class="breadcrumb__option">
+                                <span>Find requests made by your fellow neighbours. Lend a helping hand by offering to exchange your skills!</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-        <p:dataGrid id="event"  value="#{exchangeListingManagedBean.allListings}" var="listing" columns="3" layout="grid"
-                    rows="3" paginator="true" 
-                    paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                    >
-            <f:facet name="header">
-                Explore All Events
-            </f:facet>
+        <!-- Blog Section Begin -->
+        <ui:fragment rendered="#{not empty exchangeListingManagedBean.allListings}">
+            <section class="blog spad" style="padding:3em">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12">
+                            <div class="row">
+                                <ui:repeat value="#{exchangeListingManagedBean.allListings}" var="listing">
+                                    <div class="col-lg-4 col-md-12 col-sm-12">
+                                        <div class="blog__item" style="border: 2px solid gainsboro; padding:2em">
+                                            <div class="blog__item__text text-center">
+                                                <h5><a href="#">#{listing.title}</a></h5>
+                                                <p> 
+                                                    Date: 
+                                                    <h:outputText value="#{listing.startDateTime}" >
+                                                        <f:convertDateTime pattern="EEEE, MMMM d yyyy" timeZone="Asia/Singapore" />
+                                                    </h:outputText>
+                                                </p>
+                                                <p>Time:
+                                                    <h:outputText value="#{listing.startDateTime}" >
+                                                        <f:convertDateTime pattern="HH:mm" timeZone="Asia/Singapore" />
+                                                    </h:outputText>
+                                                    -
+                                                    <h:outputText value="#{listing.endDateTime}" >
+                                                        <f:convertDateTime pattern="HH:mm" timeZone="Asia/Singapore" />
+                                                    </h:outputText>
+                                                </p>
 
-            <p:panel>
-                <h:panelGrid columns="1" style="width:100%" >
-                    <f:facet name="header">
-                        <p:graphicImage name="upload/{dataGridView.selectedCar.brand}-big.png"/>
-                    </f:facet>
+                                                <p:commandLink class="blog__btn" style="border-color: #cccccc; background-color: #ffffff; color: #666666" 
+                                                               action="#{exchangeListingManagedBean.navigateToViewExchangeListing(listing)}" 
+                                                               value="View Details">
+                                                    <!-- <p:commandLink update=":form:eventDetail" oncomplete="PF('eventDialog').show()" title="View Detail"> -->                           
+                                                    <i class="pi pi-angle-double-right"></i>            
+                                                    <f:setPropertyActionListener value="#{listing}" target="#{exchangeListingManagedBean.currentExchangeListing}" />
+                                                </p:commandLink>
+                                            </div>
+                                        </div>
+                                    </div>    
+                                </ui:repeat>
 
-                    <h:outputText value="#{listing.title}" /> 
-                    Start: <h:outputText value="#{listing.startDateTime}" >
-                            <f:convertDateTime pattern="EEEE, MMMM d, HH:mm yyyy" timeZone="Asia/Singapore" />
-                        </h:outputText><br/>
-                        End: <h:outputText value="#{listing.endDateTime}" >
-                            <f:convertDateTime pattern="EEEE, MMMM d, HH:mm yyyy" timeZone="Asia/Singapore" />
-                        </h:outputText><br/>
-                    
-                    <p:commandLink action="#{exchangeListingManagedBean.navigateToViewExchangeListing(listing)}" title="View Listing">
-                        <!-- <p:commandLink update=":form:eventDetail" oncomplete="PF('eventDialog').show()" title="View Detail"> -->                           
-                        <i class="pi pi-angle-double-right"></i>            
-                        <f:setPropertyActionListener value="#{listing}" target="#{exchangeListingManagedBean.currentExchangeListing}" />
-                    </p:commandLink>
-                    
-                </h:panelGrid>
+                                <div class="col-lg-12">
+                                    <div class="product__pagination blog__pagination">
+                                        <a href="#">1</a>
+                                        <a href="#">2</a>
+                                        <a href="#">3</a>
+                                        <a href="#"><i class="fa fa-long-arrow-right"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </ui:fragment>
+        <!-- Blog Section End -->
 
-            </p:panel>
-        </p:dataGrid>
+        <ui:fragment rendered="#{empty exchangeListingManagedBean.allListings}">
+            <div class='text-center' style="padding:2em">
+                <h3>No service exchange requests yet</h3>            
+            </div>
+        </ui:fragment>
+
 
         <ui:define name="script">
             <!-- DOES NOT WORK

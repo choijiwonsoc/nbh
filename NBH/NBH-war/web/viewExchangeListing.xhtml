@@ -16,52 +16,68 @@
     </ui:define>
 
     <ui:define name="content">
+        
+        <section class="breadcrumb-section set-bg" data-setbg="https://wallpapers.com/images/hd/pastel-aesthetic-background-kk9ygsa8qygoluem.jpg">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12 text-center">
+                        <div class="breadcrumb__text">
+                            <h2>View Exchange Listing</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
         <h:form id="form" class="content-class">
             <p:growl id="growl" showDetail="true" sticky="true" /> 
 
 
-            <div class="event-details"> 
+            <div class="event-details text-center" style="padding:2em"> 
                 <div class="detail-row">                
                     <h1 id="title"><span class="detail-value">#{exchangeListingManagedBean.currentExchangeListing.title}</span></h1>
                 </div>
 
                 <div class="detail-row">
-                    <span class="detail-label"> Start: </span>
+                    <span class="detail-label"><b>Date:</b></span>
                     <span class="detail-value">
                         <h:outputText value="#{exchangeListingManagedBean.currentExchangeListing.startDateTime}" >
-                            <f:convertDateTime pattern="EEEE, MMMM d, HH:mm yyyy" timeZone="Asia/Singapore" />
+                            <f:convertDateTime pattern="EEEE, MMMM d, yyyy" timeZone="Asia/Singapore" />
                         </h:outputText>
                     </span>
                 </div>
 
 
                 <div class="detail-row">
-                    <span class="detail-label">End:</span>
+                    <span class="detail-label"><b>Time:</b></span>
                     <span class="detail-value">
+                        <h:outputText value="#{exchangeListingManagedBean.currentExchangeListing.startDateTime}" >
+                            <f:convertDateTime pattern="HH:mm" timeZone="Asia/Singapore" />
+                        </h:outputText>
+                        -
                         <h:outputText value="#{exchangeListingManagedBean.currentExchangeListing.endDateTime}" >
-                            <f:convertDateTime pattern="EEEE, MMMM d, HH:mm yyyy" timeZone="Asia/Singapore" />
+                            <f:convertDateTime pattern="HH:mm" timeZone="Asia/Singapore" />
                         </h:outputText>
                     </span>
                 </div>
 
                 <div class="detail-row">
-                    <span class="detail-label">Description: </span>
+                    <span class="detail-label"><b>Description:</b></span>
                     <span class="detail-value">#{exchangeListingManagedBean.currentExchangeListing.description}</span>
                 </div>
 
                 <div class="detail-row">
-                    <span class="detail-label">Skills required for task:</span>
+                    <span class="detail-label"><b>Skills required for task:</b></span>
                     <span class="detail-value">
                         <ul>
                             <ui:repeat value="#{exchangeListingManagedBean.currentExchangeListing.skills}" var="skill">
-                                <li>#{skill.skillName}</li>
+                                #{skill.skillName}<br/>
                             </ui:repeat>
                         </ul>
                     </span>
                 </div>
             </div>
 
-            <div class="event-register">           
+            <div class="event-register text-center">           
                 <!--
                 <p:commandButton value="Offer" action="addOffer.xhtml?faces-redirect=true">
                     <f:param name="exchangeListingId" value={offerManagedBean.exchangeListingId}" />
@@ -69,7 +85,8 @@
                 -->
                 <h:commandButton value="Add Offer" 
                                  action="#{exchangeListingManagedBean.navigateToAddOffer(exchangeListingManagedBean.currentExchangeListing)}" 
-                                 />
+                                 class="site-btn"
+                                 style="background-color: "/>
 
             </div>
 

@@ -16,47 +16,93 @@
     </ui:define>
 
     <ui:define name="content">
-
-        <h:form id="form" class="content-class">
-            <p:growl id="growl" sticky="true" showDetail="true"/>
-
-            <ui:fragment rendered="#{not empty exchangeListingManagedBean.allListings}">
-                <ui:repeat value="#{exchangeListingManagedBean.allListings}" var="listing">
-                    <p:panel header="#{listing.title}" toggleable="true" closable="true" style="margin-bottom:20px;" >
-                        <h:outputText value="Status: #{listing.status}" /><br/>
-                        Start: <h:outputText value="#{listing.startDateTime}" >
-                            <f:convertDateTime pattern="EEEE, MMMM d, HH:mm yyyy" timeZone="Asia/Singapore" />
-                        </h:outputText><br/>
-                        End: <h:outputText value="#{listing.endDateTime}" >
-                            <f:convertDateTime pattern="EEEE, MMMM d, HH:mm yyyy" timeZone="Asia/Singapore" />
-                        </h:outputText><br/>
-                        <br/>
-                        <!-- Additional event details here -->
-
-                        <!-- Panel footer with buttons -->
-                        <f:facet name="footer">
-                            <div class="panel-footer">
-                                <p:commandButton action="#{exchangeListingManagedBean.navigateToEditExchangeListing(listing)}" value="Edit Listing">
-                                    <f:setPropertyActionListener value="#{listing}" target="#{exchangeListingManagedBean.currentExchangeListing}" />
-                                    <!-- sets the currentExchangeListing in ManagedBean to be this listing -->
-                                </p:commandButton>
-                                <p:commandButton value="Offers" action="#{exchangeListingManagedBean.navigateToAvailableOffers(listing)}"/>
-
-                                <h:commandButton value="Delete" action="#{exchangeListingManagedBean.deleteListing(listing)}"
-                                                 onclick="return confirmDelete();" type="submit" />                                
+        <section class="breadcrumb-section set-bg" data-setbg="https://wallpapers.com/images/hd/pastel-aesthetic-background-kk9ygsa8qygoluem.jpg">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12 text-center">
+                        <div class="breadcrumb__text">
+                            <h2>My Created Exchanges</h2>
+                            <div class="breadcrumb__option">
+                                <span>These are the requests for service exchange you have made.</span>
                             </div>
-                        </f:facet>
-                    </p:panel>
-                </ui:repeat>
-            </ui:fragment>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
+        <ui:fragment rendered="#{not empty exchangeListingManagedBean.allListings}">
+
+            <h:form id="form" class="content-class">
+                <section class="blog spad" style="padding:3em">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12">
+                                <div class="row">
+                                    <ui:repeat value="#{exchangeListingManagedBean.allListings}" var="listing">
+                                        <div class="col-lg-4 col-md-12 col-sm-12">
+                                            <div class="blog__item" style="border: 2px solid gainsboro; padding:2em">
+                                                <div class="blog__item__text text-center">
+                                                    <h5><a href="#">Status: #{listing.status}</a></h5>
+                                                    <p> 
+                                                        Date: 
+                                                        <h:outputText value="#{listing.startDateTime}" >
+                                                            <f:convertDateTime pattern="EEEE, MMMM d yyyy" timeZone="Asia/Singapore" />
+                                                        </h:outputText>
+                                                    </p>
+                                                    <p>Time:
+                                                        <h:outputText value="#{listing.startDateTime}" >
+                                                            <f:convertDateTime pattern="HH:mm" timeZone="Asia/Singapore" />
+                                                        </h:outputText>
+                                                        -
+                                                        <h:outputText value="#{listing.endDateTime}" >
+                                                            <f:convertDateTime pattern="HH:mm" timeZone="Asia/Singapore" />
+                                                        </h:outputText>
+                                                    </p>
+                                                    <p:commandButton value="Edit" class="blog__btn" icon="pi pi-angle-double-right" 
+                                                                     style="border-color: #cccccc; background-color: #ffffff; color: #666666" 
+                                                                     action="#{exchangeListingManagedBean.navigateToEditExchangeListing(listing)}" 
+                                                                     >
+                                                        <!-- <p:commandLink update=":form:eventDetail" oncomplete="PF('eventDialog').show()" title="View Detail"> -->                           
+                                                        <f:setPropertyActionListener value="#{listing}" target="#{exchangeListingManagedBean.currentExchangeListing}" />
+                                                    </p:commandButton>
+                                                    &nbsp;
+                                                    <p:commandButton value="Offers" class="blog__btn" icon="fa fa-handshake-o"
+                                                                     style="border-color: #cccccc; background-color: #ffffff; color: #666666"
+                                                                     action="#{exchangeListingManagedBean.navigateToAvailableOffers(listing)}"/>
+                                                    <h:commandButton value="Delete" class="blog__btn"
+                                                                     style="border-color: #cccccc; background-color: #cccccc; color: #666666"
+                                                                     action="#{exchangeListingManagedBean.deleteListing(listing)}"
+                                                                     onclick="return confirmDelete();" type="submit" />
+                                                </div>
+                                            </div>
+                                        </div>    
+                                    </ui:repeat>
+
+                                    <div class="col-lg-12">
+                                        <div class="product__pagination blog__pagination">
+                                            <a href="#">1</a>
+                                            <a href="#">2</a>
+                                            <a href="#">3</a>
+                                            <a href="#"><i class="fa fa-long-arrow-right"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </h:form>
+        </ui:fragment>
+        <!-- Blog Section End -->
+
+        <h:form id="form1" class="content-class">
+            <p:growl id="growl" sticky="true" showDetail="true"/>
             <ui:fragment rendered="#{empty exchangeListingManagedBean.allListings}">
-                <p:panel header="No Listings currently">
-                    <h:outputText value="There are no listings"/>
-                </p:panel>
+                <div class='text-center' style="padding:2em">
+                    <h3>You have not created any service exchange requests.</h3>            
+                </div>
             </ui:fragment>
-
-
         </h:form>
     </ui:define>
 

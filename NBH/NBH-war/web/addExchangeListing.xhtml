@@ -19,9 +19,10 @@
                 padding: 0;
                 box-sizing: border-box;
             }
-            body {
+
+            /*body {
                 font-family: "Inter", sans-serif;
-            }
+            }*/
             .formbold-mb-5 {
                 margin-bottom: 20px;
             }
@@ -124,7 +125,7 @@
             /* Style for Multiselect */
 
 
-               .popup {
+            .popup {
                 display:none;
                 position: absolute;
                 background-color: #f8d7da;
@@ -134,8 +135,19 @@
                 padding: 10px;
                 margin-top: 5px;
             }
-            
+
         </style>
+        <ui:fragment rendered="#{exchangeListingManagedBean.currentExchangeListing.id == null}">
+            <div class="text-center">
+                <h2>Create Exchange Listing</h2>
+            </div>
+        </ui:fragment>
+        
+        <ui:fragment rendered="#{exchangeListingManagedBean.currentExchangeListing.id != null}">
+            <div class="text-center">
+                <h2>Edit Exchange Listing</h2>
+            </div>
+        </ui:fragment>
 
         <div class="formbold-main-wrapper">
             <!-- Author: FormBold Team -->
@@ -366,7 +378,7 @@
                         <h:commandButton onclick="return validateDT()" 
                                          value="#{exchangeListingManagedBean.currentExchangeListing.id != null ? 'Update Listing' : 'Add Listing'}" 
                                          action="#{exchangeListingManagedBean.submit}" 
-                                         styleClass="formbold-btn"
+                                         class="site-btn"
                                          />
                     </div>
 
@@ -502,7 +514,7 @@
                 var currentDatePart = currentDate.toISOString().split('T')[0];
                 var datePart1 = date1.toISOString().split('T')[0];
                 var datePart2 = date2.toISOString().split('T')[0];
-                
+
                 if (datePart1 !== datePart2) {
                     // Show the popup
                     popup.style.display = 'block';
