@@ -23,7 +23,7 @@
 
             <ui:fragment rendered="#{not empty offerManagedBean.availOffers}">
                 <ui:repeat value="#{offerManagedBean.availOffers}" var="offer">
-                    <p:panel header="They will help with: #{offerManagedBean.getSkillsForOffer(offer.id)}" toggleable="true" closable="true" style="margin-bottom:20px;" >
+                    <p:panel header="They will do: #{offerManagedBean.getSkillsForOffer(offer.id)}" toggleable="true" closable="true" style="margin-bottom:20px;" >
                         <h:outputText value="Status: #{offer.status}" /><br/> 
                         
                         Submitted at: <h:outputText value="#{offer.postedDateTime}" >
@@ -31,6 +31,11 @@
                         </h:outputText><br/>
                         <br/>
                         <!-- Additional event details here -->
+                        
+                        Made By: <h:outputText value="#{offer.customer.name}" />
+                        <br/>
+                        Contact: <h:outputText value="#{offer.customer.contact}" />
+                        <br/>
                         Description: <h:outputText value="#{offer.description}" />
                         <!-- Panel footer with buttons -->
                         <f:facet name="footer">
@@ -67,6 +72,8 @@
             function confirmAccept() {
                 return confirm('Are you sure you want to accept this offer?');
             }
+            
+            
             
         </script>
     </ui:define>

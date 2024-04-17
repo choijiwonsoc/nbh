@@ -156,12 +156,25 @@ public class ExchangeListingSession implements ExchangeListingSessionLocal {
     @Override
     public List<ExchangeListing> getAllListing(Long cId) {
         if (cId != null) {
-            Query query = em.createQuery("SELECT el FROM ExchangeListing el WHERE el.creator.id = :cId");
+            Query query = em.createQuery("SELECT el FROM ExchangeListing el WHERE el.creator.id = :cId AND el.status <> 'CANCELLED'");
             query.setParameter("cId", cId);
             return query.getResultList();
         } else {
             Query query = em.createQuery("SELECT el FROM ExchangeListing el WHERE el.status NOT LIKE :status");
             query.setParameter("status", "CANCELLED");
+            return query.getResultList();
+        }
+    }
+
+    @Override
+    public List<ExchangeListing> getAllActiveListing(Long cId) {
+        if (cId != null) {
+            Query query = em.createQuery("SELECT el FROM ExchangeListing el WHERE el.creator.id = :cId");
+            query.setParameter("cId", cId);
+            return query.getResultList();
+        } else {
+            Query query = em.createQuery("SELECT el FROM ExchangeListing el WHERE el.status LIKE :status");
+            query.setParameter("status", "ACTIVE");
             return query.getResultList();
         }
     }
