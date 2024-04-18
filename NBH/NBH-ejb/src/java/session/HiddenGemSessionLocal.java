@@ -30,4 +30,6 @@ public interface HiddenGemSessionLocal {
 
     public List<String> getAllPostalCodes();
 
+    public void addHiddenGemReview(Long hgId, Long cId, HiddenGemReview hgr);
+
 }

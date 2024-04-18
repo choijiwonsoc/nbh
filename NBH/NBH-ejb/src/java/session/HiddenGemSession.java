@@ -49,6 +49,20 @@ public class HiddenGemSession implements HiddenGemSessionLocal {
     }
 
     @Override
+    public void addHiddenGemReview(Long hgId, Long cId, HiddenGemReview hgr) {
+        Query q1 = em.createQuery("SELECT hg FROM HiddenGem hg WHERE hg.id =:hgId");
+        q1.setParameter("hgId", hgId);
+        HiddenGem exisitingHg = (HiddenGem) q1.getSingleResult();
+        hgr.setHiddenGem(exisitingHg);
+        exisitingHg.getReviews().add(hgr);
+
+        Customer c = em.find(Customer.class, cId);
+        hgr.setCustomer(c);
+
+        c.getHiddenGemReviews().add(hgr);
+    }
+
+    @Override
     public List<HiddenGem> searchHiddenGemsByPostalCode(String postalCode) {
         Query q;
         if (postalCode != null) {
@@ -68,7 +82,7 @@ public class HiddenGemSession implements HiddenGemSessionLocal {
             q = em.createQuery("SELECT hg FROM HiddenGem hg WHERE LOWER(hg.placeName) LIKE :name");
             q.setParameter("name", "%" + placeName.toLowerCase() + "%");
         } else {
-            return new ArrayList<>();
+            q = em.createQuery("SELECT hg FROM HiddenGem hg");
         }
         return q.getResultList();
     }
