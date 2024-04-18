@@ -7,15 +7,21 @@
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
 
-    <ui:define name="head">
-        head
-    </ui:define>
-
-    <ui:define name="top">
-        top
-    </ui:define>
 
     <ui:define name="content">
+        <style>
+            .notification-badge {
+                position: absolute;
+                top: -10px;
+                right: -10px;
+                padding: 5px 10px;
+                border-radius: 50%;
+                background-color: red;
+                color: white;
+                font-size: 12px;
+            }
+        </style>
+        
         <section class="breadcrumb-section set-bg" data-setbg="https://wallpapers.com/images/hd/pastel-aesthetic-background-kk9ygsa8qygoluem.jpg">
             <div class="container">
                 <div class="row">
@@ -82,6 +88,18 @@
                                                                          onclick="return confirmDelete();" type="submit" />
 
                                                     </div>
+
+                                                    <div style="position: relative; display: inline-block;">
+                                                        <p:commandButton value="Offers" class="blog__btn" icon="fa fa-handshake-o"
+                                                                         style="border-color: #cccccc; background-color: #ffffff; color: #666666"
+                                                                         action="#{exchangeListingManagedBean.navigateToAvailableOffers(listing)}"/>
+                                                        <span class="notification-badge">#{exchangeListingManagedBean.getOffersCountForListing(listing.id)}</span>
+                                                    </div>
+
+                                                    <h:commandButton value="Delete" class="blog__btn"
+                                                                     style="border-color: #cccccc; background-color: #cccccc; color: #666666"
+                                                                     action="#{exchangeListingManagedBean.deleteListing(listing)}"
+                                                                     onclick="return confirmDelete();" type="submit" />
 
                                                     <p:dialog header="Edit Not Allowed" widgetVar="errorDialog" modal="true" showEffect="fade" hideEffect="fade">
                                                         <h:outputText value="Editing is not allowed since there are offers made to this listing." />

@@ -7,12 +7,14 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:p="http://primefaces.org/ui">
 
-    <ui:define name="top">
-
+    <ui:define name="head">
+        <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&amp;display=swap" rel="stylesheet"/>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
     </ui:define>
 
     <ui:define name="content">
         <style>
+
             <!-- template for the form-->
             * {
                 margin: 0;
@@ -142,7 +144,7 @@
                 <h2>Create Exchange Listing</h2>
             </div>
         </ui:fragment>
-        
+
         <ui:fragment rendered="#{exchangeListingManagedBean.currentExchangeListing.id != null}">
             <div class="text-center">
                 <h2>Edit Exchange Listing</h2>
@@ -168,9 +170,11 @@
                                 </div>
                                 <div class="modal-body">A skill set is needed for the other party to choose when making an offer.</div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                    <!--<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                                     <h:commandButton value="continue" styleClass="btn btn-primary" immediate="true"
-                                                     action="#{exchangeListingManagedBean.navigateToAddSkill}" />
+                                                     action="{exchangeListingManagedBean.navigateToAddSkill}" />-->
+                                    <button type="button" class="btn btn-primary" onclick="window.location.href = 'addSkill.xhtml?faces-redirect=true';">Continue</button>
+
 
                                 </div>
                             </div>
@@ -187,11 +191,27 @@
                         <h:outputLabel for="title" class="formbold-form-label">Title</h:outputLabel>
                         <h:inputText id="title" value="#{exchangeListingManagedBean.currentExchangeListing.title}" class="formbold-form-input" required="True" requiredMessage="Title required"/>
                     </div>
+                    
+                    <div class="formbold-mb-5">
+                        <h:outputLabel class="formbold-form-label">Skills necessary for this role</h:outputLabel>
+                        <h:selectManyCheckbox id="multiple-checkboxes" value="#{exchangeListingManagedBean.neededSkillIds}" layout="pageDirection" required="true" requiredMessage="Skills needed" >
+                            <f:selectItems value="#{exchangeListingManagedBean.skills}" var="skill" 
+                                           itemValue="#{skill.id}" itemLabel="#{skill.skillName}" />
+                        </h:selectManyCheckbox>
+                    </div>
 
-                    <h:selectManyCheckbox value="#{exchangeListingManagedBean.neededSkillIds}" layout="pageDirection" required="true" requiredMessage="Skills needed" >
-                        <f:selectItems value="#{exchangeListingManagedBean.skills}" var="skill" 
-                                       itemValue="#{skill.id}" itemLabel="#{skill.skillName}" />
-                    </h:selectManyCheckbox>
+                    <!--
+                    <p:selectManyMenu value="{exchangeListingManagedBean.neededSkillIds}" 
+                                      required="true" requiredMessage="Skills needed" 
+                                      var="s" filter="true" filterMatchMode="contains"
+                                      showCheckbox="true" styleClass="manymenu-advanced">
+                        <f:selectItems value="{exchangeListingManagedBean.skills}" var="skill" 
+                                       itemValue="{skill.id}" itemLabel="{skill.skillName}" />
+                        <p:column>
+                            <h:outputText value="#={exchangeListingManagedBean.findSkillNameFromId(s)}"/>
+                        </p:column>
+                    </p:selectManyMenu>
+                    -->
 
                     <!--
                     <div class="formbold-mb-5 w-full">
@@ -223,7 +243,8 @@
                                        id="startDateTime" 
                                        required="true" 
                                        class="formbold-form-input"
-                                       value="#{exchangeListingManagedBean.formattedEndDateTime}"/>
+                                       value="#{exchangeListingManagedBean.formattedStartDateTime}"
+                                       onchange="setEndTimeToOneHourLater()"/>
 
 
                                 <!--
@@ -324,16 +345,11 @@
                                 -->
                             </div>
                         </div>
-
-                        <div id="popup" class="popup">
-                            Ensure the dates are the same day.
-                        </div>
-                        <div id="popup2" class="popup">
-                            Ensure end date,time is after the current date and event date,time
-                        </div>
-
                     </div>
 
+                    <div id="popup" class="popup">
+                        Pls ensure end time is after start time
+                    </div>
 
                     <!--                    
                    <div class="flex formbold-mb-5">
@@ -360,16 +376,7 @@
 
                     <div class="formbold-mb-5">
                         <label for="message" class="formbold-form-label"> Description </label>
-                        <!--
-                        <textarea
-                            rows="6"
-                            name="message"
-                            id="message"
-                            placeholder="Type your message"
-                            class="formbold-form-input"
-                            required="required"
-                            ></textarea>
-                        -->
+
                         <h:inputTextarea id="message" value="#{exchangeListingManagedBean.currentExchangeListing.description}" rows="6" class="formbold-form-input" required="true"/>
 
                     </div>
@@ -385,165 +392,111 @@
                 </h:form>
             </div>
         </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 
         <script>
-            //<![CDATA[
-            // Set the minimum date for the date input to today
-            document.getElementById('date').min = new Date().toISOString().split('T')[0];
-
-            // Function to update the minimum start time based on the selected date
-            // NOTE: Not using now, this is for the split date and 2 time
-            function updateMinTime() {
-                const today = new Date();
-                const selectedDate = new Date(document.getElementById('date').value);
-                const startTimeInput = document.getElementById('startTime');
-
-                if (selectedDate.toISOString().split('T')[0] === today.toISOString().split('T')[0]) {
-                    startTimeInput.min = today.toISOString().split('T')[1].substring(0, 5);
-                } else {
-                    startTimeInput.min = '00:00'; // Reset min time for other dates
-                }
-            }
-
-            // update the minimum start time based on the selected date
-// changes the date to the actual date but time is not checked
-            // update the minimum start time based on the selected date
-            function setMinEndDateTime() {
-                var startDateTimeInput = document.getElementById('startDateTime');
-                var endDateTimeInput = document.getElementById('endDateTime');
-
-                // Parse the start date and time as local
-                var startDate = new Date(startDateTimeInput.value);
-
-                // Check if startDate is "Invalid Date"
-                if (isNaN(startDate.getTime())) {
-                    console.error('Invalid start date:', startDateTimeInput.value);
-                    return;  // Exit the function if start date is invalid
-                }
-
-                // Set the end date-time to match the start date, just incrementing time to enforce business logic
-                var endDate = new Date(startDate.getTime() + (60 * 1000)); // Increment 1 minute to ensure it's after start time
-
-                // Initially set the endDateTime to the adjusted time
-                endDateTimeInput.value = endDate.toISOString().slice(0, 16); // Ensure format is correct for datetime-local input
-
-                // Listener to adjust endDateTime to ensure only time part changes and date remains the same as startDateTime
-                endDateTimeInput.addEventListener('change', function () {
-                    var selectedTime = new Date(this.value);
-
-                    // Check if selectedTime is "Invalid Date"
-                    if (isNaN(selectedTime.getTime())) {
-                        console.error('Invalid end date:', this.value);
-                        return;  // Exit the function if end date is invalid
-                    }
-
-                    // Ensure the date part remains the same as startDateTime
-                    selectedTime.setFullYear(startDate.getFullYear(), startDate.getMonth(), startDate.getDate());
-
-                    // Update the input field to reflect this correction
-                    this.value = selectedTime.toISOString().slice(0, 16);
-                });
-            }
+                            // Set the minimum date for the date input to today
+                            var currDate = new Date().toISOString().slice(0, 16);
+                            document.getElementsByName('startDateTime')[0].min = currDate;
+                            document.getElementsByName('endDateTime')[0].min = currDate;
 
 
-            // Function to check if time is after current and set end date to be after 
-            // NOT used - for 1 date, 2 time
-            function validateDateTime() {
-                const selectedDateValue = document.getElementById('date').value;
-                const selectedStartTimeValue = document.getElementById('startTime').value;
-                const selectedDate = new Date(selectedDateValue + 'T' + selectedStartTimeValue);
-                const now = new Date();
+                            //<![CDATA[
 
-                if (selectedDate <= now) {
-                    alert('The selected date and time must be in the future.');
-                    return false; // Prevent form submission
-                }
+                            function setEndTimeToOneHourLater() {
+                                var startDate = document.getElementById('startDateTime').value;
+                                console.log("Initial startDate value:", startDate);
+                                if (startDate) {
+                                    var startDateObj = new Date(startDate);
+                                    // Check if the date object is valid
+                                    if (isNaN(startDateObj.getTime())) {
+                                        console.error("Invalid date from startDateTime:", startDate);
+                                        return; // Exit the function if the date is invalid
+                                    }
+                                    var endDate = moment(startDate).add(1, 'hours').format('YYYY-MM-DDTHH:mm');
+                                    console.log("New endDateTime value:", endDate);
+                                    document.getElementById('endDateTime').value = endDate;
 
-                return true; // Allow form submission
-            }
+                                    // restrict other dates
+                                    var startDateMoment = moment(startDate);
+                                    // Set min and max to the beginning and end of the day
+                                    var minDateTime = startDateMoment.startOf('day').format('YYYY-MM-DDTHH:mm');
+                                    var maxDateTime = startDateMoment.endOf('day').format('YYYY-MM-DDTHH:mm');
 
-            // Function to check if time is after current and set end date to be after 
-            // for both field with datetime-local
-            function validateDT() {
-                const selectedStartDateTime = document.getElementById('startDateTime').value;
-                const selectedEndDateTime = document.getElementById('endDateTime').value;
-                const now = new Date();
-
-                // check if not same day cnnt
-                var startDateT = new Date(selectedStartDateTime);
-                var endDateT = new Date(selectedEndDateTime);
-
-                // Extract the date parts
-                var datePart1 = date1.toISOString().split('T')[0];
-                var datePart2 = date2.toISOString().split('T')[0];
-
-                if (datePart1 === datePart2) {
-                } else {
-                    alert('Ensure both are the same dates');
-                    return false; // Prevent form submission
-                }
-
-                if (selectedStartDateTime <= now || selectedEndDateTime <= now) {
-                    alert('The selected date and time must be in the future.');
-                    return false; // Prevent form submission
-                } else if (selectedEndDateTime <= selectedStartDateTime) {
-                    alert('startDate must be before Event date');
-                    return false; // Prevent form submission
-                }
-                return true; // Allow form submission
-            }
+                                    document.getElementById('endDateTime').min = minDateTime;
+                                    document.getElementById('endDateTime').max = maxDateTime;
+                                } else {
+                                    console.error("No startDate provided");
+                                }
+                            }
 
 
-            function checkRegistrationDeadline() {
-                const selectedStartDateTime = document.getElementById('startDateTime').value;
-                const selectedEndDateTime = document.getElementById('endDateTime').value;
-                const currentDate = new Date();
+                            // Function to check if time is after current and set end date to be after 
+                            // NOT used - for 1 date, 2 time
+                            function validateDateTime() {
+                                const selectedDateValue = document.getElementById('date').value;
+                                const selectedStartTimeValue = document.getElementById('startTime').value;
+                                const selectedDate = new Date(selectedDateValue + 'T' + selectedStartTimeValue);
+                                const now = new Date();
 
-                // Clear previous messages
-                const popup = document.getElementById('popup');
-                const popup2 = document.getElementById('popup2');
-                popup.style.display = 'none';
-                popup2.style.display = 'none';
+                                if (selectedDate <= now) {
+                                    alert('The selected date and time must be in the future.');
+                                    return false; // Prevent form submission
+                                }
 
-                // check if not same day cnnt
-                var startDateT = new Date(selectedStartDateTime);
-                var endDateT = new Date(selectedEndDateTime);
+                                return true; // Allow form submission
+                            }
 
-                // Extract the date parts
-                // Format current date to ISO string and take date part only for comparison
-                var currentDatePart = currentDate.toISOString().split('T')[0];
-                var datePart1 = date1.toISOString().split('T')[0];
-                var datePart2 = date2.toISOString().split('T')[0];
+                            // Function to check if time is after current and set end date to be after 
+                            // for both field with datetime-local
+                            function validateDT() {
+                                const selectedStartDateTime = document.getElementById('startDateTime').value;
+                                const selectedEndDateTime = document.getElementById('endDateTime').value;
+                                const now = new Date();
+                                if (selectedStartDateTime >= selectedEndDateTime) {
+                                    alert('startDate must be before Event date');
+                                    return false; // Prevent form submission
+                                } else if (selectedStartDateTime <= now || selectedEndDateTime <= now) {
+                                    alert('The selected date and time must be in the future.');
+                                    return false; // Prevent form submission
+                                }
+                                return true; // Allow form submission
+                            }
 
-                if (datePart1 !== datePart2) {
-                    // Show the popup
-                    popup.style.display = 'block';
-                    popup.style.opacity = 1;
-                }
 
-                if (endDateT <= startDateT || datePart1 === currentDatePart || datePart2 === currentDatePart) {
-                    popup2.style.display = 'block';
-                    popup2.style.opacity = 1;
+                            function checkRegistrationDeadline() {
+                                const selectedStartDateTime = document.getElementById('startDateTime').value;
+                                const selectedEndDateTime = document.getElementById('endDateTime').value;
+                                const currentDate = new Date();
 
-                }
-                // Fade out popups after 5 seconds
-                setTimeout(function () {
-                    fadeOutElement(popup);
-                    fadeOutElement(popup2);
-                }, 4000);
-            }
+                                // Clear previous messages
+                                const popup = document.getElementById('popup');
+                                popup.style.display = 'none';
 
-            function fadeOutElement(element) {
-                element.style.transition = 'opacity 1s';
-                element.style.opacity = 0;
+                                if (selectedStartDateTime >= selectedEndDateTime) {
+                                    // Show the popup
+                                    popup.style.display = 'block';
+                                    popup.style.opacity = 1;
+                                }
 
-                // Hide element after transition
-                setTimeout(function () {
-                    element.style.display = 'none';
-                }, 1000);
-            }
+                                // Fade out popups after 5 seconds
+                                setTimeout(function () {
+                                    fadeOutElement(popup);
 
-            //]]>
+                                }, 4000);
+                            }
+
+                            function fadeOutElement(element) {
+                                element.style.transition = 'opacity 1s';
+                                element.style.opacity = 0;
+
+                                // Hide element after transition
+                                setTimeout(function () {
+                                    element.style.display = 'none';
+                                }, 1000);
+                            }
+
+                            //]]>
         </script>
     </ui:define>
 

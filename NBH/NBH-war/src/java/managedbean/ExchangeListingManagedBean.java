@@ -31,6 +31,7 @@ import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import session.ExchangeListingSessionLocal;
+import session.OfferSessionLocal;
 import session.SkillSessionLocal;
 
 /**
@@ -40,6 +41,9 @@ import session.SkillSessionLocal;
 @Named(value = "exchangeListingManagedBean")
 @ViewScoped
 public class ExchangeListingManagedBean implements Serializable {
+
+    @EJB(name = "OfferSessionLocal")
+    private OfferSessionLocal offerSessionLocal;
 
     @EJB(name = "SkillSessionLocal")
     private SkillSessionLocal skillSessionLocal;
@@ -154,6 +158,19 @@ public class ExchangeListingManagedBean implements Serializable {
 
     public String navigateToAddSkill() {
         return "addSkill.xhtml?faces-redirect=true";
+    }
+
+    public int getOffersCountForListing(Long listingId) {
+        return offerSessionLocal.getAllOffers(listingId, "EL").size();  // Directly fetch and return the size
+    }
+
+    public String findSkillNameFromId(Long sId) {
+        try {
+            return skillSessionLocal.getSkill(sId).getSkillName();
+        } catch (NoResultException ex) {
+            Logger.getLogger(ExchangeListingManagedBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 
     // delete - either set to inactive or delete method in sessionbean
@@ -698,6 +715,14 @@ public class ExchangeListingManagedBean implements Serializable {
 
     public void setActiveListings(List<ExchangeListing> activeListings) {
         this.activeListings = activeListings;
+    }
+
+    public OfferSessionLocal getOfferSessionLocal() {
+        return offerSessionLocal;
+    }
+
+    public void setOfferSessionLocal(OfferSessionLocal offerSessionLocal) {
+        this.offerSessionLocal = offerSessionLocal;
     }
 
 }
