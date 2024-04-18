@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../layout/default2.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+
+    <ui:define name="top">
+        Select your skills
+    </ui:define>
+
+    <ui:define name="content">
+        <style type="text/css">
+
+            .skills-container {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr); /* Adjust number of columns as needed */
+                gap: 10px; /* Space between items */
+            }
+
+            .skill {
+                display: block;
+                padding: 10px;
+                background: #eeeeee;
+                text-align: center;
+                border-radius: 25px;
+                cursor: pointer;
+                text-decoration: none;
+                color: #333;
+                transition: background-color 0.3s;
+                font-size: 20px;
+            }
+
+            .skill.selected {
+                background-color: #999999;
+                color: white;
+            }
+        </style>
+
+        <section class="breadcrumb-section set-bg" data-setbg="https://wallpapers.com/images/hd/pastel-aesthetic-background-kk9ygsa8qygoluem.jpg">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12 text-center">
+                        <div class="breadcrumb__text">
+                            <h2>My Skills</h2>
+                            <div class="breadcrumb__option">
+                                <span>Select the skills that you can exchange with your neighbours.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div style="padding:2em" class="text-center">
+            <h:form id="skillsForm">
+                <p:growl id="growl" showDetail="true" sticky="true" /> 
+                <div class="skills-container">
+                    <ui:repeat value="#{skillManagedBean.skills}" var="skill">
+                        <h:commandButton styleClass="skill #{skillManagedBean.selectedSkillIds.contains(skill.id) ? 'selected' : ''}" 
+                                         action="#{skillManagedBean.toggleSkillSelection(skill.id)}"
+                                         value="#{skill.skillName}">
+                            <f:ajax render="@form" />
+                        </h:commandButton>
+                    </ui:repeat>
+                </div>
+                <h:commandButton value="Submit" action="#{skillManagedBean.submit}" class="site-btn"/>
+            </h:form>    
+        </div>
+
+    </ui:define>
+
+</ui:composition>

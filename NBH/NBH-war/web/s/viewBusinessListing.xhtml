@@ -1,0 +1,200 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets" 
+                template="./../layout/default2.xhtml" 
+                xmlns:h="http://xmlns.jcp.org/jsf/html" 
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <f:metadata>
+        <f:event type="preRenderView" listener="#{businessManagedBean.loadBusinessListingsCreatedByUser}" />
+    </f:metadata>
+
+    <ui:define name="content">
+        <div class="container mt-4">
+            <h:form id="form">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead class="thead-light">
+                            <tr>
+                                <th scope="col">Business Name</th>
+                                <th scope="col">Business UEN</th>
+                                <th scope="col">Date</th>
+                                <th scope="col">Bio</th>
+                                <th scope="col">Category</th>
+                                <th scope="col">Action</th> <!-- Added for PrimeFaces button -->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <ui:repeat value="#{businessManagedBean.businessListingCreatedByUser}" var="serviceProviderListing">
+                                <tr>
+                                    <td>#{serviceProviderListing.businessName}</td>
+                                    <td>#{serviceProviderListing.businessUEN}</td>
+                                    <td>
+                                        <h:outputText value="#{serviceProviderListing.datePosted}">
+                                            <f:convertDateTime type="date" pattern="dd/MM/yyyy" />
+                                        </h:outputText>
+                                    </td>
+                                    <td>#{serviceProviderListing.bio}</td>
+                                    <td>#{serviceProviderListing.category}</td>
+                                    <td>
+                                        <p:commandButton icon="fa fa-fw fa-plus-square" 
+                                                         oncomplete="PF('eventDialog').show()"  action="#{businessManagedBean.loadServiceProviderListing}"> 
+                                            <f:setPropertyActionListener value="#{serviceProviderListing}" 
+                                                                         target="#{businessManagedBean.selectedServiceProviderListing}"/>
+                                            <f:param name="serviceProviderListingId" value="#{serviceProviderListing.id}" />
+                                        </p:commandButton>
+
+                                        <p:commandButton value="Delete" action="#{businessManagedBean.deleteServiceProviderListing}" 
+                                                         styleClass="ui-button-danger" icon="pi pi-times" update="form">
+                                            <f:param name="serviceProviderListingId" value="#{serviceProviderListing.id}" />
+                                            <p:confirm header="Confirmation"  icon="pi pi-info-circle"/>
+                                        </p:commandButton>
+
+
+                                        <p:commandButton value="View Rating" action="#{businessManagedBean.retrieveRating}" 
+                                                         update="ratingDetails" oncomplete="PF('ratingDialog').show()" process ="@this">
+                                            <f:param name="serviceProviderListingId" value="#{serviceProviderListing.id}" />
+
+                                        </p:commandButton>
+
+                                        <p:commandButton value="View Services" styleClass="view-button" process ="@this"
+                                                         update="businessDetails" oncomplete="PF('businessDialog').show()" 
+                                                         title="View" action="#{businessManagedBean.retrieveServiceItems}">
+                                            <f:setPropertyActionListener value="#{serviceProviderListing}" target="#{businessManagedBean.selectedServiceProviderListing}" />
+                                            <f:param name="serviceProviderListingId" value="#{serviceProviderListing.id}" />
+                                        </p:commandButton>
+                                    </td>
+                                </tr>
+                            </ui:repeat>
+                        </tbody>
+                    </table>
+                </div>
+            </h:form>
+        </div>
+        
+        
+        <p:dialog header="Service Items Details" widgetVar="businessDialog" modal="false" showEffect="fade" hideEffect="fade" resizable="false">
+                <p:outputPanel id="businessDetails">
+                    <p:panelGrid columns="2" rendered="#{not empty businessManagedBean.serviceItems}">
+                        <c:forEach items="#{businessManagedBean.serviceItems}" var="item">
+                            <h:panelGrid columns="2">
+                                <p:outputLabel for="itemName" value="Item Name:" />
+                                <h:outputText id="itemName" value="#{item.itemName}" />
+
+                                <p:outputLabel for="itemDescription" value="Item Description:" />
+                                <h:outputText id="itemDescription" value="#{item.itemDescription}" />
+
+                                <p:outputLabel for="itemPrice" value="Item Price:" />
+                                <h:outputText id="itemPrice" value="#{item.itemPrice}" />
+
+                            </h:panelGrid>
+                        </c:forEach>
+                    </p:panelGrid>
+                </p:outputPanel>
+            </p:dialog>
+        
+        
+        <!-- Confirmation dialog -->
+        <div class="card">
+            <h:form>
+
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" responsive="true" width="350">
+                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-flat"/>
+                    <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" />
+                </p:confirmDialog>
+            </h:form>
+        </div>
+
+        <p:dialog header="Rating Details" widgetVar="ratingDialog" modal="false" showEffect="fade" hideEffect="fade" resizable="false" >
+
+            <p:outputPanel id="ratingDetails">
+                <div class="card">
+                    <h:form>
+                        <h5>This is your rating</h5>
+                        <div class="form-group">
+                            <h:outputLabel id="rating" value="Rating: #{businessManagedBean.rating}" />
+
+                        </div>
+                    </h:form>
+                </div>
+            </p:outputPanel>
+
+        </p:dialog>
+
+        
+
+        <p:dialog header="Business Provider Details" widgetVar="eventDialog" 
+                  modal="false" showEffect="fade" hideEffect="fade" resizable="false"
+                  width="50%" position="center">
+            <h:form>
+                <p:outputPanel id="eventDetails">
+
+
+                    <div class="container">
+                        <div class="card">
+                            <h5 class="card-header">Create Business Items</h5>
+                            <div class="card-body">
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <h:outputLabel for="itemName" value="Item's Name: " />
+                                            <h:inputText id="itemName" value="#{businessManagedBean.itemName}" class="form-control" required="true" requiredMessage="Item Name is required" />
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <h:outputLabel for="price" value="Item's Price: " />
+                                            <h:inputText id="price" value="#{businessManagedBean.price}" class="form-control" required="true" requiredMessage="Item Price is required" />
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <h:outputLabel for="location" value="Location: " />
+                                            <h:inputText id="location" value="#{businessManagedBean.location}" class="form-control" required="true" requiredMessage="Location is required" />
+                                            <h:message for="location" styleClass="text-danger" />
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <h:outputLabel for="description" value="Description"/>
+                                            <h:inputTextarea id="description" rows="4" class="form-control" value="#{businessManagedBean.description}"/>
+                                            <h:message for="description" styleClass="text-danger" />
+                                        </div>
+                                    </div>
+
+                                    <div class="text-center">
+                                        <p:commandButton value="Submit" action="#{businessManagedBean.addItems}" class="btn btn-primary" update=":form" oncomplete="showRatingMessage()"/>
+                                    </div>
+
+                                </div>
+
+
+
+                            </div>
+                        </div>
+                    </div> 
+
+
+                </p:outputPanel>
+            </h:form>
+        </p:dialog>
+        <script>
+            function showRatingMessage() {
+                alert("Your items have been submitted!");
+                // You can replace the alert with any other method to display a message
+                // For example, you can use a toast message library or update a hidden message div
+            }
+        </script>
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../layout/default2.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="content">
+        <f:metadata>
+            <f:event type="preRenderView" listener="#{customerManagedBean.loadSelectedCustomer}" />
+        </f:metadata>
+        <h:form id="form">
+            <section class="shoping-cart spad" style="background-image: url('https://wallpapers.com/images/hd/pastel-aesthetic-background-kk9ygsa8qygoluem.jpg'); background-size: cover; background-position: center;">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="shoping__cart__table">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th class="shoping__product">Liked Posts</th>
+                                            <th>Category</th>
+                                            <th>Date Posted</th>
+                                            <th></th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <ui:repeat value="#{customerManagedBean.selectedCustomer.likedPosts}" var="post">
+                                            <tr>
+                                                <td class="shoping__cart__item">
+                                                    <img src="#{request.contextPath}/upload/#{post.fileName}" alt="" style="width: 100px; height:100px;"/>
+                                                    
+                                                    <b>#{post.title}</b>
+                                                </td>
+                                                <td class="shoping__cart__price">
+                                                    #{post.category}
+                                                </td>
+                                                <td class="shoping__cart__total">
+                                                     <h:outputText value="#{post.dateCreated}">
+                                                        <f:convertDateTime type="date" pattern="dd/MM/yyyy" timeZone="GMT+08:00"/>
+                                                    </h:outputText>
+                                                </td>
+                                                <td class="shoping__cart__item__close">
+                                                    <h:commandButton value="View More" actionListener="#{postManagedBean.viewPostDetails(post.id)}" action="viewForumPost.xhtml?faces-redirect=true"/>
+                                                </td>
+                                                <td class="shoping__cart__item__close">
+                                                    <h:commandButton value="Unlike" actionListener="#{postManagedBean.unlikePost(post.id, customerManagedBean.selectedCustomer.id)}"/>
+                                                </td>
+                                            </tr>
+                                        </ui:repeat>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>
