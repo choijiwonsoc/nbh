@@ -106,9 +106,8 @@ public class OfferSession implements OfferSessionLocal {
         return query.getResultList();
     }
 
-    /*
     @Override
-    public void cancelOffer(Long oId, Long cId, Long elId) throws NoResultException {
+    public void deleteOffer(Long oId, Long cId, Long elId) throws NoResultException {
         Offer o = em.find(Offer.class, oId);
         // dissociate from customer
         Customer customer = em.find(Customer.class, cId);
@@ -121,6 +120,13 @@ public class OfferSession implements OfferSessionLocal {
         o.setExchangeListing(null);
 
         // dissociate from skill
+        for (Skill skill : o.getSkills()) {
+            skill.getOffers().remove(o); // Remove the offer from each skill
+            em.persist(skill); // Persist changes if not cascading
+        }
+        o.getSkills().clear(); // Clear the collection of skills from the offer
+
+        em.remove(o);
     }
-     */
+
 }
