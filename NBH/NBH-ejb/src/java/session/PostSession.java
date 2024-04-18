@@ -104,6 +104,7 @@ public class PostSession implements PostSessionLocal {
         comment.setText(text);
         em.persist(comment);
         post.getComments().add(comment);
+        
     }
 
     @Override

@@ -14,7 +14,7 @@
     </filter>
     <filter-mapping>
         <filter-name>AuthenticationFilter</filter-name>
-        <url-pattern>/secret/*</url-pattern>
+        <url-pattern>/s/*</url-pattern>
     </filter-mapping>
     <servlet>
         <servlet-name>Faces Servlet</servlet-name>

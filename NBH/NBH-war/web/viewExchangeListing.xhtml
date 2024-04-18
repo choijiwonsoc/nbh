@@ -16,6 +16,41 @@
     </ui:define>
 
     <ui:define name="content">
+        <style>
+            .detail-row {
+                margin-bottom: 0.5em; /* Adjust as needed */
+            }
+
+            .detail-label {
+                font-weight: bold;
+                font-size: 25px; /* Match your value font-size */
+                display: inline-block; /* For alignment purposes */
+                margin-right: 0.5em; /* Space between label and value */
+            }
+
+            .detail-value {
+                font-size: 25px;
+                display: inline; /* Keeps the value next to the label */
+            }
+
+            /* Add this if you want to vertically align labels and values */
+            .detail-label, .detail-value {
+                vertical-align: top;
+            }
+
+            /* Additional styles for UL list if needed */
+            .detail-value ul {
+                list-style-type: none;
+                padding: 0;
+                margin: 0;
+            }
+
+            .toAlign {
+                display: flex;
+                padding-left: 40%;
+            }
+        </style>
+
 
         <section class="breadcrumb-section set-bg" data-setbg="https://wallpapers.com/images/hd/pastel-aesthetic-background-kk9ygsa8qygoluem.jpg">
             <div class="container">

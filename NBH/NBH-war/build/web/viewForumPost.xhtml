@@ -75,7 +75,7 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <ui:repeat value="#{postManagedBean.getReversedComments(postManagedBean.currentPost)}" var="comment">
+                                                    <ui:repeat value="#{postManagedBean.getReversedComments(postManagedBean.currentPost.comments)}" var="comment">
                                                         <tr>
                                                             <td class="shoping__cart__item">
                                                                 #{comment.text}
@@ -90,7 +90,9 @@
                                                                 #{comment.customer.username}
                                                             </td>
                                                             <td class="shoping__cart__total">
-                                                                <h:commandButton value="Delete" actionListener="#{postManagedBean.deleteComment(postManagedBean.currentPost.id, comment.id)}"/>
+                                                                #{comment.id}
+                                                                <h:commandButton value="Delete" action="#{postManagedBean.deleteComment(postManagedBean.currentPost.id, comment.id)}"
+                                                                                 disabled="#{not postManagedBean.commentBelongToCust(comment, customerManagedBean.selectedCustomer)}"/>
                                                             </td>
                                                         </tr>
                                                     </ui:repeat>
