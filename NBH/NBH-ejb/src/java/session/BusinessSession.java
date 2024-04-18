@@ -34,6 +34,22 @@ public class BusinessSession implements BusinessSessionLocal {
         query.setParameter("id", id);
         return query.getResultList();
     }
+    
+    @Override
+    public List<Request> receieveRequestSent(Long id) {
+        Query query = em.createQuery("SELECT e FROM Request e  WHERE e.requester.id = :id");
+        query.setParameter("id", id);
+        return query.getResultList();
+    }
+    
+    @Override
+    public void updateBusiness(ServiceProviderListing s) {
+        ServiceProviderListing serviceProviderListing = em.find(ServiceProviderListing.class,s.getId());
+        serviceProviderListing.setBusinessName(s.getBusinessName());
+        serviceProviderListing.setBio(s.getBio());
+        serviceProviderListing.setBusinessUEN(s.getBusinessUEN());
+        serviceProviderListing.setCategory(s.getCategory());
+    }
 
     @Override
     public void insertRating(Long sId, Integer rating, Long userId) {

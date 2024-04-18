@@ -20,6 +20,10 @@ import javax.persistence.NoResultException;
 @Local
 public interface BusinessSessionLocal {
     
+     public List<Request> receieveRequestSent(Long id);
+    
+    public void updateBusiness(ServiceProviderListing s);
+    
     public Double getRatingForServiceProviderListing(Long sId);
     
      public void insertRating(Long sId, Integer rating, Long userId);

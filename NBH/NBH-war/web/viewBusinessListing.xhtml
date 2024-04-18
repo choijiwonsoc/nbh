@@ -51,12 +51,12 @@
                                             <f:param name="serviceProviderListingId" value="#{serviceProviderListing.id}" />
                                             <p:confirm header="Confirmation"  icon="pi pi-info-circle"/>
                                         </p:commandButton>
-                                        
-                                        
+
+
                                         <p:commandButton value="View Rating" action="#{businessManagedBean.retrieveRating}" 
                                                          update="ratingDetails" oncomplete="PF('ratingDialog').show()" process ="@this">
                                             <f:param name="serviceProviderListingId" value="#{serviceProviderListing.id}" />
-                                             
+
                                         </p:commandButton>
                                     </td>
                                 </tr>
@@ -79,24 +79,24 @@
         </div>
 
         <p:dialog header="Rating Details" widgetVar="ratingDialog" modal="false" showEffect="fade" hideEffect="fade" resizable="false" >
-            
+
             <p:outputPanel id="ratingDetails">
                 <div class="card">
                     <h:form>
-                    <h5>This is your rating</h5>
-                    <div class="form-group">
-                        <h:outputLabel id="rating" value="Rating: #{businessManagedBean.rating}" />
-                        
-                    </div>
+                        <h5>This is your rating</h5>
+                        <div class="form-group">
+                            <h:outputLabel id="rating" value="Rating: #{businessManagedBean.rating}" />
+
+                        </div>
                     </h:form>
                 </div>
             </p:outputPanel>
-            
+
         </p:dialog>
 
 
 
-        <p:dialog header="Event Details" widgetVar="eventDialog" 
+        <p:dialog header="Business Provider Details" widgetVar="eventDialog" 
                   modal="false" showEffect="fade" hideEffect="fade" resizable="false"
                   width="50%" position="center">
             <h:form>
@@ -144,7 +144,7 @@
                                     </div>
 
                                     <div class="text-center">
-                                        <p:commandButton value="Submit" action="#{businessManagedBean.addItems}" class="btn btn-primary" update=":form" />
+                                        <p:commandButton value="Submit" action="#{businessManagedBean.addItems}" class="btn btn-primary" update=":form" oncomplete="showRatingMessage()"/>
                                     </div>
 
                                 </div>
@@ -159,6 +159,12 @@
                 </p:outputPanel>
             </h:form>
         </p:dialog>
-
+        <script>
+            function showRatingMessage() {
+                alert("Your items have been submitted!");
+                // You can replace the alert with any other method to display a message
+                // For example, you can use a toast message library or update a hidden message div
+            }
+        </script>
     </ui:define>
 </ui:composition>

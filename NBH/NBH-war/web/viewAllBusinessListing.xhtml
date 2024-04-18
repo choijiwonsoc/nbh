@@ -2,7 +2,8 @@
 <!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets" 
-                template="./layout/default2.xhtml" xmlns:p="http://primefaces.org/ui"
+                template="./layout/default2.xhtml" 
+                xmlns:p="http://primefaces.org/ui"
                 xmlns:h="http://xmlns.jcp.org/jsf/html" 
                 xmlns:f="http://xmlns.jcp.org/jsf/core" 
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
@@ -85,8 +86,8 @@
                                      actionListener="#{businessManagedBean.loadServiceProviderListing(serviceProviderListing.id)}">
 
                     </p:commandButton>
-                    
-                    
+
+
                     <p:commandButton  value="Make a review" update=":form:reviewDetails"  process ="@this"
                                       oncomplete="PF('reviewDialog').show()" >
                         <f:setPropertyActionListener value="#{serviceProviderListing}" target="#{businessManagedBean.selectedServiceProviderListing}" />
@@ -102,23 +103,30 @@
             <p:dialog header="Review Details" widgetVar="reviewDialog" modal="false" showEffect="fade" hideEffect="fade" resizable="false">
                 <p:outputPanel id="reviewDetails">
                     <div class="card">
-                        <h:form>
-                            
-
-                            <h5>Leave a rating</h5>
-                            <p:rating value="#{businessManagedBean.rating2}">
-                                <p:ajax event="rate" listener="#{businessManagedBean.onrate}" >
-                                    <f:param name="serviceProviderListingId" value="#{serviceProviderListing.id}" />
-                                </p:ajax>
-                                <p:ajax event="cancel" listener="#{businessManagedBean.oncancel}" />
-                            </p:rating>
 
 
-                        </h:form>
+
+                        <h5>Leave a rating</h5>
+                        <p:rating value="#{businessManagedBean.rating2}">
+                            <p:ajax event="rate" listener="#{businessManagedBean.onrate}" oncomplete="showRatingMessage()" >
+                                <f:param name="serviceProviderListingId" value="#{serviceProviderListing.id}" />
+                            </p:ajax>
+                            <p:ajax event="cancel" listener="#{businessManagedBean.oncancel}" />
+                        </p:rating>
+
+
+
                     </div>
                 </p:outputPanel>
             </p:dialog>
 
+            <script>
+                function showRatingMessage() {
+                    alert("Your rating has been submitted!");
+                    // You can replace the alert with any other method to display a message
+                    // For example, you can use a toast message library or update a hidden message div
+                }
+            </script>
 
 
 

@@ -4,8 +4,10 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/weiku/OneDrive/Desktop/nbh/NBH/NBH-war/src/java/managedbean/BusinessManagedBean.java</file>
+            <file>file:/C:/Users/weiku/OneDrive/Desktop/nbh/NBH/NBH-war/web/viewRequestSent.xhtml</file>
+            <file>file:/C:/Users/weiku/OneDrive/Desktop/nbh/NBH/NBH-war/web/editProfile.xhtml</file>
             <file>file:/C:/Users/weiku/OneDrive/Desktop/nbh/NBH/NBH-war/web/viewBusinessListing.xhtml</file>
-            <file>file:/C:/Users/weiku/OneDrive/Desktop/nbh/NBH/NBH-war/web/editForumPost.xhtml</file>
+            <file>file:/C:/Users/weiku/OneDrive/Desktop/nbh/NBH/NBH-war/web/viewRequest.xhtml</file>
         </group>
     </open-files>
 </project-private>

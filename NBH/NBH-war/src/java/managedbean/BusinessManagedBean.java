@@ -64,6 +64,7 @@ public class BusinessManagedBean implements Serializable {
     private String requestDescription;
 
     private List<Request> receievedRequests;
+    private List<Request> receievedRequestsSent;
 
     private Request selectedRequest;
 
@@ -167,6 +168,12 @@ public class BusinessManagedBean implements Serializable {
         System.out.println(receievedRequests + "request");
 
     }
+    
+    public void receieveRequestSent() {
+        receievedRequestsSent = businessSession.receieveRequestSent(userId);
+        System.out.println(receievedRequestsSent + "request");
+
+    }
 
     public void makeRequest() {
         FacesContext context = FacesContext.getCurrentInstance();
@@ -236,11 +243,33 @@ public class BusinessManagedBean implements Serializable {
         try {
             System.out.println(serviceProviderListingId + " this id");
             this.selectedServiceProviderListing = businessSession.getSpecificBusinessListing(serviceProviderListingId);
+            bname = this.selectedServiceProviderListing.getBusinessName();
+            System.out.println(bname + "check bname");
         } catch (Exception e) {
             context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Unable to load service provider listing"));
         }
     }
 
+   public void updateBusiness(){
+       
+       FacesContext context = FacesContext.getCurrentInstance();
+       System.out.println(bname + "check if null");
+       System.out.println(bio + "check if null");
+        selectedServiceProviderListing.setBusinessName(bname);
+        selectedServiceProviderListing.setBio(bio);
+        selectedServiceProviderListing.setBusinessUEN(uen);
+        selectedServiceProviderListing.setCategory(category);
+        
+        
+        try {
+            businessSession.updateBusiness(selectedServiceProviderListing);
+        } catch (Exception e) {
+            //show with an error icon
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Unable to update customer"));
+            return;
+        }
+   }
+    
     public void loadBusinessListingsCreatedByUser() {
         FacesContext context = FacesContext.getCurrentInstance();
         try {
@@ -475,6 +504,14 @@ public class BusinessManagedBean implements Serializable {
 
     public List<ServiceProviderListing> getSearchServiceProviderListing() {
         return searchServiceProviderListing;
+    }
+
+    public List<Request> getReceievedRequestsSent() {
+        return receievedRequestsSent;
+    }
+
+    public void setReceievedRequestsSent(List<Request> receievedRequestsSent) {
+        this.receievedRequestsSent = receievedRequestsSent;
     }
 
     public void setSearchServiceProviderListing(List<ServiceProviderListing> searchServiceProviderListing) {
