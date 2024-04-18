@@ -77,30 +77,18 @@
                                                         <f:setPropertyActionListener value="#{listing}" target="#{exchangeListingManagedBean.currentExchangeListing}" />
                                                     </p:commandButton>
                                                     &nbsp;
-                                                    <p:commandButton value="Offers" class="blog__btn" icon="fa fa-handshake-o"
-                                                                     style="border-color: #7fad39; background-color: #ffffff; color: #7fad39; font-weight: bold"
-                                                                     action="#{exchangeListingManagedBean.navigateToAvailableOffers(listing)}"/>
-
-                                                    <div style="padding:1em">
-                                                        <h:commandButton value="Delete" class="blog__btn"
-                                                                         style="border-color: #ff353c; background-color: #ffffff; color: #ff353c; font-weight: bold"
-                                                                         action="#{exchangeListingManagedBean.deleteListing(listing)}"
-                                                                         onclick="return confirmDelete();" type="submit" />
-
-                                                    </div>
-
                                                     <div style="position: relative; display: inline-block;">
                                                         <p:commandButton value="Offers" class="blog__btn" icon="fa fa-handshake-o"
-                                                                         style="border-color: #cccccc; background-color: #ffffff; color: #666666"
+                                                                         style="border-color: #7fad39; background-color: #ffffff; color: #7fad39"
                                                                          action="#{exchangeListingManagedBean.navigateToAvailableOffers(listing)}"/>
                                                         <span class="notification-badge">#{exchangeListingManagedBean.getOffersCountForListing(listing.id)}</span>
                                                     </div>
-
-                                                    <h:commandButton value="Delete" class="blog__btn"
-                                                                     style="border-color: #cccccc; background-color: #cccccc; color: #666666"
+                                                    <div style="padding:1em">
+                                                        <h:commandButton value="Delete" class="blog__btn"
+                                                                     style="border-color: #ff353c; background-color: #ffffff; color: #ff353c"
                                                                      action="#{exchangeListingManagedBean.deleteListing(listing)}"
                                                                      onclick="return confirmDelete();" type="submit" />
-
+                                                    </div>
                                                     <p:dialog header="Edit Not Allowed" widgetVar="errorDialog" modal="true" showEffect="fade" hideEffect="fade">
                                                         <h:outputText value="Editing is not allowed since there are offers made to this listing." />
                                                         <p:commandButton value="OK" onclick="PF('errorDialog').hide();" type="button" />
