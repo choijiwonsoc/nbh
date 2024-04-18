@@ -57,11 +57,25 @@
                                     <div class="blog__sidebar__item">
                                         <h4>Regions</h4>
                                         <ul>
-                                            <li><a href="#" onclick="setRegion('All')">All</a></li>
-                                            <li><a href="#" onclick="setRegion('North')">North</a></li>
-                                            <li><a href="#" onclick="setRegion('South')">South</a></li>
-                                            <li><a href="#" onclick="setRegion('East')">East</a></li>
-                                            <li><a href="#" onclick="setRegion('West')">West</a></li>
+                                            <li>
+                                                <a href="#" onclick="setRegion('All')">All</a>
+                                            </li>
+                                            <li>
+                                                <input type="checkbox" id="regionNorth" value="North" onchange="filterRegions()" />
+                                                <label for="regionNorth">North</label>
+                                            </li>
+                                            <li>
+                                                <input type="checkbox" id="regionSouth" value="South" onchange="filterRegions()" />
+                                                <label for="regionSouth">South</label>
+                                            </li>
+                                            <li>
+                                                <input type="checkbox" id="regionEast" value="East" onchange="filterRegions()" />
+                                                <label for="regionEast">East</label>
+                                            </li>
+                                            <li>
+                                                <input type="checkbox" id="regionWest" value="West" onchange="filterRegions()" />
+                                                <label for="regionWest">West</label>
+                                            </li>
                                         </ul>
                                     </div>
                                 </div>
@@ -129,7 +143,8 @@
             });
         </script>
 
-        <script>
+        <script type="text/javascript">
+            //<![CDATA[
             function setRegion(region) {
                 const hiddenGems = document.querySelectorAll('.hidden-gem');
                 hiddenGems.forEach(hiddenGem => {
@@ -141,6 +156,23 @@
                     }
                 });
             }
+            function filterRegions() {
+                const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+                const selectedDistricts = Array.from(checkboxes)
+                        .filter(checkbox => checkbox.checked && checkbox.value !== 'All')
+                        .map(checkbox => checkbox.value);
+
+                const searchResults = document.querySelectorAll('.hidden-gem');
+                searchResults.forEach(hiddenGem => {
+                    const district = hiddenGem.getAttribute('data-region');
+                    if (selectedDistricts.length === 0 || selectedDistricts.includes(district)) {
+                        hiddenGem.style.display = 'block';
+                    } else {
+                        hiddenGem.style.display = 'none';
+                    }
+                });
+            }
+            //]]>
         </script>
     </ui:define>
 

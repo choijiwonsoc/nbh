@@ -137,6 +137,18 @@ public class HiddenGemManagedBean implements Serializable {
         hiddenGemSessionLocal.addHiddenGemReview(hgId, c.getId(), hgr);
         return "/hiddenGems.xhtml?faces-redirect=true";
     }
+//    public void addReview(Customer c, Long hgId) throws NoResultException {
+//        HiddenGemReview hgr = new HiddenGemReview();
+//        hgr.setCreated(new Date());
+//
+//        HiddenGem selected = hiddenGemSessionLocal.getHiddenGem(hgId);
+//        hgr.setHiddenGem(selected);
+//        hgr.setReview(review);
+//        System.out.println("hgId" + hgId);
+//        System.out.println("cId" + c.getId());
+//        System.out.println("hgrId" + hgr.getId());
+//        hiddenGemSessionLocal.addHiddenGemReview(hgId, c.getId(), hgr);
+//    }
 
     public void onItemUnselect(UnselectEvent event) {
         FacesContext context = FacesContext.getCurrentInstance();
