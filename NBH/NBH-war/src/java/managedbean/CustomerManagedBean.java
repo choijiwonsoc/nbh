@@ -159,7 +159,7 @@ public class CustomerManagedBean implements Serializable {
             context.addMessage(null, message);
             return null;
         }
-        return "/addCustomerPhoto.xhtml?faces-redirect=true";
+        return "/s/addCustomerPhoto.xhtml?faces-redirect=true";
 
     }
 
