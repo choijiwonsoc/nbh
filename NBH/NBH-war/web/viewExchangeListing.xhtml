@@ -16,6 +16,41 @@
     </ui:define>
 
     <ui:define name="content">
+        <style>
+            .detail-row {
+                margin-bottom: 0.5em; /* Adjust as needed */
+            }
+
+            .detail-label {
+                font-weight: bold;
+                font-size: 25px; /* Match your value font-size */
+                display: inline-block; /* For alignment purposes */
+                margin-right: 0.5em; /* Space between label and value */
+            }
+
+            .detail-value {
+                font-size: 25px;
+                display: inline; /* Keeps the value next to the label */
+            }
+
+            /* Add this if you want to vertically align labels and values */
+            .detail-label, .detail-value {
+                vertical-align: top;
+            }
+
+            /* Additional styles for UL list if needed */
+            .detail-value ul {
+                list-style-type: none;
+                padding: 0;
+                margin: 0;
+            }
+
+            .toAlign {
+                display: flex;
+                padding-left: 40%;
+            }
+        </style>
+
 
         <section class="breadcrumb-section set-bg" data-setbg="https://wallpapers.com/images/hd/pastel-aesthetic-background-kk9ygsa8qygoluem.jpg">
             <div class="container">
@@ -31,28 +66,30 @@
         <h:form id="form" class="content-class">
             <p:growl id="growl" showDetail="true" sticky="true" />
             <div class="event-details text-center" style="padding:2em"> 
-                <div class="detail-row">
-                    <span class="detail-value" style="font-size: 25px">
-                        <span class="detail-label"><b>Date:</b></span>
-                        <h:outputText value="#{exchangeListingManagedBean.currentExchangeListing.startDateTime}" >
-                            <f:convertDateTime pattern="EEEE, MMMM d, yyyy" timeZone="Asia/Singapore" />
-                        </h:outputText>
-                    </span>
-                </div>
+               
+                    <div class="detail-row toAlign">
+                        <span class="detail-value">
+                            <span class="detail-label">Date:</span>
+                            <h:outputText value="#{exchangeListingManagedBean.currentExchangeListing.startDateTime}" >
+                                <f:convertDateTime pattern="EEEE, MMMM d, yyyy" timeZone="Asia/Singapore" />
+                            </h:outputText>
+                        </span>
+                    </div>
 
 
-                <div class="detail-row">
-                    <span class="detail-value" style="font-size: 25px" >
-                        <span class="detail-label"><b>Time:</b></span>
-                        <h:outputText style="font-size: 25px" value="#{exchangeListingManagedBean.currentExchangeListing.startDateTime}" >
-                            <f:convertDateTime pattern="HH:mm" timeZone="Asia/Singapore" />
-                        </h:outputText>
-                        -
-                        <h:outputText value="#{exchangeListingManagedBean.currentExchangeListing.endDateTime}" >
-                            <f:convertDateTime pattern="HH:mm" timeZone="Asia/Singapore" />
-                        </h:outputText>
-                    </span>
-                </div>
+                    <div class="detail-row toAlign">
+                        <span class="detail-value" >
+                            <span class="detail-label">Time:</span>
+                            <h:outputText style="font-size: 25px" value="#{exchangeListingManagedBean.currentExchangeListing.startDateTime}" >
+                                <f:convertDateTime pattern="HH:mm" timeZone="Asia/Singapore" />
+                            </h:outputText>
+                            -
+                            <h:outputText value="#{exchangeListingManagedBean.currentExchangeListing.endDateTime}" >
+                                <f:convertDateTime pattern="HH:mm" timeZone="Asia/Singapore" />
+                            </h:outputText>
+                        </span>
+                    </div>
+              
 
                 <div class="detail-row" style="font-size: 25px" >
                     <span class="detail-label"><b>Description:</b></span><br/>
