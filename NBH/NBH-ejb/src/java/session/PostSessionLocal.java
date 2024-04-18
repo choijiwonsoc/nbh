@@ -4,6 +4,7 @@
  */
 package session;
 
+import entity.Comment;
 import entity.Post;
 import java.util.List;
 import javax.ejb.Local;
@@ -37,5 +38,9 @@ public interface PostSessionLocal {
     public List<Post> getPostsByCat(String filterCategory);
 
     public void setProfilePicFile(Long pId, String fileName);
+
+    public void deleteComment(Long pId, long commentId);
+
+    public List<Comment> getReverseComments(Post post);
     
 }

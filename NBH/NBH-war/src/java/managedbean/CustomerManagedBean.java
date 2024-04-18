@@ -65,10 +65,9 @@ public class CustomerManagedBean implements Serializable {
     private String region;
 
     Customer selectedCustomer;
-    
+
     private Part uploadedfile;
     private String filename = "";
-       
 
     /**
      * Creates a new instance of CustomerManagedBean
@@ -122,19 +121,27 @@ public class CustomerManagedBean implements Serializable {
 
     public String addCustomer(ActionEvent evt) throws IOException {
         Customer c = new Customer();
-        if (!customerSessionLocal.getAllEmails().contains(email) &&!customerSessionLocal.getAllUsername().contains(username)) {
+        if (name.length() == 0 || contact.length() == 0 || email.length() == 0 || password.length() == 0 || username.length() == 0) {
+
+            FacesContext context = FacesContext.getCurrentInstance();
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                    "One or more fields not filled.", null);
+            context.addMessage(null, message);
+            return null;
+
+        } else if (!customerSessionLocal.getAllUsername().contains(username)) {
             c.setName(name);
             c.setContact(contact);
             c.setDistrict(district);
-            if("Ang Mo Kio".equals(district) || "Yishun".equals(district) || "Sembawang".equals(district)){
+            if ("Ang Mo Kio".equals(district) || "Yishun".equals(district) || "Sembawang".equals(district)) {
                 c.setRegion("North");
-            }else if("Bedok".equals(district) || "Pasir Ris".equals(district) || "Tampines".equals(district)){
+            } else if ("Bedok".equals(district) || "Pasir Ris".equals(district) || "Tampines".equals(district)) {
                 c.setRegion("East");
-            }else if ("Bukit Batok".equals(district) || "Choa Chu Kang".equals(district) || "Jurong East".equals(district)){
+            } else if ("Bukit Batok".equals(district) || "Choa Chu Kang".equals(district) || "Jurong East".equals(district)) {
                 c.setRegion("West");
-            }else if("Bishan".equals(district) || "Bukit Timah".equals(district) || "Toa Payoh".equals(district)){
+            } else if ("Bishan".equals(district) || "Bukit Timah".equals(district) || "Toa Payoh".equals(district)) {
                 c.setRegion("Central");
-            }else{
+            } else {
                 c.setRegion("South");
             }
             c.setEmail(email);
@@ -148,23 +155,39 @@ public class CustomerManagedBean implements Serializable {
         } else {
             FacesContext context = FacesContext.getCurrentInstance();
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                    "Customer already exists", null);
+                    "Username already exists", null);
             context.addMessage(null, message);
             return null;
         }
         return "/addCustomerPhoto.xhtml?faces-redirect=true";
 
     }
-    
-    public void editCustomer(Long cId){
-        Customer c = new Customer();
-        c.setId(cId);
-        c.setUsername(username);
-        c.setPassword(password);
-        c.setContact(contact);
-        c.setEmail(email);
-        customerSessionLocal.editCustomer(c);
-        
+
+    public String editCustomer(Long cId) {
+        if (username.length() == 0 || contact.length() == 0 || email.length() == 0) {
+            FacesContext context = FacesContext.getCurrentInstance();
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                    "One or more fields not filled", null);
+            context.addMessage(null, message);
+            return null;
+
+        } else {
+            Customer c = new Customer();
+            String pw = selectedCustomer.getPassword();
+            c.setId(cId);
+            c.setUsername(username);
+            if (password.length() > 0) {
+                c.setPassword(password);
+            } else {
+                c.setPassword(pw);
+            }
+
+            c.setContact(contact);
+            c.setEmail(email);
+            customerSessionLocal.editCustomer(c);
+            return "/viewProfile.xhtml?faces-redirect=true";
+        }
+
     }
 
     public void loadSelectedCustomer() {
@@ -184,12 +207,12 @@ public class CustomerManagedBean implements Serializable {
             username = this.selectedCustomer.getUsername();
             password = this.selectedCustomer.getPassword();
             //List<ServiceProviderListing> businessListings = this.selectedCustomer.getServiceProviderListing();
-            
+
         } catch (Exception e) {
             context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Unable to load customer"));
         }
     }
-    
+
     public String upload(Long cId) throws IOException, error.NoResultException {
         ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
         FacesContext context = FacesContext.getCurrentInstance();
@@ -216,11 +239,11 @@ public class CustomerManagedBean implements Serializable {
         //debug purposes
 
     }
-    
-    public List<Post> orderByDate(List<Post> postList){
+
+    public List<Post> orderByDate(List<Post> postList) {
         Collections.reverse(postList);
         return postList;
-        
+
     }
 
     public String getUsername() {
