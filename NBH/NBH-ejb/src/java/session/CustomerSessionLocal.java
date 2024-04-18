@@ -5,6 +5,7 @@
 package session;
 
 import entity.Customer;
+import entity.Post;
 import java.util.List;
 import javax.ejb.Local;
 import javax.persistence.NoResultException;
@@ -31,5 +32,5 @@ public interface CustomerSessionLocal {
     public void setProfilePicFile(Long cId, String fileName);
 
     public void editCustomer(Customer c);
-    
+
 }

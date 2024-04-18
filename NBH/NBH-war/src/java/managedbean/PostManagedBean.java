@@ -99,7 +99,7 @@ public class PostManagedBean implements Serializable {
             HttpSession session = request.getSession();
             Long postId = p.getId();
             session.setAttribute("postId", postId);
-            return "/forum.xhtml?faces-redirect=true";
+            return "/addForumPhoto.xhtml?faces-redirect=true";
         }
 
     }
@@ -168,9 +168,14 @@ public class PostManagedBean implements Serializable {
         loadSelectedPost();
     }
     
+    public void deleteComment(Long pId, Long commentId){
+        postSessionLocal.deleteComment(pId, commentId);
+        loadSelectedPost();
+    }
+    
     public List<Comment> getReversedComments(Post p) {
-        List<Comment> reversedComments = p.getComments(); // Make a copy of the original list
-        Collections.reverse(reversedComments); // Reverse the order of comments
+        List<Comment> reversedComments = postSessionLocal.getReverseComments(p);
+        // Reverse the order of comments
         return reversedComments;
     }
     
