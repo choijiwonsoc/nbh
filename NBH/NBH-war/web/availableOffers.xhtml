@@ -43,28 +43,35 @@
                                     <ui:repeat value="#{offerManagedBean.availOffers}" var="offer">
                                         <div class="col-lg-4 col-md-12 col-sm-12">
                                             <div class="blog__item" style="border: 2px solid gainsboro; padding:2em">
-                                                <div class="blog__item__text text-center">
-                                                    <h5><a href="#">You will help with: #{offerManagedBean.getSkillsForOffer(offer.id)}</a></h5>
-                                                    <h:outputText style="color: #7fad39; font-weight: bold" value="Status: #{offer.status}" rendered="#{offer.status == 'ACCEPTED'}"/>
-                                                    <h:outputText style="color: #666666; font-weight: bold" value="Status: #{offer.status}" rendered="#{offer.status == 'PENDING'}"/>
-                                                    <h:outputText style="color: #ff353c; font-weight: bold" value="Status: #{offer.status}" rendered="#{offer.status == 'ON-HOLD'}"/><br/>
-                                                    <h:outputText value="Made by: #{offer.customer.name}"/><br/>
-                                                    <h:outputText value="Contact: #{offer.customer.contact}"/><br/>
-                                                    <h:outputText value="Description: #{offer.description}"/><br/><br/>
+                                                <div class="blog__item__text">
+                                                    <div class="text-center">
+                                                        <h5><a href="#">You will help with: #{offerManagedBean.getSkillsForOffer(offer.id)}</a></h5>
+                                                        <h:outputText style="color: #7fad39; font-weight: bold; font-size: 18px" value="Status: #{offer.status}" rendered="#{offer.status == 'ACCEPTED'}"/>
+                                                        <h:outputText style="color: #666666; font-weight: bold; font-size: 18px" value="Status: #{offer.status}" rendered="#{offer.status == 'PENDING'}"/>
+                                                        <h:outputText style="color: #ff353c; font-weight: bold; font-size: 18px" value="Status: #{offer.status}" rendered="#{offer.status == 'ON-HOLD'}"/><br/>
+                                                    </div>
+                                                    <h:outputLabel value="Made by:&nbsp;" style="font-weight:bold"/>
+                                                    <h:outputText value="#{offer.customer.name}"/><br/>
+                                                    <h:outputLabel value="Contact:&nbsp;" style="font-weight:bold"/>
+                                                    <h:outputText value="#{offer.customer.contact}"/><br/>
+                                                    <h:outputLabel value="Description:&nbsp;" style="font-weight:bold"/>
+                                                    <h:outputText value="#{offer.description}"/><br/><br/>
                                                     <p> 
                                                         Submitted: 
                                                         <h:outputText value="#{offer.postedDateTime}" >
                                                             <f:convertDateTime pattern="EEEE, MMMM d yyyy" timeZone="Asia/Singapore" />
                                                         </h:outputText>
                                                     </p>
-                                                    <h:commandButton value="Accept" onclick="return confirmAccept();" 
-                                                                     action="#{offerManagedBean.acceptOffer(offer.id)}" type="submit" 
-                                                                     class="blog__btn"
-                                                                     style="border-color: #7fad39; background-color: #ffffff; color: #7fad39"/>
-                                                    &nbsp;
-                                                    <h:commandButton value="Reject" action="#{offerManagedBean.rejectOffer(offer.id)}"
-                                                                     onclick="return confirmReject();" type="submit" class="blog__btn"
-                                                                     style="border-color: #ff353c; background-color: #ffffff; color: #ff353c" />   
+                                                    <div class="text-center">
+                                                        <h:commandButton value="Accept" onclick="return confirmAccept();" 
+                                                                         action="#{offerManagedBean.acceptOffer(offer.id)}" type="submit" 
+                                                                         class="blog__btn"
+                                                                         style="border-color: #7fad39; background-color: #ffffff; color: #7fad39"/>
+                                                        &nbsp;
+                                                        <h:commandButton value="Reject" action="#{offerManagedBean.rejectOffer(offer.id)}"
+                                                                         onclick="return confirmReject();" type="submit" class="blog__btn"
+                                                                         style="border-color: #ff353c; background-color: #ffffff; color: #ff353c" />   
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>    

@@ -43,45 +43,51 @@
                             <div class="col-lg-12 col-md-12">
                                 <div class="row">
                                     <ui:repeat value="#{offerManagedBean.offersMade}" var="offer">
-                                        <div class="col-lg-4 col-md-4 col-sm-4">
-                                            <div class="blog__item" style="border: 2px solid gainsboro; padding:2em">
-                                                <div class="blog__item__text text-center">
-                                                    <h5>
+                                        <div class="col-lg-4 col-md-6 col-sm-12">
+                                            <div class="blog__item" style="border: 2px solid gainsboro; padding:2em; height:400px">
+                                                <div class="blog__item__text">
+                                                    <h5 class="text-center">
                                                         <a href="#">
                                                             <h:outputText style="color: #7fad39; font-weight: bold" value="Status: #{offer.status}" rendered="#{offer.status == 'ACCEPTED'}"/>
                                                             <h:outputText style="color: #ff353c; font-weight: bold" value="Status: #{offer.status}" rendered="#{offer.status == 'DECLINED' || offer.status == 'CANCELLED'}"/>
-                                                            <h:outputText style="color: #000; font-weight: bold" value="Status: #{offer.status}" rendered="#{offer.status == 'ON-HOLD'}"/>
+                                                            <h:outputText style="color: #000; font-weight: bold" value="Status: #{offer.status}" rendered="#{offer.status == 'ON-HOLD' || offer.status == 'PENDING'}"/>
                                                         </a>
                                                     </h5>
-                                                    <h:outputText value="For: #{offerManagedBean.getTitleOfListing(offer.id)}"/><br/>
-                                                    <h:outputText value="You requested: #{offerManagedBean.getSkillsForOffer(offer.id)}"/><br/>
-                                                    <h:outputText value="Description: #{offer.description}"/><br/><br/>
+                                                    <h:outputLabel style="font-weight: bold" value="For:&nbsp;"/>
+                                                    <h:outputText value="#{offerManagedBean.getTitleOfListing(offer.id)}"/><br/>
+                                                    <h:outputLabel style="font-weight: bold" value="You requested:&nbsp;"/>
+                                                    <h:outputText value="#{offerManagedBean.getSkillsForOffer(offer.id)}"/><br/>
+                                                    <h:outputLabel style="font-weight: bold" value="Description:&nbsp;"/>
+                                                    <h:outputText value="#{offer.description}"/><br/><br/>
                                                     <p> 
                                                         Submitted: 
                                                         <h:outputText value="#{offer.postedDateTime}" >
                                                             <f:convertDateTime pattern="EEEE, MMMM d yyyy" timeZone="Asia/Singapore" />
                                                         </h:outputText>
                                                     </p>
-                                                    <p:commandButton value="Details" class="blog__btn" icon="pi pi-angle-double-right" 
-                                                                     style="border-color: #7fad39; background-color: #ffffff; color: #7fad39; font-weight: bold"
-                                                                     action="#{offerManagedBean.navigateToViewListing(offer.id)}" 
-                                                                     >
-                                                        <!-- <p:commandLink update=":form:eventDetail" oncomplete="PF('eventDialog').show()" title="View Detail"> -->                           
-                                                        <f:setPropertyActionListener value="#{listing}" target="#{exchangeListingManagedBean.currentExchangeListing}" />
-                                                    </p:commandButton>
-                                                    &nbsp;
-                                                    <h:commandButton value="Cancel" class="blog__btn"
-                                                                     style="border-color: #ff353c; background-color: #ffffff; color: #ff353c; font-weight: bold" 
-                                                                     action="#{offerManagedBean.cancelOffer(offer.id)}" 
-                                                                     onclick="return confirmCancel();" type="submit" 
-                                                                     rendered="#{offer.status ne 'CANCELLED' and offer.status ne 'DECLINED'}">
-                                                    </h:commandButton>
+                                                    <div class="text-center">
+                                                        <p:commandButton value="Details" class="blog__btn" icon="pi pi-angle-double-right" 
+                                                                         style="border-color: #7fad39; background-color: #ffffff; color: #7fad39; font-weight: bold"
+                                                                         action="#{offerManagedBean.navigateToViewListing(offer.id)}" 
+                                                                         >
+                                                            <!-- <p:commandLink update=":form:eventDetail" oncomplete="PF('eventDialog').show()" title="View Detail"> -->                           
+                                                            <f:setPropertyActionListener value="#{listing}" target="#{exchangeListingManagedBean.currentExchangeListing}" />
+                                                        </p:commandButton>
+                                                        &nbsp;
+                                                        <h:commandButton value="Cancel" class="blog__btn"
+                                                                         style="border-color: #ff353c; background-color: #ffffff; color: #ff353c; font-weight: bold; padding:17px" 
+                                                                         action="#{offerManagedBean.cancelOffer(offer.id)}" 
+                                                                         onclick="return confirmCancel();" type="submit" 
+                                                                         rendered="#{offer.status ne 'CANCELLED' and offer.status ne 'DECLINED'}">
+                                                        </h:commandButton>
 
-                                                    <h:commandButton value="Remove" class="blog__btn"
-                                                                     style="border-color: #ff353c; background-color: #ffffff; color: #ff353c; font-weight: bold"
-                                                                     action="#{offerManagedBean.deleteOffer(offer.id)}"
-                                                                     onclick="return confirmDelete();" type="submit" 
-                                                                     rendered="#{offer.status eq 'CANCELLED' or offer.status eq 'DECLINED'}"/> 
+                                                        <h:commandButton value="Remove" class="blog__btn"
+                                                                         style="border-color: #ff353c; background-color: #ffffff; color: #ff353c; font-weight: bold; padding:17px"
+                                                                         action="#{offerManagedBean.deleteOffer(offer.id)}"
+                                                                         onclick="return confirmDelete();" type="submit" 
+                                                                         rendered="#{offer.status eq 'CANCELLED' or offer.status eq 'DECLINED'}"/> 
+
+                                                    </div>
 
                                                 </div>
                                             </div>
