@@ -5,6 +5,9 @@
                 template="./../layout/default2.xhtml"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:define name="title">
+        Add Forum Post
+    </ui:define>
 
     <ui:define name="content">
         <f:metadata>
@@ -30,7 +33,7 @@
                                     <f:selectItem itemLabel="Leisure" itemValue="Leisure" />
                                 </h:selectOneMenu>
                             </div>
-                            
+
                             <div class="col-lg-10">
                                 <div class="checkout__input">
                                     <h:outputLabel for="title" value="Title: " />
@@ -52,7 +55,7 @@
                         </div>
                         <div class="row">
                             <h:commandButton value="Proceed" action="#{postManagedBean.addNews(customerManagedBean.selectedCustomer)}" styleClass="btn btn-primary mr-2" />
-                               
+
                         </div>
 
                     </h:form><!-- comment -->

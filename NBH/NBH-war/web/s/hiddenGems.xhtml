@@ -8,6 +8,9 @@
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
                 xmlns:jsf="http://xmlns.jcp.org/jsf">
+    <ui:define name="title">
+        Hidden Gems
+    </ui:define>
 
     <ui:define name="content" >
         <f:metadata>
@@ -103,7 +106,7 @@
                                                     <div>
                                                         <a href="#" class="toggle-reviews blog__btn">Reviews</a>
                                                         <div class="reviews-container" style="display: none;">
-                                                            <ui:repeat value="#{hiddenGem.reviews}" var="hiddenGemReview">
+                                                            <ui:repeat value="#{hiddenGemManagedBean.getReversedReviews(hiddenGem.reviews)}" var="hiddenGemReview">
                                                                 <div class="featured__item__text" style="border: 1px solid black; border-radius: 10px; padding: 5px; margin-top: 10px; display: flex; flex-direction: column;">
                                                                     <div style="text-align: left;">
                                                                         <h:outputText style="color: black;" value="#{hiddenGemReview.customer.username}" />
@@ -178,5 +181,4 @@
             //]]>
         </script>
     </ui:define>
-
 </ui:composition>

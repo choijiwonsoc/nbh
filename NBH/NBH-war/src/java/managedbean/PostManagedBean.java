@@ -23,6 +23,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -46,22 +47,20 @@ public class PostManagedBean implements Serializable {
 
     @EJB(name = "PostSessionLocal")
     private PostSessionLocal postSessionLocal;
-    
 
     private String category;
     private String newsTitle;
     private String newsDescription;
-    
+
     private Post currentPost;
-    
+
     private String commentText;
-    
+
     private String filterCategory;
     private List<Post> searchResults;
-    
+
     private Part uploadedfile;
     private String filename = "";
-    
 
     /**
      * Creates a new instance of PostManagedBean
@@ -102,17 +101,17 @@ public class PostManagedBean implements Serializable {
         }
 
     }
-    
-    public List<Post> filterRegion(List<Post> postList, String region){
+
+    public List<Post> filterRegion(List<Post> postList, String region) {
         List<Post> results = new ArrayList<>();
-        for(Post p : postList){
-            if(p.getRegion().equals(region)){
+        for (Post p : postList) {
+            if (p.getRegion().equals(region)) {
                 results.add(p);
             }
         }
         return results;
     }
-    
+
     public void loadSelectedPost() {
         FacesContext context = FacesContext.getCurrentInstance();
         HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
@@ -125,7 +124,7 @@ public class PostManagedBean implements Serializable {
             context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Unable to load post"));
         }
     }
-    
+
     public void searchPosts() throws ParseException {
         init();
     }
@@ -133,17 +132,16 @@ public class PostManagedBean implements Serializable {
     @PostConstruct
     public void init() {
         List<Post> results = new ArrayList<>();
-        if(filterCategory!=null){
+        if (filterCategory != null) {
             results = postSessionLocal.getPostsByCat(filterCategory);
-        }else{
+        } else {
             results = getAllPosts();
         }
-       
+
         searchResults = results;
     }
-    
-    
-    public boolean isLiked(Long pId, Long cId){
+
+    public boolean isLiked(Long pId, Long cId) {
         return postSessionLocal.isLiked(pId, cId);
     }
 
@@ -152,57 +150,66 @@ public class PostManagedBean implements Serializable {
         HttpSession session = request.getSession();
         session.setAttribute("postId", postId);
     }
-    
+
     public List<Post> getAllPosts() {
         return postSessionLocal.getAllPostsOrderedByDate();
     }
-    
-    public void addLike(Long pId, Long cId){
+
+    public void addLike(Long pId, Long cId) {
         postSessionLocal.addLike(pId, cId);
         loadSelectedPost();
     }
-    
-    public void addComment(Long pId, Long cId){
+
+    public void addComment(Long pId, Long cId) {
         postSessionLocal.addComment(commentText, pId, cId);
         loadSelectedPost();
     }
-    
-    public void deleteComment(Long pId, Long commentId){
+
+//    public void deleteComment(Long pId, Long commentId){
+//        postSessionLocal.deleteComment(pId, commentId);
+//        loadSelectedPost();
+//        System.out.println(commentId);
+//    }
+    public void deleteComment(Long pId) {
+        FacesContext context = FacesContext.getCurrentInstance();
+        Map<String, String> params = context.getExternalContext()
+                .getRequestParameterMap();
+        String commentIdStr = params.get("commentId");
+        Long commentId = Long.parseLong(commentIdStr);
+        System.out.println(commentId);
         postSessionLocal.deleteComment(pId, commentId);
         loadSelectedPost();
-        System.out.println(commentId);
     }
-    
+
     public List<Comment> getReversedComments(List<Comment> cList) {
         Collections.reverse(cList);
         // Reverse the order of comments
         return cList;
     }
-    
-    public void deletePost(Long pId){
+
+    public void deletePost(Long pId) {
         postSessionLocal.deletePost(pId);
     }
-    
-    public void editPost(){
+
+    public void editPost() {
         Post p = currentPost;
         p.setTitle(newsTitle);
         p.setDescription(newsDescription);
         postSessionLocal.editPost(p);
     }
-    
-    public boolean commentBelongToCust(Comment c, Customer cust){
-        if(c.getCustomer().getId().equals(cust.getId())){
+
+    public boolean commentBelongToCust(Comment c, Customer cust) {
+        if (c.getCustomer().getId().equals(cust.getId())) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }
-    
-    
-    public void unlikePost(Long pId, Long cId){
+
+    public void unlikePost(Long pId, Long cId) {
         postSessionLocal.unlikePost(pId, cId);
     }
-    
+
     public String upload(Long pId) throws IOException, error.NoResultException {
         ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
         FacesContext context = FacesContext.getCurrentInstance();
@@ -229,7 +236,6 @@ public class PostManagedBean implements Serializable {
         //debug purposes
 
     }
-
 
     public String getCategory() {
         return category;

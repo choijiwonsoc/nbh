@@ -4,6 +4,7 @@
  */
 package managedbean;
 
+import entity.Comment;
 import entity.Customer;
 import entity.HiddenGem;
 import entity.HiddenGemReview;
@@ -14,6 +15,7 @@ import java.io.Serializable;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -148,6 +150,7 @@ public class HiddenGemManagedBean implements Serializable {
 //        System.out.println("cId" + c.getId());
 //        System.out.println("hgrId" + hgr.getId());
 //        hiddenGemSessionLocal.addHiddenGemReview(hgId, c.getId(), hgr);
+//        loadSelectedHiddenGem();
 //    }
 
     public void onItemUnselect(UnselectEvent event) {
@@ -178,6 +181,12 @@ public class HiddenGemManagedBean implements Serializable {
 
     public void retrieveAllHiddenGemReviews() {
         this.hiddenGemReviews = hiddenGemSessionLocal.getAllReviews(hgId);
+    }
+
+    public List<HiddenGemReview> getReversedReviews(List<HiddenGemReview> hgrList) {
+        Collections.reverse(hgrList);
+        // Reverse the order of comments
+        return hgrList;
     }
 
     public void getAllPostalCodes() {

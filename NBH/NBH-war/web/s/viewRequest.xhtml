@@ -1,18 +1,21 @@
 <?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets" 
-                template="./../layout/default2.xhtml" 
-                xmlns:h="http://xmlns.jcp.org/jsf/html" 
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../layout/default2.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:p="http://primefaces.org/ui">
+    <ui:define name="title">
+        View Request
+    </ui:define>
 
     <f:metadata>
         <f:event type="preRenderView" listener="#{businessManagedBean.receieveRequest}" />
     </f:metadata>
 
     <ui:define name="content">
-        
+
         <div class="card product">
             <h4>Do view all your requests here!</h4>
             <h:form id="form">
@@ -28,24 +31,24 @@
                                     <i class="pi pi-tag product-category-icon"/>
                                     <span class="product-category">#{requests.description}</span>
                                 </div>
-                                 <div>
+                                <div>
                                     <i class="pi pi-tag product-category-icon"/>
                                     <span class="product-category">This is sent from: #{requests.requester.name}</span>
                                 </div>
-                                
+
 
                             </div>
 
 
-                            <p:commandButton 
-                                             value="Acknowledged"
-                                             icon="pi pi-shopping-cart"
-                                             action="#{businessManagedBean.acknowledgeRequest}"
-                                             >
+                            <p:commandButton
+                                value="Acknowledged"
+                                icon="pi pi-shopping-cart"
+                                action="#{businessManagedBean.acknowledgeRequest}"
+                                >
                                 <f:param name="requestId" value="#{requests.id}" />
                             </p:commandButton>
-                            
-                           
+
+
                         </div>
 
                     </p:dataViewGridItem>

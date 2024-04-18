@@ -5,6 +5,9 @@
                 template="./../layout/default2.xhtml"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <ui:define name="title">
+        View Forum Post
+    </ui:define>
 
     <ui:define name="content">
 
@@ -46,7 +49,7 @@
                                             <span class="fa fa-heart"></span>
                                             <h:commandButton value="Like" action="#{postManagedBean.addLike(postManagedBean.currentPost.id, customerManagedBean.selectedCustomer.id)}"
                                                              disabled="#{postManagedBean.isLiked(postManagedBean.currentPost.id, customerManagedBean.selectedCustomer.id)}"
-                                                             styleClass="btn btn-danger"> 
+                                                             styleClass="btn btn-danger">
                                                 <f:ajax event="click" render="form" />
                                             </h:commandButton>
 
@@ -71,7 +74,7 @@
                                                         <th>Date Posted</th>
                                                         <th>Writer</th>
                                                         <th></th>
-                                                        
+
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -84,15 +87,17 @@
                                                                 <h:outputText value="#{comment.commentDate}">
                                                                     <f:convertDateTime type="date" pattern="dd/MM/yyyy" timeZone="GMT+08:00"/>
                                                                 </h:outputText>
-                                                                
+
                                                             </td>
                                                             <td class="shoping__cart__total">
                                                                 #{comment.customer.username}
                                                             </td>
                                                             <td class="shoping__cart__total">
                                                                 #{comment.id}
-                                                                <h:commandButton value="Delete" action="#{postManagedBean.deleteComment(postManagedBean.currentPost.id, comment.id)}"
-                                                                                 disabled="#{not postManagedBean.commentBelongToCust(comment, customerManagedBean.selectedCustomer)}"/>
+                                                                <h:commandButton value="Delete" action="#{postManagedBean.deleteComment(postManagedBean.currentPost.id)}"
+                                                                                 disabled="#{not postManagedBean.commentBelongToCust(comment, customerManagedBean.selectedCustomer)}">
+                                                                    <f:param name="commentId" value="#{comment.id}" />
+                                                                </h:commandButton>
                                                             </td>
                                                         </tr>
                                                     </ui:repeat>
