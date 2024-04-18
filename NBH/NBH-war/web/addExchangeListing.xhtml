@@ -7,12 +7,14 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:p="http://primefaces.org/ui">
 
-    <ui:define name="top">
-
+    <ui:define name="head">
+        <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&amp;display=swap" rel="stylesheet"/>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
     </ui:define>
 
     <ui:define name="content">
         <style>
+
             <!-- template for the form-->
             * {
                 margin: 0;
@@ -189,11 +191,27 @@
                         <h:outputLabel for="title" class="formbold-form-label">Title</h:outputLabel>
                         <h:inputText id="title" value="#{exchangeListingManagedBean.currentExchangeListing.title}" class="formbold-form-input" required="True" requiredMessage="Title required"/>
                     </div>
+                    
+                    <div class="formbold-mb-5">
+                        <h:outputLabel class="formbold-form-label">Skills necessary for this role</h:outputLabel>
+                        <h:selectManyCheckbox id="multiple-checkboxes" value="#{exchangeListingManagedBean.neededSkillIds}" layout="pageDirection" required="true" requiredMessage="Skills needed" >
+                            <f:selectItems value="#{exchangeListingManagedBean.skills}" var="skill" 
+                                           itemValue="#{skill.id}" itemLabel="#{skill.skillName}" />
+                        </h:selectManyCheckbox>
+                    </div>
 
-                    <h:selectManyCheckbox value="#{exchangeListingManagedBean.neededSkillIds}" layout="pageDirection" required="true" requiredMessage="Skills needed" >
-                        <f:selectItems value="#{exchangeListingManagedBean.skills}" var="skill" 
-                                       itemValue="#{skill.id}" itemLabel="#{skill.skillName}" />
-                    </h:selectManyCheckbox>
+                    <!--
+                    <p:selectManyMenu value="{exchangeListingManagedBean.neededSkillIds}" 
+                                      required="true" requiredMessage="Skills needed" 
+                                      var="s" filter="true" filterMatchMode="contains"
+                                      showCheckbox="true" styleClass="manymenu-advanced">
+                        <f:selectItems value="{exchangeListingManagedBean.skills}" var="skill" 
+                                       itemValue="{skill.id}" itemLabel="{skill.skillName}" />
+                        <p:column>
+                            <h:outputText value="#={exchangeListingManagedBean.findSkillNameFromId(s)}"/>
+                        </p:column>
+                    </p:selectManyMenu>
+                    -->
 
                     <!--
                     <div class="formbold-mb-5 w-full">
@@ -225,7 +243,7 @@
                                        id="startDateTime" 
                                        required="true" 
                                        class="formbold-form-input"
-                                       value="#{exchangeListingManagedBean.formattedEndDateTime}"
+                                       value="#{exchangeListingManagedBean.formattedStartDateTime}"
                                        onchange="setEndTimeToOneHourLater()"/>
 
 

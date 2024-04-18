@@ -164,6 +164,15 @@ public class ExchangeListingManagedBean implements Serializable {
         return offerSessionLocal.getAllOffers(listingId, "EL").size();  // Directly fetch and return the size
     }
 
+    public String findSkillNameFromId(Long sId) {
+        try {
+            return skillSessionLocal.getSkill(sId).getSkillName();
+        } catch (NoResultException ex) {
+            Logger.getLogger(ExchangeListingManagedBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
     // delete - either set to inactive or delete method in sessionbean
     public void deleteListing(ExchangeListing listing) {
         exchangeListingSessionLocal.deleteListing(listing.getId());
