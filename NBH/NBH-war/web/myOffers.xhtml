@@ -18,6 +18,15 @@
     </ui:define>
 
     <ui:define name="content">
+        <style>
+            .toAlign {
+                display: flex;
+                flex-wrap: wrap;
+                padding-left: 8%;
+
+            }
+        </style>
+
         <section class="breadcrumb-section set-bg" data-setbg="https://wallpapers.com/images/hd/pastel-aesthetic-background-kk9ygsa8qygoluem.jpg">
             <div class="container">
                 <div class="row">
@@ -53,9 +62,18 @@
                                                             <h:outputText style="color: #000; font-weight: bold" value="Status: #{offer.status}" rendered="#{offer.status == 'ON-HOLD'}"/>
                                                         </a>
                                                     </h5>
-                                                    <h:outputText value="For: #{offerManagedBean.getTitleOfListing(offer.id)}"/><br/>
-                                                    <h:outputText value="You requested: #{offerManagedBean.getSkillsForOffer(offer.id)}"/><br/>
-                                                    <h:outputText value="Description: #{offer.description}"/><br/><br/>
+                                                    <div class="toAlign">
+                                                        <div>
+                                                            <h:outputText value="For: #{offerManagedBean.getTitleOfListing(offer.id)}"/><br />
+                                                        </div>
+                                                        <div>
+                                                            <h:outputText value="You requested: #{offerManagedBean.getSkillsForOffer(offer.id)}"/><br />
+                                                        </div>
+                                                        <div>
+                                                            <h:outputText value="Description: #{offer.description}"/><br /><br />
+                                                        </div>
+
+                                                    </div>
                                                     <p> 
                                                         Submitted: 
                                                         <h:outputText value="#{offer.postedDateTime}" >
