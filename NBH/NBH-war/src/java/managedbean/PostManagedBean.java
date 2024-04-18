@@ -93,8 +93,6 @@ public class PostManagedBean implements Serializable {
             p.setLikes(0);
             p.setRegion(c.getRegion());
             postSessionLocal.createPost(p, c.getId());
-            FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Post successfully uploaded", null));
             HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
             HttpSession session = request.getSession();
             Long postId = p.getId();
@@ -173,10 +171,10 @@ public class PostManagedBean implements Serializable {
         loadSelectedPost();
     }
     
-    public List<Comment> getReversedComments(Post p) {
-        List<Comment> reversedComments = postSessionLocal.getReverseComments(p);
+    public List<Comment> getReversedComments(List<Comment> cList) {
+        Collections.reverse(cList);
         // Reverse the order of comments
-        return reversedComments;
+        return cList;
     }
     
     public void deletePost(Long pId){
@@ -188,6 +186,14 @@ public class PostManagedBean implements Serializable {
         p.setTitle(newsTitle);
         p.setDescription(newsDescription);
         postSessionLocal.editPost(p);
+    }
+    
+    public boolean commentBelongToCust(Comment c, Customer cust){
+        if(c.getCustomer().getId().equals(cust.getId())){
+            return true;
+        }else{
+            return false;
+        }
     }
     
     
