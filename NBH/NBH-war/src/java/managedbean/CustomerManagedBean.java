@@ -87,7 +87,7 @@ public class CustomerManagedBean implements Serializable {
                 session.setAttribute("userId", userId);
                 FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Successfully login", null));
-                return "/customerView_1.xhtml?faces-redirect=true";
+                return "/s/customerView_1.xhtml?faces-redirect=true";
             } else {
                 //Long userId = new Long(-1);
                 //session.setAttribute("userId", userId);

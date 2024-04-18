@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../layout/default2.xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <ui:define name="content">
+        <f:metadata>
+            <f:event type="preRenderView" listener="#{customerManagedBean.loadSelectedCustomer}" />
+            <f:event type="preRenderView" listener="#{hiddenGemManagedBean.loadSelectedHiddenGem}" />
+        </f:metadata>
+
+        <section class="breadcrumb-section" style="background-image: url('https://wallpapers.com/images/hd/pastel-aesthetic-background-kk9ygsa8qygoluem.jpg'); background-size: cover; background-position: center;">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12 text-center">
+                        <div class="breadcrumb__text">
+                            <h2>Add Hidden Gem Review</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="checkout spad">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                    </div>
+                </div>
+                <div class="checkout__form">
+                    <h4>Fill in Details Below</h4>
+                    <h:form id="form">
+                        <div class="col-lg-12 col-md-10">
+                            <div class="checkout__input">
+                                <p>Place:
+                                    <h:outputText value="#{hiddenGemManagedBean.selectedHiddenGem.placeName}" />
+                                </p>
+                            </div>
+                            <div class="checkout__input">
+                                <p>Region:
+                                    <h:outputText value="#{hiddenGemManagedBean.selectedHiddenGem.district}" />
+                                </p>
+                            </div>
+                            <div class="checkout__input" >
+                                <p>Postal Code:
+                                    <h:outputText value="#{hiddenGemManagedBean.selectedHiddenGem.postalCode}" />
+                                </p>
+                            </div>
+                            <div class="checkout__input" >
+                                <p>Review/Recommendation<span>*</span>
+                                    <h:message for="review" style="color: red"/>
+                                </p>
+                                <h:inputTextarea id="review" value="#{hiddenGemManagedBean.review}"
+                                                 required="true" requiredMessage="required" rows="5" cols="50" />
+                            </div>
+                            <h:commandButton styleClass="site-btn" action="#{hiddenGemManagedBean.addReview(customerManagedBean.selectedCustomer)}"
+                                             value="Add"
+                                             style="justify-content: center; display: flex; background-image: url('https://wallpapers.com/images/hd/pastel-aesthetic-background-kk9ygsa8qygoluem.jpg')"
+                                             />
+                        </div>
+
+                    </h:form>
+                </div>
+            </div>
+        </section>
+    </ui:define>
+
+</ui:composition>

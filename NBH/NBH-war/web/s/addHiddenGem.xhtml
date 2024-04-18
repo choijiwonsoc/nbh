@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../layout/default2.xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <ui:define name="content">
+        <f:metadata>
+            <f:event type="preRenderView" listener="#{customerManagedBean.loadSelectedCustomer}" />
+        </f:metadata>
+
+        <section class="breadcrumb-section" style="background-image: url('https://wallpapers.com/images/hd/pastel-aesthetic-background-kk9ygsa8qygoluem.jpg'); background-size: cover; background-position: center;">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12 text-center">
+                        <div class="breadcrumb__text">
+                            <h2>Add Hidden Gem</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="checkout spad">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                    </div>
+                </div>
+                <div class="checkout__form">
+                    <h4>Fill in Details Below</h4>
+                    <h:form id="form">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-10">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="checkout__input">
+                                            <p>Place<span>*</span>
+                                                <h:message for="placeName" style="color: red"/>
+                                            </p>
+                                            <h:inputText id="placeName" value="#{hiddenGemManagedBean.placeName}"
+                                                         required="true" requiredMessage="required" />
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="checkout__input">
+                                            <p>Region<span>*</span>
+                                                <h:message for="region" style="color: red"/>
+                                            </p>
+                                            <h:selectOneMenu value="#{hiddenGemManagedBean.district}" id="region" required="true" requiredMessage="required">
+                                                <f:selectItem itemLabel="Select Region" itemValue="" />
+                                                <f:selectItem itemLabel="North" itemValue="North" />
+                                                <f:selectItem itemLabel="South" itemValue="South" />
+                                                <f:selectItem itemLabel="East" itemValue="East" />
+                                                <f:selectItem itemLabel="West" itemValue="West" />
+                                                <f:selectItem itemLabel="Central" itemValue="Central" />
+                                            </h:selectOneMenu>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="checkout__input">
+                                    <p>Postal Code<span>*</span>
+                                        <h:message for="postalCode" style="color: red"/>
+                                    </p>
+                                    <h:inputText id="postalCode" value="#{hiddenGemManagedBean.postalCode}"
+                                                 required="true" requiredMessage="required"
+                                                 validatorMessage="required">
+                                        <f:validateRegex pattern="\d{6}" />
+                                    </h:inputText>
+                                </div>
+
+                                <div class="checkout__input">
+                                    <p>Review/Recommendation<span>*</span>
+                                        <h:message for="review" style="color: red"/>
+                                    </p>
+                                    <h:inputTextarea id="review" value="#{hiddenGemManagedBean.review}"
+                                                     required="true" requiredMessage="required" rows="5" cols="50"/>
+                                </div>
+                                <h:commandButton styleClass="site-btn" action="#{hiddenGemManagedBean.addHiddenGem(customerManagedBean.selectedCustomer)}"
+                                                 value="Add"
+                                                 style="background-image: url('https://wallpapers.com/images/hd/pastel-aesthetic-background-kk9ygsa8qygoluem.jpg')"
+                                                 />
+                            </div>
+                        </div>
+                    </h:form>
+                </div>
+            </div>
+        </section>
+    </ui:define>
+
+</ui:composition>
