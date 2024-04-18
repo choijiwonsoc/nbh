@@ -1,0 +1,135 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./layout/default2.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+
+    <ui:define name="content">
+        <style>
+            .notification-badge {
+                position: absolute;
+                top: -10px;
+                right: -10px;
+                padding: 5px 10px;
+                border-radius: 50%;
+                background-color: red;
+                color: white;
+                font-size: 12px;
+            }
+        </style>
+        
+        <section class="breadcrumb-section set-bg" data-setbg="https://wallpapers.com/images/hd/pastel-aesthetic-background-kk9ygsa8qygoluem.jpg">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12 text-center">
+                        <div class="breadcrumb__text">
+                            <h2>My Created Exchanges</h2>
+                            <div class="breadcrumb__option">
+                                <span>These are the requests for service exchange you have made.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <h:form id="form" class="content-class">
+            <p:growl id="growl" sticky="true" showDetail="true"/>
+            <ui:fragment rendered="#{not empty exchangeListingManagedBean.allListings}">
+
+                <section class="blog spad" style="padding:3em">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12">
+                                <div class="row">
+                                    <ui:repeat value="#{exchangeListingManagedBean.allListings}" var="listing">
+                                        <div class="col-lg-4 col-md-12 col-sm-12">
+                                            <div class="blog__item" style="border: 2px solid gainsboro; padding:2em">
+                                                <div class="blog__item__text text-center">
+                                                    <h5><a href="#">#{listing.title}</a></h5>
+                                                    <h:outputText style="color: #7fad39; font-weight: bold; font-size: 18px" 
+                                                                  value="Status: #{listing.status}"
+                                                                  rendered="#{listing.status == 'ACTIVE'}"/>
+                                                    <h:outputText style="color: #ff353c; font-weight: bold; font-size: 18px" 
+                                                                  value="Status: #{listing.status}"
+                                                                  rendered="#{listing.status == 'TAKEN'}"/><br/>
+                                                    Date:
+                                                    <h:outputText value="#{listing.startDateTime}" >
+                                                        <f:convertDateTime pattern="EEEE, MMMM d yyyy" timeZone="Asia/Singapore" />
+                                                    </h:outputText><br/>
+                                                    Time:
+                                                    <h:outputText value="#{listing.startDateTime}" >
+                                                        <f:convertDateTime pattern="HH:mm" timeZone="Asia/Singapore" />
+                                                    </h:outputText>
+                                                    -
+                                                    <h:outputText value="#{listing.endDateTime}" >
+                                                        <f:convertDateTime pattern="HH:mm" timeZone="Asia/Singapore" />
+                                                    </h:outputText><br/><br/>
+                                                    <p:commandButton value="Edit" class="blog__btn" icon="pi pi-angle-double-right" 
+                                                                     style="border-color: #cccccc; background-color: #ffffff; font-weight: bold" 
+                                                                     action="#{exchangeListingManagedBean.navigateToEditExchangeListing(listing)}" 
+                                                                     update="@form:growl">
+                                                        <!-- <p:commandLink update=":form:eventDetail" oncomplete="PF('eventDialog').show()" title="View Detail"> -->                           
+                                                        <f:setPropertyActionListener value="#{listing}" target="#{exchangeListingManagedBean.currentExchangeListing}" />
+                                                    </p:commandButton>
+                                                    &nbsp;
+                                                    <div style="position: relative; display: inline-block;">
+                                                        <p:commandButton value="Offers" class="blog__btn" icon="fa fa-handshake-o"
+                                                                         style="border-color: #7fad39; background-color: #ffffff; color: #7fad39"
+                                                                         action="#{exchangeListingManagedBean.navigateToAvailableOffers(listing)}"/>
+                                                        <span class="notification-badge">#{exchangeListingManagedBean.getOffersCountForListing(listing.id)}</span>
+                                                    </div>
+                                                    <div style="padding:1em">
+                                                        <h:commandButton value="Delete" class="blog__btn"
+                                                                     style="border-color: #ff353c; background-color: #ffffff; color: #ff353c"
+                                                                     action="#{exchangeListingManagedBean.deleteListing(listing)}"
+                                                                     onclick="return confirmDelete();" type="submit" />
+                                                    </div>
+                                                    <p:dialog header="Edit Not Allowed" widgetVar="errorDialog" modal="true" showEffect="fade" hideEffect="fade">
+                                                        <h:outputText value="Editing is not allowed since there are offers made to this listing." />
+                                                        <p:commandButton value="OK" onclick="PF('errorDialog').hide();" type="button" />
+                                                    </p:dialog>
+                                                </div>
+                                            </div>
+                                        </div>    
+                                    </ui:repeat>
+
+                                    <div class="col-lg-12">
+                                        <div class="product__pagination blog__pagination">
+                                            <a href="#">1</a>
+                                            <a href="#">2</a>
+                                            <a href="#">3</a>
+                                            <a href="#"><i class="fa fa-long-arrow-right"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </ui:fragment>
+            <!-- Blog Section End -->
+
+            <ui:fragment rendered="#{empty exchangeListingManagedBean.allListings}">
+                <div class='text-center' style="padding:2em">
+                    <h3>You have not created any service exchange requests.</h3>            
+                </div>
+            </ui:fragment>
+        </h:form>
+    </ui:define>
+
+    <ui:define name="script">
+
+        <script type="text/javascript">
+            function confirmDelete() {
+                return confirm('Are you sure you want to delete this listing?');
+            }
+        </script>
+    </ui:define>
+</ui:composition>
+
+

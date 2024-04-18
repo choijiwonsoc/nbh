@@ -71,7 +71,7 @@ public class SkillManagedBean implements Serializable {
         }
     }
 
-    public void submit() {
+    public String submit() {
         FacesContext context = FacesContext.getCurrentInstance();
         HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         HttpSession session = request.getSession();
@@ -79,14 +79,34 @@ public class SkillManagedBean implements Serializable {
         try {
             long userId = (Long) session.getAttribute("userId");
             /*
-             // TO EDIT:
+
             "clear skill list and add agn"
              removing all skills from customer thr SessionBean method (unequipAllSkillsCustomer)
              retrieve currentCustomerSkills agn, check if this is empty
              then
              for each skill in selectedSkillsId -> equipSkillCustomer
              */
+            skillSessionLocal.unequipAllSkillsCustomer(userId);
+            if (!selectedSkillIds.isEmpty()) {
 
+                currentCustomerSkills = skillSessionLocal.getAllSkillsByCustomer(userId);
+                if (currentCustomerSkills.isEmpty()) {
+                    //System.out.println("Customer has no skills");
+                } else {
+                    for (Skill skill : currentCustomerSkills) {
+                        //System.out.println("customer current skill: " + skill);
+                    }
+                }
+                for (Long sId : selectedSkillIds) {
+                    //System.out.println("selected skill: " + skillSessionLocal.getSkill(sId).getSkillName());
+                    skillSessionLocal.equipSkillCustomer(sId, userId);
+                }
+                FacesMessage msg = new FacesMessage("Successful", "Successfully updated skills");
+                FacesContext.getCurrentInstance().addMessage(null, msg);
+                return "addExchangeListing.xhtml?faces-redirect=true";
+            }
+            /*
+            // Previous code, cannot unequip skill
             if (!selectedSkillIds.isEmpty()) {
                 for (Skill skill : currentCustomerSkills) {
                     System.out.println("customer current skill: " + skill);
@@ -105,6 +125,7 @@ public class SkillManagedBean implements Serializable {
                 FacesMessage msg = new FacesMessage("Successful", "Successfully updated skills");
                 FacesContext.getCurrentInstance().addMessage(null, msg);
             }
+             */
 
         } catch (NoResultException ex) {
             Logger.getLogger(SkillManagedBean.class.getName()).log(Level.SEVERE, null, ex);
@@ -112,6 +133,7 @@ public class SkillManagedBean implements Serializable {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Unable to submit");
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
+        return null;
     }
 
     // Getter and setter

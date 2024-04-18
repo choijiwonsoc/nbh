@@ -4,6 +4,7 @@
  */
 package managedbean;
 
+import entity.Customer;
 import entity.ExchangeListing;
 import entity.Offer;
 import entity.Skill;
@@ -73,11 +74,6 @@ public class OfferManagedBean implements Serializable {
         HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         HttpSession session = request.getSession();
         long userId = (Long) session.getAttribute("userId");
-        skillsAvailableToChoose = skillSessionLocal.getAllSkillsByCustomer(userId);
-        for (Skill s : skillsAvailableToChoose) {
-            System.out.println("in INIT addOffer: Skills available " + s.getSkillName());
-        }
-        toExchangeSkills = new ArrayList<Long>();
 
         exchangeListingId = (Long) FacesContext.getCurrentInstance().getExternalContext().getFlash().get("listingId");
         if (exchangeListingId == null) {
@@ -87,11 +83,20 @@ public class OfferManagedBean implements Serializable {
         if (exchangeListingId != null) {
             currentExchangeListing = exchangeListingSessionLocal.getListing(exchangeListingId);
             System.out.println("OFFERMB exchangeListing is " + currentExchangeListing.getTitle());
+
+            // get lister id and populate listerSkills to choose
+            Customer listingCreator = currentExchangeListing.getCreator();
+            skillsAvailableToChoose = skillSessionLocal.getAllSkillsByCustomer(listingCreator.getId()); // shld be lister userId! not currentUserId.
+            for (Skill s : skillsAvailableToChoose) {
+                System.out.println("in INIT addOffer: Skills available " + s.getSkillName());
+            }
         } else {
             System.out.println("exchangeListingID not passed from viewExchangeListing.xhtml");
         }
-        /// END AddOffer.xhtml
 
+        toExchangeSkills = new ArrayList<Long>();
+
+        /// END AddOffer.xhtml
         /// myOffers.xhtml
         offersMade = offerSessionLocal.getAllOffers(userId, "C");
 
@@ -184,11 +189,19 @@ public class OfferManagedBean implements Serializable {
 
         //reflect the changes, update the availOffers list
         ExchangeListing listing = exchangeListingSessionLocal.getListingFromOffer(oId);
+        listing.setStatus("ACTIVE");
+        // retrive currentskills to continue for updateListing.
+        List<Skill> currentSkills = listing.getSkills();
+        List<Long> currentSId = new ArrayList<>();
+        for (Skill s : currentSkills) {
+            currentSId.add(s.getId());
+        }
+        exchangeListingSessionLocal.updateListing(listing, currentSId);
         availOffers = offerSessionLocal.getAllOffers(listing.getId(), "EL");
     }
 
     public void cancelOffer(Long oId) {
-        // Person that made the offer deletes it on his own
+        // Person that made the offer cancels it on his own
         Offer offer = offerSessionLocal.getOffer(oId);
         if (offer.getStatus().equalsIgnoreCase("ACCEPTED")) {
             if (availOffers != null) {
@@ -220,6 +233,23 @@ public class OfferManagedBean implements Serializable {
         HttpSession session = request.getSession();
         long userId = (Long) session.getAttribute("userId");
         offersMade = offerSessionLocal.getAllOffers(userId, "C");
+    }
+
+    public void deleteOffer(Long oId) {
+        // Person that made the offer removes cancelled or declined offers
+        Offer offer = offerSessionLocal.getOffer(oId);
+
+        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        HttpSession session = request.getSession();
+        long userId = (Long) session.getAttribute("userId");
+
+        if (offer.getStatus().equalsIgnoreCase("CANCELLED") || offer.getStatus().equalsIgnoreCase("DECLINED")) {
+            ExchangeListing listing = exchangeListingSessionLocal.getListingFromOffer(oId);
+            offerSessionLocal.deleteOffer(oId, userId, listing.getId());
+            System.out.println("deleted offer");
+            //reflect the changes, update the offersMade list
+            offersMade = offerSessionLocal.getAllOffers(userId, "C");
+        }
     }
 
     public String submit() {
