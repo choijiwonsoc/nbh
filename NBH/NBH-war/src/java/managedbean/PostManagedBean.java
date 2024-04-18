@@ -61,6 +61,7 @@ public class PostManagedBean implements Serializable {
     
     private Part uploadedfile;
     private String filename = "";
+    
 
     /**
      * Creates a new instance of PostManagedBean
@@ -169,6 +170,7 @@ public class PostManagedBean implements Serializable {
     public void deleteComment(Long pId, Long commentId){
         postSessionLocal.deleteComment(pId, commentId);
         loadSelectedPost();
+        System.out.println(commentId);
     }
     
     public List<Comment> getReversedComments(List<Comment> cList) {
