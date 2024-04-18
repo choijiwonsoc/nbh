@@ -25,7 +25,6 @@
                             <h2>Offers Made to You</h2>
                             <div class="breadcrumb__option">
                                 <span>These are the offers your neighbours have sent for your service exchange requests.</span>
-                                     
                             </div>
                         </div>
                     </div>
@@ -45,27 +44,27 @@
                                         <div class="col-lg-4 col-md-12 col-sm-12">
                                             <div class="blog__item" style="border: 2px solid gainsboro; padding:2em">
                                                 <div class="blog__item__text text-center">
-                                                    <h5><a href="#">They will help with: #{offerManagedBean.getSkillsForOffer(offer.id)}</a></h5>
-                                                    <p>Status: #{offer.status}</p>
-                                                    <p>Made by: #{offer.customer.name}</p>
-                                                    <p>Contact: #{offer.customer.contact}</p>
+                                                    <h5><a href="#">You will help with: #{offerManagedBean.getSkillsForOffer(offer.id)}</a></h5>
+                                                    <h:outputText style="color: #7fad39; font-weight: bold" value="Status: #{offer.status}" rendered="#{offer.status == 'ACCEPTED'}"/>
+                                                    <h:outputText style="color: #666666; font-weight: bold" value="Status: #{offer.status}" rendered="#{offer.status == 'PENDING'}"/>
+                                                    <h:outputText style="color: #ff353c; font-weight: bold" value="Status: #{offer.status}" rendered="#{offer.status == 'ON-HOLD'}"/><br/>
+                                                    <h:outputText value="Made by: #{offer.customer.name}"/><br/>
+                                                    <h:outputText value="Contact: #{offer.customer.contact}"/><br/>
+                                                    <h:outputText value="Description: #{offer.description}"/><br/><br/>
                                                     <p> 
                                                         Submitted: 
                                                         <h:outputText value="#{offer.postedDateTime}" >
                                                             <f:convertDateTime pattern="EEEE, MMMM d yyyy" timeZone="Asia/Singapore" />
                                                         </h:outputText>
                                                     </p>
-                                                    <p>Description:
-                                                        #{offer.description}
-                                                    </p>
                                                     <h:commandButton value="Accept" onclick="return confirmAccept();" 
                                                                      action="#{offerManagedBean.acceptOffer(offer.id)}" type="submit" 
                                                                      class="blog__btn"
-                                                                     style="border-color: #cccccc; background-color: #ff353c; color: #ffffff"/>
+                                                                     style="border-color: #7fad39; background-color: #ffffff; color: #7fad39"/>
                                                     &nbsp;
                                                     <h:commandButton value="Reject" action="#{offerManagedBean.rejectOffer(offer.id)}"
                                                                      onclick="return confirmReject();" type="submit" class="blog__btn"
-                                                                     style="border-color: #cccccc; background-color: #7fad39; color: #ffffff" />   
+                                                                     style="border-color: #ff353c; background-color: #ffffff; color: #ff353c" />   
                                                 </div>
                                             </div>
                                         </div>    

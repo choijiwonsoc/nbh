@@ -16,30 +16,24 @@
     </ui:define>
 
     <ui:define name="content">
-        
+
         <section class="breadcrumb-section set-bg" data-setbg="https://wallpapers.com/images/hd/pastel-aesthetic-background-kk9ygsa8qygoluem.jpg">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12 text-center">
                         <div class="breadcrumb__text">
-                            <h2>View Exchange Listing</h2>
+                            <h2>#{exchangeListingManagedBean.currentExchangeListing.title}</h2>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
         <h:form id="form" class="content-class">
-            <p:growl id="growl" showDetail="true" sticky="true" /> 
-
-
+            <p:growl id="growl" showDetail="true" sticky="true" />
             <div class="event-details text-center" style="padding:2em"> 
-                <div class="detail-row">                
-                    <h1 id="title"><span class="detail-value">#{exchangeListingManagedBean.currentExchangeListing.title}</span></h1>
-                </div>
-
                 <div class="detail-row">
-                    <span class="detail-label"><b>Date:</b></span>
-                    <span class="detail-value">
+                    <span class="detail-value" style="font-size: 25px">
+                        <span class="detail-label"><b>Date:</b></span>
                         <h:outputText value="#{exchangeListingManagedBean.currentExchangeListing.startDateTime}" >
                             <f:convertDateTime pattern="EEEE, MMMM d, yyyy" timeZone="Asia/Singapore" />
                         </h:outputText>
@@ -48,9 +42,9 @@
 
 
                 <div class="detail-row">
-                    <span class="detail-label"><b>Time:</b></span>
-                    <span class="detail-value">
-                        <h:outputText value="#{exchangeListingManagedBean.currentExchangeListing.startDateTime}" >
+                    <span class="detail-value" style="font-size: 25px" >
+                        <span class="detail-label"><b>Time:</b></span>
+                        <h:outputText style="font-size: 25px" value="#{exchangeListingManagedBean.currentExchangeListing.startDateTime}" >
                             <f:convertDateTime pattern="HH:mm" timeZone="Asia/Singapore" />
                         </h:outputText>
                         -
@@ -60,12 +54,12 @@
                     </span>
                 </div>
 
-                <div class="detail-row">
-                    <span class="detail-label"><b>Description:</b></span>
+                <div class="detail-row" style="font-size: 25px" >
+                    <span class="detail-label"><b>Description:</b></span><br/>
                     <span class="detail-value">#{exchangeListingManagedBean.currentExchangeListing.description}</span>
                 </div>
 
-                <div class="detail-row">
+                <div class="detail-row" style="font-size: 25px" >
                     <span class="detail-label"><b>Skills required for task:</b></span>
                     <span class="detail-value">
                         <ul>

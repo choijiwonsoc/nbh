@@ -46,16 +46,16 @@
                                         <div class="col-lg-4 col-md-4 col-sm-4">
                                             <div class="blog__item" style="border: 2px solid gainsboro; padding:2em">
                                                 <div class="blog__item__text text-center">
-                                                    <h5><a href="#">Status: #{offer.status}</a></h5>
-                                                    <p>
-                                                        Targeted Skill: #{offerManagedBean.getSkillsForOffer(offer.id)}
-                                                    </p>
-                                                    <p>
-                                                        For: #{offerManagedBean.getTitleOfListing(offer.id)}
-                                                    </p>
-                                                    <p>
-                                                        Your Description: #{offer.description}
-                                                    </p>
+                                                    <h5>
+                                                        <a href="#">
+                                                            <h:outputText style="color: #7fad39; font-weight: bold" value="Status: #{offer.status}" rendered="#{offer.status == 'ACCEPTED'}"/>
+                                                            <h:outputText style="color: #ff353c; font-weight: bold" value="Status: #{offer.status}" rendered="#{offer.status == 'DECLINED' || offer.status == 'CANCELLED'}"/>
+                                                            <h:outputText style="color: #000; font-weight: bold" value="Status: #{offer.status}" rendered="#{offer.status == 'ON-HOLD'}"/>
+                                                        </a>
+                                                    </h5>
+                                                    <h:outputText value="For: #{offerManagedBean.getTitleOfListing(offer.id)}"/><br/>
+                                                    <h:outputText value="You requested: #{offerManagedBean.getSkillsForOffer(offer.id)}"/><br/>
+                                                    <h:outputText value="Description: #{offer.description}"/><br/><br/>
                                                     <p> 
                                                         Submitted: 
                                                         <h:outputText value="#{offer.postedDateTime}" >
@@ -63,7 +63,7 @@
                                                         </h:outputText>
                                                     </p>
                                                     <p:commandButton value="Details" class="blog__btn" icon="pi pi-angle-double-right" 
-                                                                     style="border-color: #cccccc; background-color: #ffffff" 
+                                                                     style="border-color: #7fad39; background-color: #ffffff; color: #7fad39; font-weight: bold"
                                                                      action="#{offerManagedBean.navigateToViewListing(offer.id)}" 
                                                                      >
                                                         <!-- <p:commandLink update=":form:eventDetail" oncomplete="PF('eventDialog').show()" title="View Detail"> -->                           
@@ -71,13 +71,15 @@
                                                     </p:commandButton>
                                                     &nbsp;
                                                     <h:commandButton value="Cancel" class="blog__btn"
-                                                                     style="border-color: #cccccc; background-color: #cccccc; color: #666666" 
+                                                                     style="border-color: #ff353c; background-color: #ffffff; color: #ff353c; font-weight: bold" 
                                                                      action="#{offerManagedBean.cancelOffer(offer.id)}" 
                                                                      onclick="return confirmCancel();" type="submit" 
                                                                      rendered="#{offer.status ne 'CANCELLED' and offer.status ne 'DECLINED'}">
                                                     </h:commandButton>
 
-                                                    <h:commandButton value="Remove" action="#{offerManagedBean.deleteOffer(offer.id)}"
+                                                    <h:commandButton value="Remove" class="blog__btn"
+                                                                     style="border-color: #ff353c; background-color: #ffffff; color: #ff353c; font-weight: bold"
+                                                                     action="#{offerManagedBean.deleteOffer(offer.id)}"
                                                                      onclick="return confirmDelete();" type="submit" 
                                                                      rendered="#{offer.status eq 'CANCELLED' or offer.status eq 'DECLINED'}"/> 
 

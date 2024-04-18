@@ -44,25 +44,27 @@
                                         <div class="col-lg-4 col-md-12 col-sm-12">
                                             <div class="blog__item" style="border: 2px solid gainsboro; padding:2em">
                                                 <div class="blog__item__text text-center">
-                                                    <h5><a href="#">Status: #{listing.status}</a></h5>
-                                                    <p>#{listing.title}</p>
-                                                    <p> 
-                                                        Date: 
-                                                        <h:outputText value="#{listing.startDateTime}" >
-                                                            <f:convertDateTime pattern="EEEE, MMMM d yyyy" timeZone="Asia/Singapore" />
-                                                        </h:outputText>
-                                                    </p>
-                                                    <p>Time:
-                                                        <h:outputText value="#{listing.startDateTime}" >
-                                                            <f:convertDateTime pattern="HH:mm" timeZone="Asia/Singapore" />
-                                                        </h:outputText>
-                                                        -
-                                                        <h:outputText value="#{listing.endDateTime}" >
-                                                            <f:convertDateTime pattern="HH:mm" timeZone="Asia/Singapore" />
-                                                        </h:outputText>
-                                                    </p>
+                                                    <h5><a href="#">#{listing.title}</a></h5>
+                                                    <h:outputText style="color: #7fad39; font-weight: bold; font-size: 18px" 
+                                                                  value="Status: #{listing.status}"
+                                                                  rendered="#{listing.status == 'ACTIVE'}"/>
+                                                    <h:outputText style="color: #ff353c; font-weight: bold; font-size: 18px" 
+                                                                  value="Status: #{listing.status}"
+                                                                  rendered="#{listing.status == 'TAKEN'}"/><br/>
+                                                    Date:
+                                                    <h:outputText value="#{listing.startDateTime}" >
+                                                        <f:convertDateTime pattern="EEEE, MMMM d yyyy" timeZone="Asia/Singapore" />
+                                                    </h:outputText><br/>
+                                                    Time:
+                                                    <h:outputText value="#{listing.startDateTime}" >
+                                                        <f:convertDateTime pattern="HH:mm" timeZone="Asia/Singapore" />
+                                                    </h:outputText>
+                                                    -
+                                                    <h:outputText value="#{listing.endDateTime}" >
+                                                        <f:convertDateTime pattern="HH:mm" timeZone="Asia/Singapore" />
+                                                    </h:outputText><br/><br/>
                                                     <p:commandButton value="Edit" class="blog__btn" icon="pi pi-angle-double-right" 
-                                                                     style="border-color: #cccccc; background-color: #ffffff; color: #666666" 
+                                                                     style="border-color: #cccccc; background-color: #ffffff; font-weight: bold" 
                                                                      action="#{exchangeListingManagedBean.navigateToEditExchangeListing(listing)}" 
                                                                      update="@form:growl">
                                                         <!-- <p:commandLink update=":form:eventDetail" oncomplete="PF('eventDialog').show()" title="View Detail"> -->                           
@@ -70,12 +72,16 @@
                                                     </p:commandButton>
                                                     &nbsp;
                                                     <p:commandButton value="Offers" class="blog__btn" icon="fa fa-handshake-o"
-                                                                     style="border-color: #cccccc; background-color: #ffffff; color: #666666"
+                                                                     style="border-color: #7fad39; background-color: #ffffff; color: #7fad39; font-weight: bold"
                                                                      action="#{exchangeListingManagedBean.navigateToAvailableOffers(listing)}"/>
-                                                    <h:commandButton value="Delete" class="blog__btn"
-                                                                     style="border-color: #cccccc; background-color: #cccccc; color: #666666"
-                                                                     action="#{exchangeListingManagedBean.deleteListing(listing)}"
-                                                                     onclick="return confirmDelete();" type="submit" />
+
+                                                    <div style="padding:1em">
+                                                        <h:commandButton value="Delete" class="blog__btn"
+                                                                         style="border-color: #ff353c; background-color: #ffffff; color: #ff353c; font-weight: bold"
+                                                                         action="#{exchangeListingManagedBean.deleteListing(listing)}"
+                                                                         onclick="return confirmDelete();" type="submit" />
+
+                                                    </div>
 
                                                     <p:dialog header="Edit Not Allowed" widgetVar="errorDialog" modal="true" showEffect="fade" hideEffect="fade">
                                                         <h:outputText value="Editing is not allowed since there are offers made to this listing." />
