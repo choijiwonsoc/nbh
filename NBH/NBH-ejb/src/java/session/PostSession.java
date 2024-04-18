@@ -10,6 +10,7 @@ import entity.Post;
 import java.awt.Event;
 import java.time.LocalDate;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
@@ -47,6 +48,14 @@ public class PostSession implements PostSessionLocal {
                 .getResultList();
         Collections.reverse(postList);
         return postList;
+
+    }
+    
+    @Override
+    public List<Comment> getReverseComments(Post post) {
+        List<Comment> cList = post.getComments();
+        cList.sort(Comparator.comparing(Comment::getCommentDate).reversed());
+        return cList;
 
     }
 
@@ -154,6 +163,14 @@ public class PostSession implements PostSessionLocal {
     public void setProfilePicFile(Long pId, String fileName) {
         Post post = em.find(Post.class, pId);
         post.setFileName(fileName);
+    }
+    
+    @Override
+    public void deleteComment(Long pId, long commentId){
+        Comment comment = em.find(Comment.class, commentId);
+        Post post = em.find(Post.class, pId);
+        post.getComments().remove(comment);
+        em.remove(comment);
     }
 
 }

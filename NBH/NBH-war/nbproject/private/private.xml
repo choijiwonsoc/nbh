@@ -2,6 +2,7 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+<<<<<<< HEAD
         <group>
             <file>file:/C:/Users/weiku/OneDrive/Desktop/nbh/NBH/NBH-war/src/java/managedbean/BusinessManagedBean.java</file>
             <file>file:/C:/Users/weiku/OneDrive/Desktop/nbh/NBH/NBH-war/web/viewRequestSent.xhtml</file>
@@ -11,5 +12,8 @@
             <file>file:/C:/Users/weiku/OneDrive/Desktop/nbh/NBH/NBH-war/web/viewBusinessListing.xhtml</file>
             <file>file:/C:/Users/weiku/OneDrive/Desktop/nbh/NBH/NBH-war/web/viewRequest.xhtml</file>
         </group>
+=======
+        <group/>
+>>>>>>> exchange
     </open-files>
 </project-private>

@@ -70,6 +70,7 @@
                                                         <th class="shoping__product">Comments</th>
                                                         <th>Date Posted</th>
                                                         <th>Writer</th>
+                                                        <th></th>
                                                         
                                                     </tr>
                                                 </thead>
@@ -87,6 +88,9 @@
                                                             </td>
                                                             <td class="shoping__cart__total">
                                                                 #{comment.customer.username}
+                                                            </td>
+                                                            <td class="shoping__cart__total">
+                                                                <h:commandButton value="Delete" actionListener="#{postManagedBean.deleteComment(postManagedBean.currentPost.id, comment.id)}"/>
                                                             </td>
                                                         </tr>
                                                     </ui:repeat>

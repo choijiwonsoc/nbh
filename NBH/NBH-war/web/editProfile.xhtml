@@ -13,6 +13,8 @@
         <section class="checkout spad"  style="background-image: url('https://wallpapers.com/images/hd/pastel-aesthetic-background-kk9ygsa8qygoluem.jpg'); background-size: cover; background-position: center;">
             <div class="container">
                 <h:form>
+                     <h:messages globalOnly="true" style="width: 300px; padding: 10px; background-color: #f8d7da; color: #721c24; border-radius: 5px; border: 1px solid #f5c6cb; margin-bottom: 10px;" />
+
                     <div class="checkout__form">
                         <h4>Edit your Profile</h4>
                         <div class="col-lg-10">
@@ -24,7 +26,7 @@
                         <div class="col-lg-10">
                             <div class="checkout__input">
                                 <h:outputLabel for="password" value="Password: " />
-                                <h:inputText id="password" value="#{customerManagedBean.password}" />
+                                <h:inputSecret id="password" value="#{customerManagedBean.password}" />
                             </div>
                         </div>
                         <div class="col-lg-10">
@@ -42,7 +44,7 @@
                         <div class="col-lg-10">
                             <h:commandButton value="Change Profile Photo" action="/addCustomerPhoto.xhtml?faces-redirect=true" styleClass="btn btn-primary mr-2" />
 
-                            <h:commandButton value="Submit" actionListener="#{customerManagedBean.editCustomer(customerManagedBean.selectedCustomer.id)}" action="/viewProfile.xhtml?faces-redirect=true" styleClass="btn btn-primary "/>
+                            <h:commandButton value="Submit" action="#{customerManagedBean.editCustomer(customerManagedBean.selectedCustomer.id)}"  styleClass="btn btn-primary "/>
 
                         </div>
                     </div>

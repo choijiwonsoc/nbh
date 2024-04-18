@@ -7,6 +7,7 @@ package session;
 import entity.Customer;
 import entity.Skill;
 import error.NoResultException;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -50,11 +51,22 @@ public class SkillSession implements SkillSessionLocal {
     @Override
     public void unequipAllSkillsCustomer(Long cId) throws NoResultException {
         Customer customer = customerSessionLocal.getCustomer(cId);
-        List<Skill> skillsToUnequip = customer.getSkills();
+
+        List<Skill> skillsToUnequip = new ArrayList<>(customer.getSkills()); // Create a copy of the list
         for (Skill s : skillsToUnequip) {
             customer.getSkills().remove(s);
             s.getCustomers().remove(customer);
         }
+
+        // System.out.println("After remove skill in SB");
+        if (!customer.getSkills().isEmpty()) {
+            for (Skill s : customer.getSkills()) {
+                System.out.println(s.getSkillName());
+            }
+        } else {
+            System.out.println("SB: Customer has no skills");
+        }
+
     }
 
     @Override

@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./layout/default2.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <!-- NOTE: This page is for all the available offers for a listing that customer made -->
+
+    <ui:define name="head">
+
+    </ui:define>
+
+    <ui:define name="top">
+
+    </ui:define>
+
+    <ui:define name="content">
+        <section class="breadcrumb-section set-bg" data-setbg="https://wallpapers.com/images/hd/pastel-aesthetic-background-kk9ygsa8qygoluem.jpg">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12 text-center">
+                        <div class="breadcrumb__text">
+                            <h2>Offers Made to You</h2>
+                            <div class="breadcrumb__option">
+                                <span>These are the offers your neighbours have sent for your service exchange requests.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <ui:fragment rendered="#{not empty offerManagedBean.availOffers}">
+
+            <h:form id="form" class="content-class">
+                <section class="blog spad" style="padding:3em">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12">
+                                <div class="row">
+                                    <ui:repeat value="#{offerManagedBean.availOffers}" var="offer">
+                                        <div class="col-lg-4 col-md-12 col-sm-12">
+                                            <div class="blog__item" style="border: 2px solid gainsboro; padding:2em">
+                                                <div class="blog__item__text text-center">
+                                                    <h5><a href="#">You will help with: #{offerManagedBean.getSkillsForOffer(offer.id)}</a></h5>
+                                                    <h:outputText style="color: #7fad39; font-weight: bold" value="Status: #{offer.status}" rendered="#{offer.status == 'ACCEPTED'}"/>
+                                                    <h:outputText style="color: #666666; font-weight: bold" value="Status: #{offer.status}" rendered="#{offer.status == 'PENDING'}"/>
+                                                    <h:outputText style="color: #ff353c; font-weight: bold" value="Status: #{offer.status}" rendered="#{offer.status == 'ON-HOLD'}"/><br/>
+                                                    <h:outputText value="Made by: #{offer.customer.name}"/><br/>
+                                                    <h:outputText value="Contact: #{offer.customer.contact}"/><br/>
+                                                    <h:outputText value="Description: #{offer.description}"/><br/><br/>
+                                                    <p> 
+                                                        Submitted: 
+                                                        <h:outputText value="#{offer.postedDateTime}" >
+                                                            <f:convertDateTime pattern="EEEE, MMMM d yyyy" timeZone="Asia/Singapore" />
+                                                        </h:outputText>
+                                                    </p>
+                                                    <h:commandButton value="Accept" onclick="return confirmAccept();" 
+                                                                     action="#{offerManagedBean.acceptOffer(offer.id)}" type="submit" 
+                                                                     class="blog__btn"
+                                                                     style="border-color: #7fad39; background-color: #ffffff; color: #7fad39"/>
+                                                    &nbsp;
+                                                    <h:commandButton value="Reject" action="#{offerManagedBean.rejectOffer(offer.id)}"
+                                                                     onclick="return confirmReject();" type="submit" class="blog__btn"
+                                                                     style="border-color: #ff353c; background-color: #ffffff; color: #ff353c" />   
+                                                </div>
+                                            </div>
+                                        </div>    
+                                    </ui:repeat>
+
+                                    <div class="col-lg-12">
+                                        <div class="product__pagination blog__pagination">
+                                            <a href="#">1</a>
+                                            <a href="#">2</a>
+                                            <a href="#">3</a>
+                                            <a href="#"><i class="fa fa-long-arrow-right"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </h:form>
+        </ui:fragment>
+        <!-- Blog Section End -->
+
+        <h:form id="form1" class="content-class">
+            <p:growl id="growl" sticky="true" showDetail="true"/>
+            <ui:fragment rendered="#{empty offerManagedBean.availOffers}">
+                <div class='text-center' style="padding:2em">
+                    <h3>You have not received any offers.</h3>            
+                </div>
+            </ui:fragment>
+        </h:form>
+
+
+    </ui:define>
+
+    <ui:define name="script">
+
+        <script type="text/javascript">
+            function confirmReject() {
+                return confirm('Are you sure you want to reject this offer?');
+            }
+
+            function confirmAccept() {
+                return confirm('Are you sure you want to accept this offer?');
+            }
+        </script>
+    </ui:define>
+
+</ui:composition>

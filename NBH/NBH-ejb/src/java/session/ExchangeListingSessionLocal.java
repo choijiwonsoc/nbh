@@ -25,6 +25,9 @@ public interface ExchangeListingSessionLocal {
     // if null : all events. If pId provided, listing by person
     public List<ExchangeListing> getAllListing(Long cId);
 
+    // if null : all events. If pId provided, listing by person
+    public List<ExchangeListing> getAllActiveListing(Long cId);
+
     public List<ExchangeListing> searchListing(String title) throws NoResultException;
 
     public ExchangeListing getListing(Long elId) throws NoResultException;
