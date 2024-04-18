@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets" 
-                template="./../layout/default2.xhtml" 
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../layout/default2.xhtml"
                 xmlns:p="http://primefaces.org/ui"
-                xmlns:h="http://xmlns.jcp.org/jsf/html" 
-                xmlns:f="http://xmlns.jcp.org/jsf/core" 
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <ui:define name="title">
-        Search Customers
+        View All Business Listing
     </ui:define>
 
     <ui:define name="content">
@@ -36,7 +36,7 @@
         </style>
         <h:form id="form">
 
-            <p:dataTable id="serviceProviderListingTable" var="serviceProviderListing" value="#{businessManagedBean.searchServiceProviderListing}" 
+            <p:dataTable id="serviceProviderListingTable" var="serviceProviderListing" value="#{businessManagedBean.searchServiceProviderListing}"
                          resizableColumns="true" emptyMessage="No business listing found with given criteria" styleClass="custom-datatable">
 
                 <f:facet name="header">
@@ -73,7 +73,7 @@
 
                 <p:column style="width: 55%">
                     <p:commandButton icon="fa fa-search" styleClass="view-button" process ="@this"
-                                     update=":form:businessDetails" oncomplete="PF('businessDialog').show()" 
+                                     update=":form:businessDetails" oncomplete="PF('businessDialog').show()"
                                      title="View" action="#{businessManagedBean.retrieveServiceItems}">
                         <f:setPropertyActionListener value="#{serviceProviderListing}" target="#{businessManagedBean.selectedServiceProviderListing}" />
                         <f:param name="serviceProviderListingId" value="#{serviceProviderListing.id}" />
@@ -82,7 +82,7 @@
 
 
                     <p:commandButton value="Make a request" update=":form:requestDetails" process ="@this"
-                                     oncomplete="PF('requestDialog').show()" 
+                                     oncomplete="PF('requestDialog').show()"
                                      actionListener="#{businessManagedBean.loadServiceProviderListing(serviceProviderListing.id)}">
 
                     </p:commandButton>
@@ -95,7 +95,7 @@
                     </p:commandButton>
 
 
-                    <p:commandButton value="View Rating" action="#{businessManagedBean.retrieveRating}" 
+                    <p:commandButton value="View Rating" action="#{businessManagedBean.retrieveRating}"
                                      update=":form:ratingDetails" oncomplete="PF('ratingDialog').show()" process ="@this">
                         <f:param name="serviceProviderListingId" value="#{serviceProviderListing.id}" />
 
@@ -105,23 +105,23 @@
 
             </p:dataTable>
 
-            
+
             <p:dialog header="Rating Details" widgetVar="ratingDialog" modal="false" showEffect="fade" hideEffect="fade" resizable="false" >
 
-            <p:outputPanel id="ratingDetails">
-                <div class="card">
-                    
+                <p:outputPanel id="ratingDetails">
+                    <div class="card">
+
                         <h5>This is your rating</h5>
                         <div class="form-group">
                             <h:outputLabel id="rating" value="Rating: #{businessManagedBean.rating}" />
 
                         </div>
-                    
-                </div>
-            </p:outputPanel>
 
-        </p:dialog>
-            
+                    </div>
+                </p:outputPanel>
+
+            </p:dialog>
+
 
             <p:dialog header="Review Details" widgetVar="reviewDialog" modal="false" showEffect="fade" hideEffect="fade" resizable="false">
                 <p:outputPanel id="reviewDetails">
@@ -175,7 +175,7 @@
             </p:dialog>
 
 
-            <p:dialog header="Request Details" widgetVar="requestDialog" 
+            <p:dialog header="Request Details" widgetVar="requestDialog"
                       modal="false" showEffect="fade" hideEffect="fade" resizable="false"
                       width="50%" position="center">
                 <p:outputPanel id="requestDetails">

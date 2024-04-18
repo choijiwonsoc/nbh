@@ -6,6 +6,9 @@
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:p="http://primefaces.org/ui">
+    <ui:define name="title">
+        Add Exchange Listing
+    </ui:define>
 
     <ui:define name="head">
         <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&amp;display=swap" rel="stylesheet"/>
@@ -155,7 +158,7 @@
             <!-- Author: FormBold Team -->
             <!-- Learn More: https://formbold.com -->
             <div class="formbold-form-wrapper">
-                <h:form> 
+                <h:form>
                     <p:growl id="growl" sticky="true" showDetail="true"/>
                     <!-- redirect to addSkills page, show notfication that says xxx-->
 
@@ -191,21 +194,21 @@
                         <h:outputLabel for="title" class="formbold-form-label">Title</h:outputLabel>
                         <h:inputText id="title" value="#{exchangeListingManagedBean.currentExchangeListing.title}" class="formbold-form-input" required="True" requiredMessage="Title required"/>
                     </div>
-                    
+
                     <div class="formbold-mb-5">
                         <h:outputLabel class="formbold-form-label">Skills necessary for this role</h:outputLabel>
                         <h:selectManyCheckbox id="multiple-checkboxes" value="#{exchangeListingManagedBean.neededSkillIds}" layout="pageDirection" required="true" requiredMessage="Skills needed" >
-                            <f:selectItems value="#{exchangeListingManagedBean.skills}" var="skill" 
+                            <f:selectItems value="#{exchangeListingManagedBean.skills}" var="skill"
                                            itemValue="#{skill.id}" itemLabel="#{skill.skillName}" />
                         </h:selectManyCheckbox>
                     </div>
 
                     <!--
-                    <p:selectManyMenu value="{exchangeListingManagedBean.neededSkillIds}" 
-                                      required="true" requiredMessage="Skills needed" 
+                    <p:selectManyMenu value="{exchangeListingManagedBean.neededSkillIds}"
+                                      required="true" requiredMessage="Skills needed"
                                       var="s" filter="true" filterMatchMode="contains"
                                       showCheckbox="true" styleClass="manymenu-advanced">
-                        <f:selectItems value="{exchangeListingManagedBean.skills}" var="skill" 
+                        <f:selectItems value="{exchangeListingManagedBean.skills}" var="skill"
                                        itemValue="{skill.id}" itemLabel="{skill.skillName}" />
                         <p:column>
                             <h:outputText value="#={exchangeListingManagedBean.findSkillNameFromId(s)}"/>
@@ -216,21 +219,21 @@
                     <!--
                     <div class="formbold-mb-5 w-full">
                         <label for="date" class="formbold-form-label"> Date </label>
-                        <p:datePicker id="date" value="{exchangeListingManagedBean.currentExchangeListing.startDateTime}" 
-                                      pattern="yyyy-MM-dd" required="true" 
+                        <p:datePicker id="date" value="{exchangeListingManagedBean.currentExchangeListing.startDateTime}"
+                                      pattern="yyyy-MM-dd" required="true"
                                       onchange="updateMinTime()"
                                       />
-                        
+
                         <input
                             type="date"
                             name="date"
                             id="date"
                             class="formbold-form-input"
-                            onchange="updateMinTime()" 
+                            onchange="updateMinTime()"
                             value="{exchangeListingManagedBean.date}"
                             required="required"
-                            />              
-                       
+                            />
+
                     </div>
                     -->
 
@@ -238,10 +241,10 @@
                         <div class="w-full sm:w-half formbold-px-3">
                             <div class="formbold-mb-5">
                                 <label for="startDateTime" class="formbold-form-label"> Start Time </label>
-                                <input type="datetime-local" 
-                                       name="startDateTime" 
-                                       id="startDateTime" 
-                                       required="true" 
+                                <input type="datetime-local"
+                                       name="startDateTime"
+                                       id="startDateTime"
+                                       required="true"
                                        class="formbold-form-input"
                                        value="#{exchangeListingManagedBean.formattedStartDateTime}"
                                        onchange="setEndTimeToOneHourLater()"/>
@@ -263,10 +266,10 @@
                                        onchange="setMinEndDateTime()"
                                        value="{exchangeListingManagedBean.currentExchangeListing.startDateTime}"
                                        />
-                                -->      
+                                -->
                                 <!--
-                                <input type="datetime-local" id="startDateTime" name="startDateTime" 
-                                       
+                                <input type="datetime-local" id="startDateTime" name="startDateTime"
+
                                        class="formbold-form-input" required="required"
                                        value="{exchangeListingManagedBean.formattedStartDateTime}"
                                        onchange="{exchangeListingManagedBean.setStartDateTime(this.value)}"/>
@@ -278,14 +281,14 @@
                                        value="{exchangeListingManagedBean.formattedStartDateTime}" />
                                 -->
                                 <!--
-                                <p:calendar id="startTime" value="{exchangeListingManagedBean.currentExchangeListing.startDateTime}" 
+                                <p:calendar id="startTime" value="{exchangeListingManagedBean.currentExchangeListing.startDateTime}"
                                             pattern="HH:mm" timeOnly="true" required="true"
                                             onchange="document.getElementById('endTime').min = this.value"
                                             />
                                 -->
 
                                 <!-- Conflict with template script, does not show anything
-                                <p:calendar id="startDateTime" value="{exchangeListingManagedBean.currentExchangeListing.startDateTime}" 
+                                <p:calendar id="startDateTime" value="{exchangeListingManagedBean.currentExchangeListing.startDateTime}"
                                             pattern="yyyy-MM-dd HH:mm" required="true" showOn="focus"
                                             timeOnly="false">
                                 </p:calendar>
@@ -296,10 +299,10 @@
                         <div class="w-full sm:w-half formbold-px-3">
                             <div class="formbold-mb-5">
                                 <label for="endDateTime" class="formbold-form-label">End Time </label>
-                                <input type="datetime-local" 
-                                       name="endDateTime" 
-                                       id="endDateTime" 
-                                       required="true" 
+                                <input type="datetime-local"
+                                       name="endDateTime"
+                                       id="endDateTime"
+                                       required="true"
                                        class="formbold-form-input"
                                        value="#{exchangeListingManagedBean.formattedEndDateTime}"
                                        onchange="checkRegistrationDeadline()"/>
@@ -315,7 +318,7 @@
                                 -->
                                 <!--
                                 <input
-                                    type="datetime-local" 
+                                    type="datetime-local"
                                     name="endDateTime"
                                     id="endDateTime"
                                     class="formbold-form-input"
@@ -325,7 +328,7 @@
                                 -->
                                 <!--
                                 <input
-                                    type="datetime-local" 
+                                    type="datetime-local"
                                     name="endDateTime"
                                     id="endDateTime"
                                     class="formbold-form-input"
@@ -338,8 +341,8 @@
                                             pattern="HH:mm" timeOnly="true" required="true"
                                             />
                                 -->
-                                <!--  Conflict with jquery from template, cnnt show anything  
-                                <p:calendar id="endDateTime" value="{exchangeListingManagedBean.currentExchangeListing.endDateTime}" 
+                                <!--  Conflict with jquery from template, cnnt show anything
+                                <p:calendar id="endDateTime" value="{exchangeListingManagedBean.currentExchangeListing.endDateTime}"
                                             pattern="yyyy-MM-dd HH:mm" required="true" showOn="focus"
                                             timeOnly="false"/>
                                 -->
@@ -351,7 +354,7 @@
                         Pls ensure end time is after start time
                     </div>
 
-                    <!--                    
+                    <!--
                    <div class="flex formbold-mb-5">
                      <div class="flex">
                        <input
@@ -382,9 +385,9 @@
                     </div>
 
                     <div class="text-center">
-                        <h:commandButton onclick="return validateDT()" 
-                                         value="#{exchangeListingManagedBean.currentExchangeListing.id != null ? 'Update Listing' : 'Add Listing'}" 
-                                         action="#{exchangeListingManagedBean.submit}" 
+                        <h:commandButton onclick="return validateDT()"
+                                         value="#{exchangeListingManagedBean.currentExchangeListing.id != null ? 'Update Listing' : 'Add Listing'}"
+                                         action="#{exchangeListingManagedBean.submit}"
                                          class="site-btn"
                                          />
                     </div>
@@ -431,7 +434,7 @@
                             }
 
 
-                            // Function to check if time is after current and set end date to be after 
+                            // Function to check if time is after current and set end date to be after
                             // NOT used - for 1 date, 2 time
                             function validateDateTime() {
                                 const selectedDateValue = document.getElementById('date').value;
@@ -447,7 +450,7 @@
                                 return true; // Allow form submission
                             }
 
-                            // Function to check if time is after current and set end date to be after 
+                            // Function to check if time is after current and set end date to be after
                             // for both field with datetime-local
                             function validateDT() {
                                 const selectedStartDateTime = document.getElementById('startDateTime').value;

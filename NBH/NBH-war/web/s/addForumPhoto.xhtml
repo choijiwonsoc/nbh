@@ -5,9 +5,12 @@
                 template="./../layout/default2.xhtml"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:define name="title">
+        Add Forum Photo
+    </ui:define>
 
     <ui:define name="content">
-         <f:metadata>
+        <f:metadata>
             <f:event type="preRenderView" listener="#{postManagedBean.loadSelectedPost()}" />
         </f:metadata>
         <section class="content" style="background-image: url('https://wallpapers.com/images/hd/pastel-aesthetic-background-kk9ygsa8qygoluem.jpg'); background-size: cover; background-position: center;">
@@ -20,8 +23,8 @@
 
                                 <br></br>
                                 <h:inputFile value="#{postManagedBean.uploadedfile}" style="color: white;" />
-                                <h:commandButton action="#{postManagedBean.upload(postManagedBean.currentPost.id)}" 
-                                                 value="Upload" 
+                                <h:commandButton action="#{postManagedBean.upload(postManagedBean.currentPost.id)}"
+                                                 value="Upload"
                                                  />
                             </h:form>
                         </div>
@@ -44,7 +47,7 @@
     </ui:define>
 
     <ui:define name="script">
-       
+
     </ui:define>
 
 </ui:composition>

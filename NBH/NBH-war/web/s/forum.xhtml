@@ -6,6 +6,9 @@
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:define name="title">
+        Forum
+    </ui:define>
 
     <ui:define name="top">
         NeighbourHood Hub
@@ -18,7 +21,7 @@
         <h:form id="form">
             <section class="shoping-cart spad" style="background-image: url('https://wallpapers.com/images/hd/pastel-aesthetic-background-kk9ygsa8qygoluem.jpg'); background-size: cover; background-position: center;">
                 <div class="container">
-                    
+
                     <div class="row">
                         <h6><b>Region: #{customerManagedBean.selectedCustomer.region}</b></h6>
                         <br></br>
@@ -38,7 +41,7 @@
                             <f:selectItem itemLabel="Education" itemValue="Education" />
                             <f:selectItem itemLabel="Leisure" itemValue="Leisure" />
                         </h:selectOneMenu>
-                        
+
                     </div>
 
                     <div class="row">

@@ -6,6 +6,9 @@
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:define name="title">
+        My Offers
+    </ui:define>
 
     <ui:define name="head">
 
@@ -68,39 +71,39 @@
                                                     <h:outputText value="#{offerManagedBean.getSkillsForOffer(offer.id)}"/><br/>
                                                     <h:outputLabel style="font-weight: bold" value="Description:&nbsp;"/>
                                                     <h:outputText value="#{offer.description}"/><br/><br/>
-                                                    <p> 
-                                                        Submitted: 
+                                                    <p>
+                                                        Submitted:
                                                         <h:outputText value="#{offer.postedDateTime}" >
                                                             <f:convertDateTime pattern="EEEE, MMMM d yyyy" timeZone="Asia/Singapore" />
                                                         </h:outputText>
                                                     </p>
                                                     <div class="text-center">
-                                                        <p:commandButton value="Details" class="blog__btn" icon="pi pi-angle-double-right" 
+                                                        <p:commandButton value="Details" class="blog__btn" icon="pi pi-angle-double-right"
                                                                          style="border-color: #7fad39; background-color: #ffffff; color: #7fad39; font-weight: bold"
-                                                                         action="#{offerManagedBean.navigateToViewListing(offer.id)}" 
+                                                                         action="#{offerManagedBean.navigateToViewListing(offer.id)}"
                                                                          >
-                                                            <!-- <p:commandLink update=":form:eventDetail" oncomplete="PF('eventDialog').show()" title="View Detail"> -->                           
+                                                            <!-- <p:commandLink update=":form:eventDetail" oncomplete="PF('eventDialog').show()" title="View Detail"> -->
                                                             <f:setPropertyActionListener value="#{listing}" target="#{exchangeListingManagedBean.currentExchangeListing}" />
                                                         </p:commandButton>
                                                         &nbsp;
                                                         <h:commandButton value="Cancel" class="blog__btn"
-                                                                         style="border-color: #ff353c; background-color: #ffffff; color: #ff353c; font-weight: bold; padding:17px" 
-                                                                         action="#{offerManagedBean.cancelOffer(offer.id)}" 
-                                                                         onclick="return confirmCancel();" type="submit" 
+                                                                         style="border-color: #ff353c; background-color: #ffffff; color: #ff353c; font-weight: bold; padding:17px"
+                                                                         action="#{offerManagedBean.cancelOffer(offer.id)}"
+                                                                         onclick="return confirmCancel();" type="submit"
                                                                          rendered="#{offer.status ne 'CANCELLED' and offer.status ne 'DECLINED'}">
                                                         </h:commandButton>
 
                                                         <h:commandButton value="Remove" class="blog__btn"
                                                                          style="border-color: #ff353c; background-color: #ffffff; color: #ff353c; font-weight: bold; padding:17px"
                                                                          action="#{offerManagedBean.deleteOffer(offer.id)}"
-                                                                         onclick="return confirmDelete();" type="submit" 
-                                                                         rendered="#{offer.status eq 'CANCELLED' or offer.status eq 'DECLINED'}"/> 
+                                                                         onclick="return confirmDelete();" type="submit"
+                                                                         rendered="#{offer.status eq 'CANCELLED' or offer.status eq 'DECLINED'}"/>
 
                                                     </div>
 
                                                 </div>
                                             </div>
-                                        </div>    
+                                        </div>
                                     </ui:repeat>
 
                                     <div class="col-lg-12">
@@ -125,7 +128,7 @@
             <ui:fragment rendered="#{empty offerManagedBean.offersMade}">
                 <div class='text-center' style="padding:2em">
                     <h3>You have not made any offers yet.</h3><br/>
-                    <h:commandButton class="site-btn" value="Make Offer" action="timeExchange.xhtml?faces-redirect=true" />          
+                    <h:commandButton class="site-btn" value="Make Offer" action="timeExchange.xhtml?faces-redirect=true" />
                 </div>
             </ui:fragment>
         </h:form>

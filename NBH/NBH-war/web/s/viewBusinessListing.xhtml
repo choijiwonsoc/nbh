@@ -1,12 +1,15 @@
 <?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets" 
-                template="./../layout/default2.xhtml" 
-                xmlns:h="http://xmlns.jcp.org/jsf/html" 
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../layout/default2.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:define name="title">
+        View Business Listing
+    </ui:define>
 
     <f:metadata>
         <f:event type="preRenderView" listener="#{businessManagedBean.loadBusinessListingsCreatedByUser}" />
@@ -40,28 +43,28 @@
                                     <td>#{serviceProviderListing.bio}</td>
                                     <td>#{serviceProviderListing.category}</td>
                                     <td>
-                                        <p:commandButton icon="fa fa-fw fa-plus-square" 
-                                                         oncomplete="PF('eventDialog').show()"  action="#{businessManagedBean.loadServiceProviderListing}"> 
-                                            <f:setPropertyActionListener value="#{serviceProviderListing}" 
+                                        <p:commandButton icon="fa fa-fw fa-plus-square"
+                                                         oncomplete="PF('eventDialog').show()"  action="#{businessManagedBean.loadServiceProviderListing}">
+                                            <f:setPropertyActionListener value="#{serviceProviderListing}"
                                                                          target="#{businessManagedBean.selectedServiceProviderListing}"/>
                                             <f:param name="serviceProviderListingId" value="#{serviceProviderListing.id}" />
                                         </p:commandButton>
 
-                                        <p:commandButton value="Delete" action="#{businessManagedBean.deleteServiceProviderListing}" 
+                                        <p:commandButton value="Delete" action="#{businessManagedBean.deleteServiceProviderListing}"
                                                          styleClass="ui-button-danger" icon="pi pi-times" update="form">
                                             <f:param name="serviceProviderListingId" value="#{serviceProviderListing.id}" />
                                             <p:confirm header="Confirmation"  icon="pi pi-info-circle"/>
                                         </p:commandButton>
 
 
-                                        <p:commandButton value="View Rating" action="#{businessManagedBean.retrieveRating}" 
+                                        <p:commandButton value="View Rating" action="#{businessManagedBean.retrieveRating}"
                                                          update="ratingDetails" oncomplete="PF('ratingDialog').show()" process ="@this">
                                             <f:param name="serviceProviderListingId" value="#{serviceProviderListing.id}" />
 
                                         </p:commandButton>
 
                                         <p:commandButton value="View Services" styleClass="view-button" process ="@this"
-                                                         update="businessDetails" oncomplete="PF('businessDialog').show()" 
+                                                         update="businessDetails" oncomplete="PF('businessDialog').show()"
                                                          title="View" action="#{businessManagedBean.retrieveServiceItems}">
                                             <f:setPropertyActionListener value="#{serviceProviderListing}" target="#{businessManagedBean.selectedServiceProviderListing}" />
                                             <f:param name="serviceProviderListingId" value="#{serviceProviderListing.id}" />
@@ -74,29 +77,29 @@
                 </div>
             </h:form>
         </div>
-        
-        
+
+
         <p:dialog header="Service Items Details" widgetVar="businessDialog" modal="false" showEffect="fade" hideEffect="fade" resizable="false">
-                <p:outputPanel id="businessDetails">
-                    <p:panelGrid columns="2" rendered="#{not empty businessManagedBean.serviceItems}">
-                        <c:forEach items="#{businessManagedBean.serviceItems}" var="item">
-                            <h:panelGrid columns="2">
-                                <p:outputLabel for="itemName" value="Item Name:" />
-                                <h:outputText id="itemName" value="#{item.itemName}" />
+            <p:outputPanel id="businessDetails">
+                <p:panelGrid columns="2" rendered="#{not empty businessManagedBean.serviceItems}">
+                    <c:forEach items="#{businessManagedBean.serviceItems}" var="item">
+                        <h:panelGrid columns="2">
+                            <p:outputLabel for="itemName" value="Item Name:" />
+                            <h:outputText id="itemName" value="#{item.itemName}" />
 
-                                <p:outputLabel for="itemDescription" value="Item Description:" />
-                                <h:outputText id="itemDescription" value="#{item.itemDescription}" />
+                            <p:outputLabel for="itemDescription" value="Item Description:" />
+                            <h:outputText id="itemDescription" value="#{item.itemDescription}" />
 
-                                <p:outputLabel for="itemPrice" value="Item Price:" />
-                                <h:outputText id="itemPrice" value="#{item.itemPrice}" />
+                            <p:outputLabel for="itemPrice" value="Item Price:" />
+                            <h:outputText id="itemPrice" value="#{item.itemPrice}" />
 
-                            </h:panelGrid>
-                        </c:forEach>
-                    </p:panelGrid>
-                </p:outputPanel>
-            </p:dialog>
-        
-        
+                        </h:panelGrid>
+                    </c:forEach>
+                </p:panelGrid>
+            </p:outputPanel>
+        </p:dialog>
+
+
         <!-- Confirmation dialog -->
         <div class="card">
             <h:form>
@@ -124,9 +127,9 @@
 
         </p:dialog>
 
-        
 
-        <p:dialog header="Business Provider Details" widgetVar="eventDialog" 
+
+        <p:dialog header="Business Provider Details" widgetVar="eventDialog"
                   modal="false" showEffect="fade" hideEffect="fade" resizable="false"
                   width="50%" position="center">
             <h:form>
@@ -183,7 +186,7 @@
 
                             </div>
                         </div>
-                    </div> 
+                    </div>
 
 
                 </p:outputPanel>

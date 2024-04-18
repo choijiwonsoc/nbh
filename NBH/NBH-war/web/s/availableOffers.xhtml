@@ -16,6 +16,11 @@
 
     </ui:define>
 
+    <ui:define name="title">
+        Available Offers
+    </ui:define>
+
+
     <ui:define name="content">
         <section class="breadcrumb-section set-bg" data-setbg="https://wallpapers.com/images/hd/pastel-aesthetic-background-kk9ygsa8qygoluem.jpg">
             <div class="container">
@@ -56,25 +61,25 @@
                                                     <h:outputText value="#{offer.customer.contact}"/><br/>
                                                     <h:outputLabel value="Description:&nbsp;" style="font-weight:bold"/>
                                                     <h:outputText value="#{offer.description}"/><br/><br/>
-                                                    <p> 
-                                                        Submitted: 
+                                                    <p>
+                                                        Submitted:
                                                         <h:outputText value="#{offer.postedDateTime}" >
                                                             <f:convertDateTime pattern="EEEE, MMMM d yyyy" timeZone="Asia/Singapore" />
                                                         </h:outputText>
                                                     </p>
                                                     <div class="text-center">
-                                                        <h:commandButton value="Accept" onclick="return confirmAccept();" 
-                                                                         action="#{offerManagedBean.acceptOffer(offer.id)}" type="submit" 
+                                                        <h:commandButton value="Accept" onclick="return confirmAccept();"
+                                                                         action="#{offerManagedBean.acceptOffer(offer.id)}" type="submit"
                                                                          class="blog__btn"
                                                                          style="border-color: #7fad39; background-color: #ffffff; color: #7fad39"/>
                                                         &nbsp;
                                                         <h:commandButton value="Reject" action="#{offerManagedBean.rejectOffer(offer.id)}"
                                                                          onclick="return confirmReject();" type="submit" class="blog__btn"
-                                                                         style="border-color: #ff353c; background-color: #ffffff; color: #ff353c" />   
+                                                                         style="border-color: #ff353c; background-color: #ffffff; color: #ff353c" />
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>    
+                                        </div>
                                     </ui:repeat>
 
                                     <div class="col-lg-12">
@@ -98,7 +103,7 @@
             <p:growl id="growl" sticky="true" showDetail="true"/>
             <ui:fragment rendered="#{empty offerManagedBean.availOffers}">
                 <div class='text-center' style="padding:2em">
-                    <h3>You have not received any offers.</h3>            
+                    <h3>You have not received any offers.</h3>
                 </div>
             </ui:fragment>
         </h:form>

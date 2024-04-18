@@ -6,6 +6,9 @@
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:p="http://primefaces.org/ui">
+    <ui:define name="title">
+        Add Skill
+    </ui:define>
 
 
     <ui:define name="top">
@@ -57,10 +60,10 @@
 
         <div style="padding:2em" class="text-center">
             <h:form id="skillsForm">
-                <p:growl id="growl" showDetail="true" sticky="true" /> 
+                <p:growl id="growl" showDetail="true" sticky="true" />
                 <div class="skills-container">
                     <ui:repeat value="#{skillManagedBean.skills}" var="skill">
-                        <h:commandButton styleClass="skill #{skillManagedBean.selectedSkillIds.contains(skill.id) ? 'selected' : ''}" 
+                        <h:commandButton styleClass="skill #{skillManagedBean.selectedSkillIds.contains(skill.id) ? 'selected' : ''}"
                                          action="#{skillManagedBean.toggleSkillSelection(skill.id)}"
                                          value="#{skill.skillName}">
                             <f:ajax render="@form" />
@@ -68,7 +71,7 @@
                     </ui:repeat>
                 </div>
                 <h:commandButton value="Submit" action="#{skillManagedBean.submit}" class="site-btn"/>
-            </h:form>    
+            </h:form>
         </div>
 
     </ui:define>

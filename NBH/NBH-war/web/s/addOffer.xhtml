@@ -15,6 +15,11 @@
 
     </ui:define>
 
+    <ui:define name="title">
+        Add Offer
+    </ui:define>
+
+
     <ui:define name="content">
         <style>
             <!-- template for the form-->
@@ -134,22 +139,22 @@
             <!-- Author: FormBold Team -->
             <!-- Learn More: https://formbold.com -->
             <div class="formbold-form-wrapper">
-                <h:form> 
+                <h:form>
                     <p:growl id="growl" sticky="true" showDetail="true"/>
 
                     <h2 class="text-center">Make an Offer</h2><br/>
 
                     <div class="formbold-mb-5">
                         <h2>
-                            <h:outputLabel class="formbold-form-label" value="#{offerManagedBean.currentExchangeListing.title}"> </h:outputLabel> 
-                        </h2>          
+                            <h:outputLabel class="formbold-form-label" value="#{offerManagedBean.currentExchangeListing.title}"> </h:outputLabel>
+                        </h2>
                     </div>
 
                     <div class="formbold-mb-5">
                         <label class="formbold-form-label"> Skills available to Exchange: </label>
 
                         <h:selectManyCheckbox value="#{offerManagedBean.toExchangeSkills}" layout="pageDirection" required="true" requiredMessage="Skills needed" >
-                            <f:selectItems value="#{offerManagedBean.skillsAvailableToChoose}" var="skill" 
+                            <f:selectItems value="#{offerManagedBean.skillsAvailableToChoose}" var="skill"
                                            itemValue="#{skill.id}" itemLabel="#{skill.skillName}" />
                         </h:selectManyCheckbox>
                     </div>
@@ -162,8 +167,8 @@
                     </div>
 
                     <div class="text-center">
-                        <h:commandButton value="Submit" 
-                                         action="#{offerManagedBean.submit}" 
+                        <h:commandButton value="Submit"
+                                         action="#{offerManagedBean.submit}"
                                          styleClass="site-btn"
                                          />
                     </div>
