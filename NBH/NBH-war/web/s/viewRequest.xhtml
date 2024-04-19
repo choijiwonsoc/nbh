@@ -44,6 +44,7 @@
                                 value="Acknowledged"
                                 icon="pi pi-shopping-cart"
                                 action="#{businessManagedBean.acknowledgeRequest}"
+                                oncomplete="showRatingMessage()"
                                 >
                                 <f:param name="requestId" value="#{requests.id}" />
                             </p:commandButton>
@@ -55,5 +56,12 @@
                 </p:dataView>
             </h:form>
         </div>
+        <script>
+                function showRatingMessage() {
+                    alert("You have acknowledge this request and the sender will be alerted! ");
+                    // You can replace the alert with any other method to display a message
+                    // For example, you can use a toast message library or update a hidden message div
+                }
+            </script>
     </ui:define>
 </ui:composition>

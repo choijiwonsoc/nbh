@@ -3,8 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/weiku/OneDrive/Desktop/nbh/NBH/NBH-war/src/java/managedbean/BusinessManagedBean.java</file>
-            <file>file:/C:/Users/weiku/OneDrive/Desktop/nbh/NBH/NBH-war/web/s/customerView_1.xhtml</file>
+            <file>file:/C:/Users/weiku/OneDrive/Desktop/nbh/NBH/NBH-war/web/s/viewRequest.xhtml</file>
+            <file>file:/C:/Users/weiku/OneDrive/Desktop/nbh/NBH/NBH-war/web/s/viewExchangeListing.xhtml</file>
+            <file>file:/C:/Users/weiku/OneDrive/Desktop/nbh/NBH/NBH-war/web/s/viewBusinessListing.xhtml</file>
+            <file>file:/C:/Users/weiku/OneDrive/Desktop/nbh/NBH/NBH-war/web/s/createBusinessListing.xhtml</file>
+            <file>file:/C:/Users/weiku/OneDrive/Desktop/nbh/NBH/NBH-war/web/s/viewAllBusinessListing.xhtml</file>
         </group>
     </open-files>
 </project-private>
