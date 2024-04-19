@@ -93,7 +93,7 @@
                                                                 #{comment.customer.username}
                                                             </td>
                                                             <td class="shoping__cart__total">
-                                                                #{comment.id}
+                                                      
                                                                 <h:commandButton value="Delete" action="#{postManagedBean.deleteComment(postManagedBean.currentPost.id)}"
                                                                                  disabled="#{not postManagedBean.commentBelongToCust(comment, customerManagedBean.selectedCustomer)}">
                                                                     <f:param name="commentId" value="#{comment.id}" />

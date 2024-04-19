@@ -124,7 +124,7 @@ public class HiddenGemManagedBean implements Serializable {
         hiddenGemSessionLocal.addHiddenGem(hg, hgr, c.getId());
         FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Hidden Gem successfully added", null));
-        return "/hiddenGems.xhtml?faces-redirect=true";
+        return "hiddenGems.xhtml?faces-redirect=true";
     }
 
     public String addReview(Customer c) throws NoResultException {
@@ -137,7 +137,7 @@ public class HiddenGemManagedBean implements Serializable {
         System.out.println("cId" + c.getId());
         System.out.println("hgrId" + hgr.getId());
         hiddenGemSessionLocal.addHiddenGemReview(hgId, c.getId(), hgr);
-        return "/hiddenGems.xhtml?faces-redirect=true";
+        return "hiddenGems.xhtml?faces-redirect=true";
     }
 //    public void addReview(Customer c, Long hgId) throws NoResultException {
 //        HiddenGemReview hgr = new HiddenGemReview();

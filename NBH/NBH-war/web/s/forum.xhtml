@@ -27,7 +27,7 @@
                         <br></br>
                     </div>
                     <div class="row">
-                        <h:commandButton value="Add Post" action="/addForumPost.xhtml?faces-redirect=true" styleClass="btn btn-secondary btn-lg"/>
+                        <h:commandButton value="Add Post" action="addForumPost.xhtml?faces-redirect=true" styleClass="btn btn-secondary btn-lg"/>
                     </div>
                     <br></br>
                     <div class="row">
@@ -77,7 +77,7 @@
 
                                                 </td>
                                                 <td class="shoping__cart__item__close">
-                                                    <h:commandButton value="View More" actionListener="#{postManagedBean.viewPostDetails(post.id)}" action="/viewForumPost.xhtml?faces-redirect=true"/>
+                                                    <h:commandButton value="View More" actionListener="#{postManagedBean.viewPostDetails(post.id)}" action="viewForumPost.xhtml?faces-redirect=true"/>
                                                 </td>
                                             </tr>
                                         </ui:repeat>

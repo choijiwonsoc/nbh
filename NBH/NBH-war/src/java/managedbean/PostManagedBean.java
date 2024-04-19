@@ -97,7 +97,7 @@ public class PostManagedBean implements Serializable {
             HttpSession session = request.getSession();
             Long postId = p.getId();
             session.setAttribute("postId", postId);
-            return "/addForumPhoto.xhtml?faces-redirect=true";
+            return "addForumPhoto.xhtml?faces-redirect=true";
         }
 
     }
@@ -193,8 +193,11 @@ public class PostManagedBean implements Serializable {
 
     public void editPost() {
         Post p = currentPost;
-        p.setTitle(newsTitle);
-        p.setDescription(newsDescription);
+        if(newsTitle.length()>0){
+            p.setTitle(newsTitle);
+        } else if (newsDescription.length()>0){
+            p.setDescription(newsDescription);
+        }
         postSessionLocal.editPost(p);
     }
 
